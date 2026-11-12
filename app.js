@@ -1,4 +1,4 @@
-const APP_VERSION='0.2.6';
+const APP_VERSION='0.2.7';
 const KEY='dragonjade-v02';const base={scene:0,xp:0,choice:{},completed:[],words:[],chars:[],discoveries:[],name:'Esmée',class:'Exploratrice'};let state;try{state={...base,...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch{state={...base}}let tab='aventure',speechText='',micStatus='',selected='',showPinyin=true,showTranslation=true,drawChar='你',guide=true,strokes=[],currentStroke=null,strokeStep=0,canvasMode='trace';
 const scenes=[
 {title:'La rue des Lanternes',speaker:'Narratrice',text:'La pluie vient de cesser sur Sheung Wan. Une lettre mystérieuse conduit Esmée jusqu’à une boutique d’antiquités. Un vieil homme lève les yeux.',zh:'你好！',py:'Nǐ hǎo!',fr:'Bonjour !',question:'Que signifie la salutation de Maître Chen ?',options:[['Bonjour !',true],['Merci !',false],['Au revoir !',false]],words:['你好'],reward:10,info:'Sheung Wan est un quartier historique de Hong Kong. On y trouve des rues commerçantes, des temples et des boutiques traditionnelles.'},
@@ -12,7 +12,21 @@ const vocab=[['你','nǐ','tu, toi'],['好','hǎo','bon, bien'],['我','wǒ','je
 const books=[['I','L’Éveil du Dragon de Jade','Hong Kong, Macao, Canton','HSK 1'],['II','Les Montagnes des Brumes','Guilin, Yunnan','HSK 2'],['III','Les Secrets de la Route de la Soie','Xi’an, Dunhuang','HSK 3'],['IV','Les Ombres de la Cité interdite','Pékin','HSK 4'],['V','Le Manuscrit des Mille Poèmes','Hangzhou, Suzhou','HSK 5'],['VI','Le Dernier Souffle du Dragon','Shanghai','HSK 6']];
 const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));function save(){localStorage.setItem(KEY,JSON.stringify(state))}let audioRequest=0,audioTimer=null,activeUtterance=null;
 function audioMessage(message){document.querySelectorAll('.audio-status').forEach(el=>{el.textContent=message})}
-function mandarinVoice(){const voices=window.speechSynthesis.getVoices();return voices.find(v=>/^zh[-_]CN$/i.test(v.lang))||voices.find(v=>/^(cmn)([-_]|$)/i.test(v.lang))||voices.find(v=>/^zh([-_](SG|Hans))?$/i.test(v.lang))}
+function mandarinVoice(){
+const voices=window.speechSynthesis.getVoices();
+const tag=v=>String(v.lang).replace(/_/g,'-').toLowerCase();
+return voices.find(v=>/^(zh|cmn)(-hans)?-(cn|sg)(-|$)/.test(tag(v)))||
+voices.find(v=>/^(cmn)(-|$)/.test(tag(v)))||
+voices.find(v=>/^(zh)(-hant)?-tw(-|$)/.test(tag(v)))||
+voices.find(v=>/^(zh|zh-hans|zh-hant)$/.test(tag(v)));
+}
+function voiceHelp(){
+const voices=window.speechSynthesis?.getVoices()||[];
+const languages=[...new Set(voices.map(v=>v.lang))].join(', ')||'aucune';
+const installed=window.matchMedia?.('(display-mode: standalone)').matches;
+const box=updateBox();
+box.innerHTML='<strong>Aide voix · V'+APP_VERSION+'</strong><p>Mode : '+(installed?'application installée':'navigateur')+'</p><p>Langues vocales proposées : '+esc(languages)+'</p><p>Mandarin détecté : '+(window.speechSynthesis&&mandarinVoice()?'oui':'non')+'</p><p>Reconnaissance vocale : '+((window.SpeechRecognition||window.webkitSpeechRecognition)?'présente':'absente')+'</p><p>Sur Android : Paramètres → recherche « Synthèse vocale » → moteur vocal → données vocales → chinois (mandarin). Les noms varient selon le téléphone. Ferme ensuite le jeu et rouvre-le.</p><p>Si le micro est actif sans transcription, vérifie Internet. En attendant, ouvre le jeu directement dans Chrome, où la voix fonctionne sur ton appareil.</p><button onclick="closeUpdate()">Fermer</button>';
+}
 function speak(s){
 const synth=window.speechSynthesis;
 if(!synth){audioMessage('La lecture vocale est indisponible dans ce navigateur.');return}
@@ -28,10 +42,10 @@ audioTimer=setTimeout(()=>{if(request===audioRequest)audioMessage('La voix ne d�
 }
 const voice=mandarinVoice();if(voice){play(voice);return}
 audioMessage('Recherche d’une voix mandarin…');
-const loaded=()=>{const v=mandarinVoice();if(v){cleanup();play(v)}};
+const loaded=()=>{if(request!==audioRequest){synth.removeEventListener('voiceschanged',loaded);return}const v=mandarinVoice();if(v){cleanup();play(v)}};
 function cleanup(){synth.removeEventListener('voiceschanged',loaded);clearTimeout(audioTimer)}
 synth.addEventListener('voiceschanged',loaded);
-audioTimer=setTimeout(()=>{cleanup();if(request===audioRequest)audioMessage('Aucune voix mandarin disponible. Active ou installe une voix chinois (mandarin) dans les réglages vocaux de ton appareil, puis réessaie.');},2000);
+audioTimer=setTimeout(()=>{cleanup();if(request===audioRequest)audioMessage('Aucune voix mandarin exposée par cette application. Touche « Aide voix » en haut pour voir les langues disponibles et les réglages Android.');},2000);
 }
 let activeRecognition=null;
 function stopRecognition(){activeRecognition?.stop()}
@@ -41,10 +55,14 @@ if(!window.isSecureContext){micStatus='Ouvre le jeu depuis son adresse HTTPS pou
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
 if(!SR){micStatus='Reconnaissance vocale indisponible ici. Essaie Chrome sur Android ou utilise le clavier.';render();return}
 window.speechSynthesis?.cancel();
-const r=new SR();activeRecognition=r;r.lang='zh-CN';r.interimResults=false;r.maxAlternatives=3;
+const r=new SR();activeRecognition=r;r.lang='zh-CN';r.interimResults=true;r.maxAlternatives=3;
 micStatus='Autorise le microphone si ton navigateur le demande, puis parle en mandarin.';render();
 r.onstart=()=>{micStatus='Micro actif : parle en mandarin, puis fais une pause.';render()};
-r.onresult=e=>{selected='';speechText=e.results[0][0].transcript;micStatus='Phrase reconnue. Vérifie le texte, puis touche « Valider ma réponse ».';render()};
+r.onsoundstart=()=>{micStatus='Son détecté. Parle en mandarin, puis fais une pause.';render()};
+r.onnomatch=()=>{micStatus='Du son a été reçu, mais aucune phrase reconnue. Essaie une phrase courte comme nǐ hǎo.';render()};
+r.onresult=e=>{const result=e.results[e.resultIndex??0];if(!result?.[0])return;
+if(!result.isFinal){micStatus='Transcription provisoire : '+result[0].transcript+' — continue ou fais une pause.';render();return}
+selected='';speechText=result[0].transcript;micStatus='Phrase reconnue. Vérifie le texte, puis touche « Valider ma réponse ».';render()};
 r.onerror=e=>{const errors={
 'not-allowed':'Accès au micro refusé. Dans les réglages du site de ton navigateur, autorise le microphone, puis réessaie.',
 'service-not-allowed':'Le service vocal est bloqué par le navigateur. Vérifie ses autorisations ou utilise le clavier.',
@@ -54,10 +72,10 @@ r.onerror=e=>{const errors={
 'language-not-supported':'La reconnaissance du mandarin est indisponible sur cet appareil.',
 'aborted':'Écoute arrêtée. Tu peux réessayer.'};
 micStatus=errors[e.error]||'Reconnaissance indisponible ('+e.error+'). Utilise le clavier.';render()};
-r.onend=()=>{activeRecognition=null;if(micStatus.startsWith('Micro actif')||micStatus.startsWith('Autorise le microphone'))micStatus='Écoute terminée sans transcription. Touche Parler pour réessayer.';render()};
+r.onend=()=>{activeRecognition=null;if(micStatus.startsWith('Micro actif')||micStatus.startsWith('Autorise le microphone')||micStatus.startsWith('Son détecté')||micStatus.startsWith('Transcription provisoire'))micStatus='Écoute terminée sans transcription finale. Vérifie Internet, essaie nǐ hǎo ou ouvre le jeu dans Chrome.';render()};
 try{r.start()}catch{activeRecognition=null;micStatus='Impossible de démarrer le micro. Vérifie son autorisation dans les réglages du site.';render()}
 }
-function header(){return `<header class="top"><div class="brand"><img class="brand-icon" src="assets/icon.png" alt=""><div><strong>Dragon de Jade</strong><br><small>V${APP_VERSION} · Esmée, exploratrice</small></div></div><div><span class="pill">${state.xp} XP</span><button onclick="checkUpdate()" style="display:block;margin-top:6px;padding:5px 9px;font-size:12px">Mises à jour</button></div></header>`}function nav(){return `<nav class="nav">${[['aventure','📜','Aventure'],['carnet','📖','Carnet'],['calligraphie','🖌️','Écriture'],['atlas','🗺️','Atlas'],['campagne','🐉','Livres']].map(([id,icon,name])=>`<button class="${tab===id?'active':''}" onclick="switchTab('${id}')"><span style="font-size:21px">${icon}</span>${name}</button>`).join('')}</nav>`}
+function header(){return `<header class="top"><div class="brand"><img class="brand-icon" src="assets/icon.png" alt=""><div><strong>Dragon de Jade</strong><br><small>V${APP_VERSION} · Esmée, exploratrice</small></div></div><div><span class="pill">${state.xp} XP</span><button onclick="checkUpdate()" style="display:block;margin-top:6px;padding:5px 9px;font-size:12px">Mises à jour</button><button onclick="voiceHelp()" style="display:block;margin-top:6px;padding:5px 9px;font-size:12px">Aide voix</button></div></header>`}function nav(){return `<nav class="nav">${[['aventure','📜','Aventure'],['carnet','📖','Carnet'],['calligraphie','🖌️','Écriture'],['atlas','🗺️','Atlas'],['campagne','🐉','Livres']].map(([id,icon,name])=>`<button class="${tab===id?'active':''}" onclick="switchTab('${id}')"><span style="font-size:21px">${icon}</span>${name}</button>`).join('')}</nav>`}
 function adventure(){let i=Math.min(state.scene,scenes.length-1),s=scenes[i],done=state.completed.includes(i);const speaker=s.speaker==='Narratrice'?'Maître Chen':s.speaker;const side=speaker==='Lóng'?'dragon':speaker==='Mei'?'messenger':'master';return `<div class="hero location-banner"><h1>Les Chroniques du Dragon de Jade</h1></div><main class="page"><div class="label">Livre I · Épisode 1 · Scène ${i+1}/6</div><h2>${esc(s.title)}</h2><div class="progress"><span style="width:${(state.completed.length/6)*100}%"></span></div><p class="narration">${esc(s.text)}</p><section class="comic-panel ${side}" aria-label="Dialogue illustré"><div class="speech-bubble"><div class="label">${esc(speaker)}</div><div class="han" lang="zh-CN">${esc(s.zh)}</div>${showPinyin?`<div class="pinyin">${esc(s.py)}</div>`:''}${showTranslation?`<p class="translation">${esc(s.fr)}</p>`:''}</div><img class="dialogue-art" src="assets/dialogue-v026.jpg" alt="Esmée rencontre Maître Chen, le petit dragon Lóng et la messagère Mei dans la boutique d’antiquités."></section><div class="controls dialogue-controls"><button onclick="speak('${s.zh}')">🔊 Écouter</button><button onclick="showPinyin=!showPinyin;render()">${showPinyin?'Masquer':'Afficher'} pinyin</button><button onclick="showTranslation=!showTranslation;render()">${showTranslation?'Masquer':'Afficher'} traduction</button></div><p class="audio-status small muted" role="status" aria-live="polite"></p><div class="paper"><div class="label">Défi de dialogue</div><h3>${esc(s.question)}</h3><div class="choices">${s.options.map(([a,ok],j)=>`<button class="${selected===String(j)?'selected':''}" onclick="selectAnswer('${j}')">${esc(a)}</button>`).join('')}</div><div class="rule"></div><strong>🎙️ Répondre en mandarin</strong><div class="controls"><button onclick="${activeRecognition?'stopRecognition()':'recognize()'}">${activeRecognition?'⏹ Arrêter':'🎤 Parler'}</button><button onclick="speak('${['你好！','我叫 Esmée。','龙','我喝茶。','谢谢你！','我叫 Esmée。'][i]}')">🔊 Écouter un exemple</button></div><p class="audio-status small muted" role="status" aria-live="polite"></p><input type="text" id="answer" placeholder="Réponse orale transcrite ou texte chinois" value="${esc(speechText)}" oninput="speechText=this.value"><p class="small muted">${esc(micStatus||'Touche Parler et autorise le micro. Ta voix est transcrite en texte ; le jeu ne sauvegarde aucun fichier audio. Le service vocal du navigateur peut traiter ta voix en ligne. Les tons ne sont pas évalués.')}</p>${!done?`<button class="primary" onclick="validate()">Valider ma réponse</button>`:`<div class="toast">✓ Défi terminé · ${s.reward} XP obtenus</div><button class="primary" onclick="nextScene()">${i===5?'Voir le bilan':'Scène suivante →'}</button>`}<div id="feedback"></div></div><div class="paper"><div class="label">Découverte · Culture et géographie</div><p>${esc(s.info)}</p></div>${state.scene>=6?'<div class="toast">🏆 Épisode 1 terminé ! La première écaille de jade est à toi. Les autres épisodes sont en préparation.</div>':''}</main>`}
 function normalize(s){return String(s).replace(/[\s.,!?。，！？]/g,'').toLowerCase()}function validate(){let s=scenes[state.scene],a=$('#answer')?.value.trim()||speechText.trim();let idx=Number(selected);let good=(selected!==''&&s.options[idx]?.[1])||(a&&normalize(a)===normalize(s.options[0][0]));let f=$('#feedback');if(!good){f.innerHTML='<div class="warning">Chen t’encourage à réessayer. Compare ta phrase avec le modèle et réécoute les sons. Aucun XP perdu.</div>';return}if(!state.completed.includes(state.scene)){state.completed.push(state.scene);state.xp+=s.reward;s.words.forEach(w=>{if(!state.words.includes(w))state.words.push(w)});state.discoveries.push(s.info);save()}f.innerHTML='<div class="toast">✓ Bonne réponse ! +'+s.reward+' XP. '+(a?'Transcription validée sur le texte reconnu ; les tons ne sont pas évalués.':'')+'</div><button class="primary" onclick="nextScene()">Continuer →</button>';micStatus='';}function nextScene(){if(state.scene<5)state.scene++;else state.scene=6;selected='';speechText='';micStatus='';save();render()}function selectAnswer(i){selected=i;render()}
 function carnet(){return `<div class="section-banner journal-banner"><h1>Carnet d’Esmée</h1></div><main class="page"><h2>Les mots du voyage</h2><div class="paper"><strong>Niveau RPG ${1+Math.floor(state.xp/100)}</strong><p>${state.xp} XP · ${state.words.length} mots et expressions découverts</p><div class="progress"><span style="width:${state.xp%100}%"></span></div></div><h3>Vocabulaire rencontré</h3>${vocab.filter(v=>state.words.includes(v[0])||state.words.some(w=>w.includes(v[0]))).map(v=>`<div class="paper"><strong style="font-size:28px">${v[0]}</strong> · ${v[1]} · ${v[2]} <button onclick="speak('${v[0]}')">🔊</button></div>`).join('')||'<p>Les mots apparaîtront après tes premières quêtes.</p>'}<div class="paper"><h3>Progression HSK</h3><p>Le référentiel HSK sert de cadre pédagogique. Cette démo n’attribue pas encore de niveau officiel et ne prétend pas couvrir les listes certifiées.</p></div></main>`}
