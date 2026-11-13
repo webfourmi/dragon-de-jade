@@ -1,4 +1,4 @@
-const APP_VERSION='0.2.7';
+const APP_VERSION='0.2.8';
 const KEY='dragonjade-v02';const base={scene:0,xp:0,choice:{},completed:[],words:[],chars:[],discoveries:[],name:'Esmée',class:'Exploratrice'};let state;try{state={...base,...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch{state={...base}}let tab='aventure',speechText='',micStatus='',selected='',showPinyin=true,showTranslation=true,drawChar='你',guide=true,strokes=[],currentStroke=null,strokeStep=0,canvasMode='trace';
 const scenes=[
 {title:'La rue des Lanternes',speaker:'Narratrice',text:'La pluie vient de cesser sur Sheung Wan. Une lettre mystérieuse conduit Esmée jusqu’à une boutique d’antiquités. Un vieil homme lève les yeux.',zh:'你好！',py:'Nǐ hǎo!',fr:'Bonjour !',question:'Que signifie la salutation de Maître Chen ?',options:[['Bonjour !',true],['Merci !',false],['Au revoir !',false]],words:['你好'],reward:10,info:'Sheung Wan est un quartier historique de Hong Kong. On y trouve des rues commerçantes, des temples et des boutiques traditionnelles.'},
