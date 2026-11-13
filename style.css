@@ -113,3 +113,8 @@
 .character-speech .translation{margin:8px 0 0;font-size:1rem}
 .character-dialogue .dialogue-scene{width:100%;height:auto;margin:0;display:block;border-top:1px solid #baa37a}
 @media(max-width:480px){.character-stage{grid-template-columns:92px minmax(0,1fr);gap:8px;padding:9px}.character-portrait{padding:8px 4px;min-height:130px}.character-avatar{font-size:3.4rem}.character-speech{padding:10px}.character-speech .han{font-size:clamp(2rem,8vw,3rem)}}
+
+/* v0.5.4 : tours de parole distincts, dont le personnage joueur. */
+.character-dialogue .character-stage+.character-stage{border-top:1px dashed #bca980}
+.character-portrait.player{background:linear-gradient(145deg,#d9e1ec,#f8f0dd)}
+.character-dialogue .character-stage:nth-child(even){background:#f9f2e5}
