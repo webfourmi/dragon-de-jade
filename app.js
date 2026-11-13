@@ -1,198 +1,198 @@
-const APP_VERSION='0.4.8';
+const APP_VERSION='0.4.9';
 const KEY='dragonjade-v02';const base={scene:0,xp:0,choice:{},completed:[],words:[],chars:[],discoveries:[],name:'Esmée',class:'Exploratrice',attempts:{},skipped:[],activity:{},speechSuccess:0,writingSessions:0,wordDates:{},reviewSelected:[],reviewSchedule:{},introSeen:false};let state;try{state={...base,...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch{state={...base}}state.attempts=state.attempts||{};state.skipped=state.skipped||[];state.activity=state.activity||{};state.speechSuccess=state.speechSuccess||0;state.writingSessions=state.writingSessions||0;state.wordDates=state.wordDates||{};state.reviewSelected=state.reviewSelected||[];state.reviewSchedule=state.reviewSchedule||{};let tab='aventure',speechText='',micStatus='',selected='',showPinyin=true,showTranslation=true,drawChar='你',guide=true,strokes=[],currentStroke=null,strokeStep=0,canvasMode='trace';
 const scenes=[
- {
-  "title": "La rue des Lanternes",
-  "speaker": "Maître Chen",
-  "text": "La pluie a laissé des reflets d’or sur les pavés de Sheung Wan. La pièce de jade retrouvée en France est dans ta poche. La lettre reçue avant ton départ te conduit chez Maître Chen. Le vieil antiquaire t’accueille derrière une porte rouge. « Pour entrer, commence par saluer. »",
-  "zh": "你好！",
-  "py": "Nǐ hǎo!",
-  "fr": "Bonjour !",
-  "question": "Comment réponds-tu poliment à Maître Chen ?",
-  "options": [
-   [
-    "你好！",
-    true
-   ],
-   [
-    "再见！",
-    false
-   ],
-   [
-    "谢谢！",
-    false
-   ]
-  ],
-  "words": [
-   "你好",
-   "你",
-   "好",
-   "您"
-  ],
-  "reward": 10,
-  "info": "À Hong Kong, le cantonais est très présent dans la vie quotidienne. Le Dragon de Jade t’enseigne le mandarin standard. 你好 (nǐ hǎo) signifie « bonjour » ; 您 (nín) est une forme respectueuse de « vous ».",
-  "grammar": "你好 est une salutation. 您好 (nín hǎo) est plus respectueux. Écoute la différence entre nǐ (3e ton) et nín (2e ton)."
- },
- {
-  "title": "Le nom sur l’enveloppe",
-  "speaker": "Maître Chen",
-  "text": "Chen examine la lettre apportée de France. Le dragon sur l’enveloppe est identique à celui de ton jade. « Qui es-tu ? », demande-t-il. Tu donnes ton nom. Chen murmure : « Voilà donc la personne attendue… »",
-  "zh": "你叫什么名字？",
-  "py": "Nǐ jiào shénme míngzi?",
-  "fr": "Comment t’appelles-tu ?",
-  "question": "Quelle phrase permet de donner ton nom ?",
-  "options": [
-   [
-    "我叫 Esmée。",
-    true
-   ],
-   [
-    "你是谁？",
-    false
-   ],
-   [
-    "再见。",
-    false
-   ]
-  ],
-  "words": [
-   "我",
-   "叫",
-   "名字",
-   "什么"
-  ],
-  "reward": 15,
-  "info": "En mandarin, 叫 (jiào) sert à dire « s’appeler ». Dans 你叫什么名字？, 什么 (shénme) signifie « quel / quoi ».",
-  "grammar": "我叫 + prénom : « Je m’appelle… ». 你叫什么名字？ : « Comment t’appelles-tu ? » Le nom du personnage est automatiquement remplacé par le tien."
- },
- {
-  "title": "La gardienne du seuil",
-  "speaker": "Mei",
-  "text": "Une jeune messagère nommée Mei apparaît dans l’encadrement de la porte. Elle te dévisage, puis désigne Chen. « Qui est cet homme ? » Tu observes le maître, la lettre et la petite silhouette cachée derrière le comptoir.",
-  "zh": "他是谁？",
-  "py": "Tā shì shéi?",
-  "fr": "Qui est-il ?",
-  "question": "Quelle réponse signifie « C’est une personne » ?",
-  "options": [
-   [
-    "是人。",
-    true
-   ],
-   [
-    "我叫人。",
-    false
-   ],
-   [
-    "谢谢人。",
-    false
-   ]
-  ],
-  "words": [
-   "谁",
-   "是",
-   "人",
-   "先生"
-  ],
-  "reward": 15,
-  "info": "先生 (xiānsheng) est une manière courante de dire « monsieur ». 谁 (shéi) signifie « qui ». Le pronom 他 (tā) sera étudié dans l’épisode sur la famille.",
-  "grammar": "谁 = « qui ? » ; 是 = « être ». La phrase 他是谁？ utilise un pronom que tu retrouveras plus tard. On peut aussi dire 这是谁？ : « Qui est-ce ? »."
- },
- {
-  "title": "Le pacte de jade",
-  "speaker": "Maître Chen",
-  "text": "Chen pose une petite boîte de bois sur la table. Avant de l’ouvrir, il te demande d’attendre. Tu t’excuses d’avoir tendu la main trop vite. Le maître sourit et répond que ce n’est rien.",
-  "zh": "对不起。没关系。",
-  "py": "Duìbuqǐ. Méi guānxi.",
-  "fr": "Pardon. Ce n’est pas grave.",
-  "question": "Que répond-on à quelqu’un qui dit « 对不起 » ?",
-  "options": [
-   [
-    "没关系。",
-    true
-   ],
-   [
-    "再见。",
-    false
-   ],
-   [
-    "你叫什么名字？",
-    false
-   ]
-  ],
-  "words": [
-   "对不起",
-   "没关系",
-   "请",
-   "请问"
-  ],
-  "reward": 15,
-  "info": "请 (qǐng) permet de formuler une demande polie ; 请问 (qǐngwèn) introduit une question avec courtoisie. 对不起 et 没关系 forment une paire utile dans les échanges.",
-  "grammar": "请 + verbe : « s’il vous plaît… ». 请问 : « Excusez-moi, puis-je demander… ? ». 对不起 : « pardon » ; 没关系 : « ce n’est pas grave »."
- },
- {
-  "title": "Les témoins du dragon",
-  "speaker": "Mei",
-  "text": "La boîte s’ouvre : une écaille de jade scintille, et un minuscule dragon, Lóng, s’en échappe. Mei appelle les autres témoins. Ils s’approchent tous de la table. « Nous sommes réunis », souffle Chen.",
-  "zh": "大家好！我们在这里。",
-  "py": "Dàjiā hǎo! Wǒmen zài zhèlǐ.",
-  "fr": "Bonjour à tous ! Nous sommes ici.",
-  "question": "Que signifie « 大家好 » ?",
-  "options": [
-   [
-    "Bonjour à tous !",
-    true
-   ],
-   [
-    "Au revoir à tous !",
-    false
-   ],
-   [
-    "Quel est ton nom ?",
-    false
-   ]
-  ],
-  "words": [
-   "大家",
-   "我们",
-   "你们",
-   "这"
-  ],
-  "reward": 15,
-  "info": "大家 (dàjiā) signifie « tout le monde ». 我们 (wǒmen) signifie « nous » et 你们 (nǐmen) « vous » au pluriel. Lóng est un nom de personnage ; 龙 n’est pas compté dans les 300 mots de ce niveau.",
-  "grammar": "Le suffixe 们 marque le pluriel de certains pronoms : 我 → 我们 ; 你 → 你们. 这 (zhè) signifie « ce / ceci »."
- },
- {
-  "title": "La première écaille",
-  "speaker": "Lóng",
-  "text": "L’écaille se met à vibrer. Pour libérer sa lumière, Lóng te demande de remercier Mei, de dire au revoir à Chen et de te souvenir des premières paroles échangées. Une carte du delta des Perles apparaît dans le jade : l’aventure commence.",
-  "zh": "谢谢！再见！",
-  "py": "Xièxie! Zàijiàn!",
-  "fr": "Merci ! Au revoir !",
-  "question": "Comment remercies-tu Mei avant de partir ?",
-  "options": [
-   [
-    "谢谢！",
-    true
-   ],
-   [
-    "没关系！",
-    false
-   ],
-   [
-    "请问！",
-    false
-   ]
-  ],
-  "words": [
-   "谢谢",
-   "再见",
-   "不客气",
-   "认识"
-  ],
-  "reward": 30,
-  "info": "谢谢 (xièxie) veut dire « merci » ; 不客气 (bú kèqi) signifie « de rien ». 认识 (rènshi) veut dire « connaître / faire connaissance ». La carte annonce la prochaine étape de l’aventure.",
-  "grammar": "谢谢 → 不客气 : « merci » → « de rien ». 再见 signifie « au revoir ». 认识 peut servir à dire « ravi de faire votre connaissance » dans une phrase plus longue."
- }
+  {
+    "title": "La rue des Lanternes",
+    "speaker": "Maître Chen",
+    "text": "Tu arrives à Hong Kong après avoir reçu en France une lettre signée Maître Chen. Dans la boutique de Sheung Wan, le vieil antiquaire reconnaît aussitôt le dragon gravé sur ton pendentif. Il s'incline et te salue : « 你好 ! » Tu réponds, encore hésitant. Chen ferme discrètement les volets : « Nous devons parler. »",
+    "zh": "你好！您好！",
+    "py": "Nǐ hǎo! Nín hǎo!",
+    "fr": "Bonjour ! Bonjour (respectueux) !",
+    "question": "Comment réponds-tu poliment à Maître Chen ?",
+    "options": [
+      [
+        "你好！",
+        true
+      ],
+      [
+        "再见！",
+        false
+      ],
+      [
+        "谢谢！",
+        false
+      ]
+    ],
+    "words": [
+      "你好",
+      "你",
+      "好",
+      "您"
+    ],
+    "reward": 10,
+    "info": "À Hong Kong, le cantonais est très présent dans la vie quotidienne. Le Dragon de Jade t’enseigne le mandarin standard. 你好 (nǐ hǎo) signifie « bonjour » ; 您 (nín) est une forme respectueuse de « vous ».",
+    "grammar": "你好 est une salutation. 您好 (nín hǎo) est plus respectueux. Écoute la différence entre nǐ (3e ton) et nín (2e ton)."
+  },
+  {
+    "title": "Le nom sur l’enveloppe",
+    "speaker": "Maître Chen",
+    "text": "Chen déplie ta lettre et compare l'encre du sceau à la gravure du jade. « 你叫什么名字？ » demande-t-il. Quand tu te présentes, son visage change : ton nom figure déjà au bas d'un vieux registre. « Je n'ai jamais écrit ce nom », murmure-t-il. Qui a donc préparé ta venue ?",
+    "zh": "你叫什么名字？我叫 Esmée。",
+    "py": "Nǐ jiào shénme míngzi? Wǒ jiào Esmée.",
+    "fr": "Comment t'appelles-tu ? Je m'appelle Esmée.",
+    "question": "Quelle phrase permet de donner ton nom ?",
+    "options": [
+      [
+        "我叫 Esmée。",
+        true
+      ],
+      [
+        "你是谁？",
+        false
+      ],
+      [
+        "再见。",
+        false
+      ]
+    ],
+    "words": [
+      "我",
+      "叫",
+      "名字",
+      "什么"
+    ],
+    "reward": 15,
+    "info": "En mandarin, 叫 (jiào) sert à dire « s’appeler ». Dans 你叫什么名字？, 什么 (shénme) signifie « quel / quoi ».",
+    "grammar": "我叫 + prénom : « Je m’appelle… ». 你叫什么名字？ : « Comment t’appelles-tu ? » Le nom du personnage est automatiquement remplacé par le tien."
+  },
+  {
+    "title": "La gardienne du seuil",
+    "speaker": "Mei",
+    "text": "Un bruit de pas interrompt Chen. Mei, la messagère, entre avec une photographie ancienne. Elle voit ton jade et pâlit : « 这是谁？ » demande-t-elle en montrant un homme sur le cliché. Chen répond : « 这是陈先生 », puis explique qu'il garde les archives de cette famille. Mei cherche depuis des mois la personne qui a effacé leurs noms.",
+    "zh": "这是谁？这是陈先生。",
+    "py": "Zhè shì shéi? Zhè shì Chén xiānsheng.",
+    "fr": "Qui est-ce ? C'est monsieur Chen.",
+    "question": "Comment Mei peut-elle désigner monsieur Chen ?",
+    "options": [
+      [
+        "这位先生。",
+        true
+      ],
+      [
+        "谢谢人。",
+        false
+      ],
+      [
+        "我叫人。",
+        false
+      ]
+    ],
+    "words": [
+      "谁",
+      "是",
+      "人",
+      "先生"
+    ],
+    "reward": 15,
+    "info": "先生 (xiānsheng) est une manière courante de dire « monsieur ». 谁 (shéi) signifie « qui ». Le pronom 他 (tā) sera étudié dans l’épisode sur la famille.",
+    "grammar": "谁 = « qui ? » ; 是 = « être ». La phrase 他是谁？ utilise un pronom que tu retrouveras plus tard. On peut aussi dire 这是谁？ : « Qui est-ce ? »."
+  },
+  {
+    "title": "Le pacte de jade",
+    "speaker": "Maître Chen",
+    "text": "Mei veut saisir le pendentif pour le comparer au dessin du registre. Tu le retires instinctivement. « 对不起 », souffle-t-elle. Tu réponds « 没关系 ». Chen propose alors : « 请问… », et demande la permission d'ouvrir une boîte verrouillée. À l'intérieur, un creux a exactement la forme de ton jade.",
+    "zh": "对不起。没关系。请问。",
+    "py": "Duìbuqǐ. Méi guānxi. Qǐngwèn.",
+    "fr": "Pardon. Ce n'est pas grave. Excusez-moi, une question…",
+    "question": "Que répond-on à quelqu’un qui dit « 对不起 » ?",
+    "options": [
+      [
+        "没关系。",
+        true
+      ],
+      [
+        "再见。",
+        false
+      ],
+      [
+        "你叫什么名字？",
+        false
+      ]
+    ],
+    "words": [
+      "对不起",
+      "没关系",
+      "请",
+      "请问"
+    ],
+    "reward": 15,
+    "info": "请 (qǐng) permet de formuler une demande polie ; 请问 (qǐngwèn) introduit une question avec courtoisie. 对不起 et 没关系 forment une paire utile dans les échanges.",
+    "grammar": "请 + verbe : « s’il vous plaît… ». 请问 : « Excusez-moi, puis-je demander… ? ». 对不起 : « pardon » ; 没关系 : « ce n’est pas grave »."
+  },
+  {
+    "title": "Les témoins du dragon",
+    "speaker": "Mei",
+    "text": "Chen place ton pendentif dans la boîte. Une lueur verte traverse la pièce et une minuscule créature apparaît, éblouie : Lóng. « 大家好 ! » lance-t-elle. Mei montre une inscription sur le couvercle : « 这 ». Le dragon reconnaît ce signe, puis explique en français qu'une autre écaille a été cachée parmi les archives de la famille disparue.",
+    "zh": "大家好！这是龙。",
+    "py": "Dàjiā hǎo! Zhè shì Lóng.",
+    "fr": "Bonjour à tous ! Voici Lóng.",
+    "question": "Que signifie « 大家好 » ?",
+    "options": [
+      [
+        "Bonjour à tous !",
+        true
+      ],
+      [
+        "Au revoir à tous !",
+        false
+      ],
+      [
+        "Quel est ton nom ?",
+        false
+      ]
+    ],
+    "words": [
+      "大家",
+      "女士",
+      "吗",
+      "这"
+    ],
+    "reward": 15,
+    "info": "大家 signifie « tout le monde » ; 这 veut dire « ce, ceci ». 女士 (nǚshì) est une formule de politesse pour « madame ». 吗 (ma) transforme une phrase affirmative en question fermée.",
+    "grammar": "大家好 ! signifie « Bonjour à tous ! ». 这 = « ceci ». 你好吗？ veut dire « Comment vas-tu ? ». 女士 est un titre de politesse."
+  },
+  {
+    "title": "La première écaille",
+    "speaker": "Lóng",
+    "text": "Avant de partir chercher les archives, tu remercies Mei : « 谢谢 ». Elle répond « 不客气 ». Chen te tend une carte et te dit « 再见 ». Lóng ajoute : « 认识 », le mot qui lui rappelle une rencontre oubliée. La carte indique un ancien registre de familles ; une photographie y porte le même symbole que ton jade.",
+    "zh": "谢谢！不客气！再见！",
+    "py": "Xièxie! Bú kèqi! Zàijiàn!",
+    "fr": "Merci ! De rien ! Au revoir !",
+    "question": "Comment remercies-tu Mei avant de partir ?",
+    "options": [
+      [
+        "谢谢！",
+        true
+      ],
+      [
+        "没关系！",
+        false
+      ],
+      [
+        "请问！",
+        false
+      ]
+    ],
+    "words": [
+      "谢谢",
+      "再见",
+      "不客气",
+      "认识"
+    ],
+    "reward": 30,
+    "info": "谢谢 (xièxie) veut dire « merci » ; 不客气 (bú kèqi) signifie « de rien ». 认识 (rènshi) veut dire « connaître / faire connaissance ». La carte annonce la prochaine étape de l’aventure.",
+    "grammar": "谢谢 → 不客气 : « merci » → « de rien ». 再见 signifie « au revoir ». 认识 peut servir à dire « ravi de faire votre connaissance » dans une phrase plus longue."
+  }
 ];
 scenes.push(...EPISODE2_SCENES);
 const vocab=[["你好","nǐ hǎo","bonjour"],["你","nǐ","tu, toi"],["好","hǎo","bien, bon"],["您","nín","vous (poli)"],["我","wǒ","je, moi"],["叫","jiào","s’appeler"],["名字","míngzi","nom"],["什么","shénme","quoi, quel"],["谁","shéi/shuí","qui"],["是","shì","être"],["人","rén","personne"],["先生","xiānsheng","monsieur"],["对不起","duìbuqǐ","pardon, désolé"],["没关系","méi guānxi","ce n’est pas grave"],["请","qǐng","s’il vous plaît"],["请问","qǐngwèn","excusez-moi, puis-je demander"],["大家","dàjiā","tout le monde"],["这","zhè","ce, ceci"],["谢谢","xièxie","merci"],["再见","zàijiàn","au revoir"],["不客气","bú kèqi","de rien"],["认识","rènshi","connaître, faire connaissance"],["吗","ma","particule interrogative"],["女士","nǚshì","madame"]];
