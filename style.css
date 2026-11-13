@@ -98,3 +98,18 @@
 .comic-panel.dragon .speech-bubble::after{left:calc(50% - 11px);right:auto}
 .comic-panel .speech-bubble .label{font-weight:800;color:#245c50}
 @media(max-width:480px){.comic-panel.master .speech-bubble{margin-left:12px;margin-right:auto}.comic-panel.messenger .speech-bubble{margin-right:12px;margin-left:auto}}
+
+/* v0.5.3 : un portrait distinct et une zone de texte associée, sans pointe. */
+.character-dialogue{border:1px solid #baa37a;border-radius:18px;overflow:hidden;background:#f4ead6;box-shadow:0 6px 20px #3b402822}
+.character-stage{display:grid;grid-template-columns:minmax(100px,28%) minmax(0,1fr);gap:12px;padding:14px;align-items:stretch}
+.character-portrait{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:150px;padding:12px 8px;border:2px solid #9e8964;border-radius:16px;background:linear-gradient(145deg,#e3d5b5,#f8f0dd);text-align:center}
+.character-portrait.messenger{background:linear-gradient(145deg,#d6e5d8,#f8f0dd)}
+.character-portrait.dragon{background:linear-gradient(145deg,#c9e5d9,#f8f0dd)}
+.character-avatar{font-size:clamp(3.3rem,11vw,5.7rem);line-height:1.2}
+.character-caption{font-size:clamp(.82rem,2.7vw,1rem);font-weight:700;color:#245449}
+.character-speech{position:relative;min-width:0;background:#fffdf6;border:2px solid #4d6254;border-radius:20px;padding:14px 17px;align-self:center}
+.character-speech::before,.character-speech::after{content:none!important}
+.character-speech .han{font-size:clamp(2.5rem,8vw,4.5rem);line-height:1.45;margin:8px 0}
+.character-speech .translation{margin:8px 0 0;font-size:1rem}
+.character-dialogue .dialogue-scene{width:100%;height:auto;margin:0;display:block;border-top:1px solid #baa37a}
+@media(max-width:480px){.character-stage{grid-template-columns:92px minmax(0,1fr);gap:8px;padding:9px}.character-portrait{padding:8px 4px;min-height:130px}.character-avatar{font-size:3.4rem}.character-speech{padding:10px}.character-speech .han{font-size:clamp(2rem,8vw,3rem)}}
