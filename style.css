@@ -118,3 +118,7 @@
 .character-dialogue .character-stage+.character-stage{border-top:1px dashed #bca980}
 .character-portrait.player{background:linear-gradient(145deg,#d9e1ec,#f8f0dd)}
 .character-dialogue .character-stage:nth-child(even){background:#f9f2e5}
+
+/* v0.5.5 : écoute individuelle des répliques */
+.turn-audio{display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;margin-left:8px;padding:5px 9px;min-width:40px;min-height:38px;border:1px solid #b5a07b;border-radius:12px;background:#f0e6ce;color:#245449;font-size:1.1rem;cursor:pointer}
+.turn-audio:focus-visible{outline:3px solid #245449;outline-offset:2px}
