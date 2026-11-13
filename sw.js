@@ -1,8 +1,27 @@
-const VERSION='0.3.2';
-const NOTES='Le nom choisi sur la fiche est repris dans les dialogues et les exercices ; fiche de personnage redessinée dans un style parchemin, jade et or.';
+const VERSION='0.3.3';
+const NOTES='Correction des mises à jour bloquées : vérification réseau, actualisation fiable et conservation des sauvegardes.';
 const CACHE='dragonjade-'+VERSION;
-const ASSETS=['./','./index.html','./style.css?v=0.3.2','./app.js?v=0.3.2','./manifest.webmanifest','./assets/cover.png','./assets/dragon-icon.svg','./assets/icon.png','./assets/icon512.png','./assets/place-v026.jpg','./assets/dialogue-v026.jpg','./assets/journal-v026.jpg','./assets/writing-v026.jpg','./assets/atlas-v026.jpg'];
-self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(async cache=>{for(const path of ASSETS){const response=await fetch(new Request(path,{cache:'reload'}));if(!response.ok)throw new Error('Asset unavailable: '+path);await cache.put(path,response)}})));
-self.addEventListener('message',e=>{if(e.data?.type==='GET_VERSION')e.ports[0]?.postMessage({version:VERSION,notes:NOTES});if(e.data?.type==='SKIP_WAITING')self.skipWaiting()});
-self.addEventListener('activate',e=>e.waitUntil((async()=>{const keys=await caches.keys();await Promise.all(keys.filter(k=>k.startsWith('dragonjade-')&&k!==CACHE).map(k=>caches.delete(k)));await self.clients.claim()})()));
-self.addEventListener('fetch',e=>{if(e.request.method!=='GET'||new URL(e.request.url).origin!==self.location.origin)return;e.respondWith(caches.open(CACHE).then(async cache=>(await cache.match(e.request))||fetch(e.request)))});
+const CORE=['./','./index.html','./style.css?v=0.3.3','./app.js?v=0.3.3','./manifest.webmanifest'];
+const OPTIONAL=['./assets/dragon-icon.svg','./assets/cover.png','./assets/dialogue-v026.jpg','./assets/icon.png','./assets/icon512.png','./assets/place-v026.jpg','./assets/journal-v026.jpg','./assets/writing-v026.jpg','./assets/atlas-v026.jpg'];
+self.addEventListener('install',event=>event.waitUntil((async()=>{
+ const cache=await caches.open(CACHE);
+ await Promise.all(CORE.map(async path=>{const response=await fetch(new Request(path,{cache:'reload'}));if(!response.ok)throw Error('Core asset '+path+' HTTP '+response.status);await cache.put(path,response)}));
+ await Promise.allSettled(OPTIONAL.map(async path=>{const response=await fetch(new Request(path,{cache:'reload'}));if(response.ok)await cache.put(path,response)}));
+ await self.skipWaiting();
+})()));
+self.addEventListener('activate',event=>event.waitUntil((async()=>{
+ const keys=await caches.keys();await Promise.all(keys.filter(key=>key.startsWith('dragonjade-')&&key!==CACHE).map(key=>caches.delete(key)));await self.clients.claim();
+})()));
+self.addEventListener('message',event=>{
+ if(event.data?.type==='GET_VERSION')event.ports[0]?.postMessage({version:VERSION,notes:NOTES});
+ if(event.data?.type==='SKIP_WAITING')self.skipWaiting();
+});
+self.addEventListener('fetch',event=>{
+ const req=event.request;if(req.method!=='GET'||new URL(req.url).origin!==self.location.origin)return;
+ const url=new URL(req.url);
+ if(url.pathname.endsWith('/version.json')||url.pathname.endsWith('/sw.js')){event.respondWith(fetch(req,{cache:'no-store'}));return}
+ if(req.mode==='navigate'){
+  event.respondWith((async()=>{try{const response=await fetch(req,{cache:'no-store'});if(response.ok){const cache=await caches.open(CACHE);await cache.put('./index.html',response.clone())}return response}catch{return (await caches.match('./index.html'))||Response.error()}})());return;
+ }
+ event.respondWith((async()=>{const cache=await caches.open(CACHE);const match=await cache.match(req);if(match)return match;try{const response=await fetch(req);if(response.ok)await cache.put(req,response.clone());return response}catch{return Response.error()}})());
+});
