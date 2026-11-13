@@ -1,14 +1,200 @@
-const APP_VERSION='0.4.3';
+const APP_VERSION='0.4.4';
 const KEY='dragonjade-v02';const base={scene:0,xp:0,choice:{},completed:[],words:[],chars:[],discoveries:[],name:'Esmée',class:'Exploratrice',attempts:{},skipped:[],activity:{},speechSuccess:0,writingSessions:0,wordDates:{},reviewSelected:[],reviewSchedule:{}};let state;try{state={...base,...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch{state={...base}}state.attempts=state.attempts||{};state.skipped=state.skipped||[];state.activity=state.activity||{};state.speechSuccess=state.speechSuccess||0;state.writingSessions=state.writingSessions||0;state.wordDates=state.wordDates||{};state.reviewSelected=state.reviewSelected||[];state.reviewSchedule=state.reviewSchedule||{};let tab='aventure',speechText='',micStatus='',selected='',showPinyin=true,showTranslation=true,drawChar='你',guide=true,strokes=[],currentStroke=null,strokeStep=0,canvasMode='trace';
 const scenes=[
-{title:'La rue des Lanternes',speaker:'Narratrice',text:'La pluie vient de cesser sur Sheung Wan. Une lettre mystérieuse conduit Esmée jusqu’à une boutique d’antiquités. Un vieil homme lève les yeux.',zh:'你好！',py:'Nǐ hǎo!',fr:'Bonjour !',question:'Que signifie la salutation de Maître Chen ?',options:[['Bonjour !',true],['Merci !',false],['Au revoir !',false]],words:['你好'],reward:10,info:'Sheung Wan est un quartier historique de Hong Kong. On y trouve des rues commerçantes, des temples et des boutiques traditionnelles.'},
-{title:'Quel est ton nom ?',speaker:'Maître Chen',text:'Chen incline la tête. « Je dois connaître le nom de celle qui cherche le Dragon de Jade. »',zh:'你叫什么名字？',py:'Nǐ jiào shénme míngzi?',fr:'Comment t’appelles-tu ?',question:'Réponds en mandarin : « Je m’appelle Esmée. »',options:[['我叫 Esmée。',true],['我很好。',false],['谢谢。',false]],words:['我','叫','名字'],reward:15,info:'À Hong Kong, le cantonais est largement utilisé au quotidien. Notre aventure enseigne le mandarin standard, en présentant aussi des particularités locales.'},
-{title:'Le médaillon de jade',speaker:'Lóng',text:'Une boîte s’entrouvre. Un petit dragon vert apparaît dans un éclat de lumière. « Esmée, tu dois apprendre à écrire mon nom ! »',zh:'龙',py:'Lóng',fr:'Dragon',question:'Quel caractère signifie « dragon » en chinois simplifié ?',options:[['龙',true],['人',false],['山',false]],words:['龙'],reward:15,info:'龙 est le caractère simplifié de « dragon » ; la forme traditionnelle 龍 reste utilisée à Hong Kong. Les dragons chinois sont des figures culturelles aux significations multiples.'},
-{title:'Le thé des secrets',speaker:'Maître Chen',text:'Chen verse du thé dans deux petites tasses. Il observe Esmée et lui pose une question.',zh:'你喝茶吗？',py:'Nǐ hē chá ma?',fr:'Bois-tu du thé ?',question:'Comment répondre « Je bois du thé » ?',options:[['我喝茶。',true],['我叫茶。',false],['谢谢你。',false]],words:['喝','茶','吗'],reward:15,info:'Le thé occupe une place importante dans de nombreuses traditions chinoises. Les pratiques varient selon les régions et les époques.'},
-{title:'La messagère sous la pluie',speaker:'Mei',text:'Une jeune messagère entre, le manteau encore humide. Elle remet un billet à Chen, puis se tourne vers Esmée.',zh:'谢谢你！',py:'Xièxie nǐ!',fr:'Merci à toi !',question:'Quelle est la bonne traduction ?',options:[['Merci à toi !',true],['Bonjour à toi !',false],['Comment vas-tu ?',false]],words:['谢谢','你'],reward:15,info:'Macao et Hong Kong sont deux régions administratives spéciales chinoises. Leur histoire et leurs langues reflètent des trajectoires distinctes.'},
-{title:'La première écaille',speaker:'Lóng',text:'Le médaillon brille. « Tu connais désormais les mots de l’accueil. Pour ouvrir le sceau, retrouve la bonne expression ! »',zh:'你好，我叫 Esmée。',py:'Nǐ hǎo, wǒ jiào Esmée.',fr:'Bonjour, je m’appelle Esmée.',question:'Quelle expression permet de te présenter ?',options:[['我叫 Esmée。',true],['你喝茶吗？',false],['谢谢你。',false]],words:['我叫'],reward:30,info:'La Chine présente une très grande diversité géographique : littoraux, plaines, plateaux, déserts et chaînes de montagnes. La campagne explorera ces paysages.'}
+ {
+  "title": "La rue des Lanternes",
+  "speaker": "Maître Chen",
+  "text": "La pluie a laissé des reflets d’or sur les pavés de Sheung Wan. Une lettre marquée d’une écaille verte te conduit chez Maître Chen. Le vieil antiquaire t’accueille derrière une porte rouge. « Pour entrer, commence par saluer. »",
+  "zh": "你好！",
+  "py": "Nǐ hǎo!",
+  "fr": "Bonjour !",
+  "question": "Comment réponds-tu poliment à Maître Chen ?",
+  "options": [
+   [
+    "你好！",
+    true
+   ],
+   [
+    "再见！",
+    false
+   ],
+   [
+    "谢谢！",
+    false
+   ]
+  ],
+  "words": [
+   "你好",
+   "你",
+   "好",
+   "您"
+  ],
+  "reward": 10,
+  "info": "À Hong Kong, le cantonais est très présent dans la vie quotidienne. Le Dragon de Jade t’enseigne le mandarin standard. 你好 (nǐ hǎo) signifie « bonjour » ; 您 (nín) est une forme respectueuse de « vous ».",
+  "grammar": "你好 est une salutation. 您好 (nín hǎo) est plus respectueux. Écoute la différence entre nǐ (3e ton) et nín (2e ton)."
+ },
+ {
+  "title": "Le nom sur l’enveloppe",
+  "speaker": "Maître Chen",
+  "text": "Chen retourne l’enveloppe. Aucun nom n’y figure, seulement un dragon à cinq griffes. « Qui es-tu ? », demande-t-il. Tu donnes ton nom. Chen murmure : « Voilà donc la personne attendue… »",
+  "zh": "你叫什么名字？",
+  "py": "Nǐ jiào shénme míngzi?",
+  "fr": "Comment t’appelles-tu ?",
+  "question": "Quelle phrase permet de donner ton nom ?",
+  "options": [
+   [
+    "我叫 Esmée。",
+    true
+   ],
+   [
+    "你是谁？",
+    false
+   ],
+   [
+    "再见。",
+    false
+   ]
+  ],
+  "words": [
+   "我",
+   "叫",
+   "名字",
+   "什么"
+  ],
+  "reward": 15,
+  "info": "En mandarin, 叫 (jiào) sert à dire « s’appeler ». Dans 你叫什么名字？, 什么 (shénme) signifie « quel / quoi ».",
+  "grammar": "我叫 + prénom : « Je m’appelle… ». 你叫什么名字？ : « Comment t’appelles-tu ? » Le nom du personnage est automatiquement remplacé par le tien."
+ },
+ {
+  "title": "La gardienne du seuil",
+  "speaker": "Mei",
+  "text": "Une jeune messagère nommée Mei apparaît dans l’encadrement de la porte. Elle te dévisage, puis désigne Chen. « Qui est cet homme ? » Tu observes le maître, la lettre et la petite silhouette cachée derrière le comptoir.",
+  "zh": "他是谁？",
+  "py": "Tā shì shéi?",
+  "fr": "Qui est-il ?",
+  "question": "Quelle réponse signifie « C’est une personne » ?",
+  "options": [
+   [
+    "是人。",
+    true
+   ],
+   [
+    "我叫人。",
+    false
+   ],
+   [
+    "谢谢人。",
+    false
+   ]
+  ],
+  "words": [
+   "谁",
+   "是",
+   "人",
+   "先生"
+  ],
+  "reward": 15,
+  "info": "先生 (xiānsheng) est une manière courante de dire « monsieur ». 谁 (shéi) signifie « qui ». Le pronom 他 (tā) sera étudié dans l’épisode sur la famille.",
+  "grammar": "谁 = « qui ? » ; 是 = « être ». La phrase 他是谁？ utilise un pronom que tu retrouveras plus tard. On peut aussi dire 这是谁？ : « Qui est-ce ? »."
+ },
+ {
+  "title": "Le pacte de jade",
+  "speaker": "Maître Chen",
+  "text": "Chen pose une petite boîte de bois sur la table. Avant de l’ouvrir, il te demande d’attendre. Tu t’excuses d’avoir tendu la main trop vite. Le maître sourit et répond que ce n’est rien.",
+  "zh": "对不起。没关系。",
+  "py": "Duìbuqǐ. Méi guānxi.",
+  "fr": "Pardon. Ce n’est pas grave.",
+  "question": "Que répond-on à quelqu’un qui dit « 对不起 » ?",
+  "options": [
+   [
+    "没关系。",
+    true
+   ],
+   [
+    "再见。",
+    false
+   ],
+   [
+    "你叫什么名字？",
+    false
+   ]
+  ],
+  "words": [
+   "对不起",
+   "没关系",
+   "请",
+   "请问"
+  ],
+  "reward": 15,
+  "info": "请 (qǐng) permet de formuler une demande polie ; 请问 (qǐngwèn) introduit une question avec courtoisie. 对不起 et 没关系 forment une paire utile dans les échanges.",
+  "grammar": "请 + verbe : « s’il vous plaît… ». 请问 : « Excusez-moi, puis-je demander… ? ». 对不起 : « pardon » ; 没关系 : « ce n’est pas grave »."
+ },
+ {
+  "title": "Les témoins du dragon",
+  "speaker": "Mei",
+  "text": "La boîte s’ouvre : une écaille de jade scintille, et un minuscule dragon, Lóng, s’en échappe. Mei appelle les autres témoins. Ils s’approchent tous de la table. « Nous sommes réunis », souffle Chen.",
+  "zh": "大家好！我们在这里。",
+  "py": "Dàjiā hǎo! Wǒmen zài zhèlǐ.",
+  "fr": "Bonjour à tous ! Nous sommes ici.",
+  "question": "Que signifie « 大家好 » ?",
+  "options": [
+   [
+    "Bonjour à tous !",
+    true
+   ],
+   [
+    "Au revoir à tous !",
+    false
+   ],
+   [
+    "Quel est ton nom ?",
+    false
+   ]
+  ],
+  "words": [
+   "大家",
+   "我们",
+   "你们",
+   "这"
+  ],
+  "reward": 15,
+  "info": "大家 (dàjiā) signifie « tout le monde ». 我们 (wǒmen) signifie « nous » et 你们 (nǐmen) « vous » au pluriel. Lóng est un nom de personnage ; 龙 n’est pas compté dans les 300 mots de ce niveau.",
+  "grammar": "Le suffixe 们 marque le pluriel de certains pronoms : 我 → 我们 ; 你 → 你们. 这 (zhè) signifie « ce / ceci »."
+ },
+ {
+  "title": "La première écaille",
+  "speaker": "Lóng",
+  "text": "L’écaille se met à vibrer. Pour libérer sa lumière, Lóng te demande de remercier Mei, de dire au revoir à Chen et de te souvenir des premières paroles échangées. Une carte du delta des Perles apparaît dans le jade : l’aventure commence.",
+  "zh": "谢谢！再见！",
+  "py": "Xièxie! Zàijiàn!",
+  "fr": "Merci ! Au revoir !",
+  "question": "Comment remercies-tu Mei avant de partir ?",
+  "options": [
+   [
+    "谢谢！",
+    true
+   ],
+   [
+    "没关系！",
+    false
+   ],
+   [
+    "请问！",
+    false
+   ]
+  ],
+  "words": [
+   "谢谢",
+   "再见",
+   "不客气",
+   "认识"
+  ],
+  "reward": 30,
+  "info": "谢谢 (xièxie) veut dire « merci » ; 不客气 (bú kèqi) signifie « de rien ». 认识 (rènshi) veut dire « connaître / faire connaissance ». La carte annonce la prochaine étape de l’aventure.",
+  "grammar": "谢谢 → 不客气 : « merci » → « de rien ». 再见 signifie « au revoir ». 认识 peut servir à dire « ravi de faire votre connaissance » dans une phrase plus longue."
+ }
 ];
-const vocab=[['你','nǐ','tu, toi'],['好','hǎo','bon, bien'],['我','wǒ','je, moi'],['叫','jiào','s’appeler'],['名字','míngzi','nom'],['谢谢','xièxie','merci'],['龙','lóng','dragon'],['喝','hē','boire'],['茶','chá','thé'],['吗','ma','particule interrogative'],['你好','nǐ hǎo','bonjour'],['我叫','wǒ jiào','je m’appelle']];
+const vocab=[["你好","nǐ hǎo","bonjour"],["你","nǐ","tu, toi"],["好","hǎo","bien, bon"],["您","nín","vous (poli)"],["我","wǒ","je, moi"],["叫","jiào","s’appeler"],["名字","míngzi","nom"],["什么","shénme","quoi, quel"],["谁","shéi/shuí","qui"],["是","shì","être"],["人","rén","personne"],["先生","xiānsheng","monsieur"],["对不起","duìbuqǐ","pardon, désolé"],["没关系","méi guānxi","ce n’est pas grave"],["请","qǐng","s’il vous plaît"],["请问","qǐngwèn","excusez-moi, puis-je demander"],["大家","dàjiā","tout le monde"],["我们","wǒmen","nous"],["你们","nǐmen","vous (pluriel)"],["这","zhè","ce, ceci"],["谢谢","xièxie","merci"],["再见","zàijiàn","au revoir"],["不客气","bú kèqi","de rien"],["认识","rènshi","connaître, faire connaissance"]];
 const books=[['I','L’Éveil du Dragon de Jade','Hong Kong, Macao, Canton','HSK 1 · objectif 300 mots'],['II','Les Montagnes des Brumes','Guilin, Yunnan','HSK 2'],['III','Les Secrets de la Route de la Soie','Xi’an, Dunhuang','HSK 3'],['IV','Les Ombres de la Cité interdite','Pékin','HSK 4'],['V','Le Manuscrit des Mille Poèmes','Hangzhou, Suzhou','HSK 5'],['VI','Le Dernier Souffle du Dragon','Shanghai','HSK 6']];
 const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));function save(){try{state.savedAt=new Date().toISOString();localStorage.setItem(KEY,JSON.stringify(state));return true}catch(e){console.warn('Sauvegarde impossible',e);return false}}
 function saveStatus(){if(!state.savedAt)return 'Aucune sauvegarde automatique encore créée';const d=new Date(state.savedAt);return 'Sauvegarde locale : '+(Number.isNaN(d.getTime())?'disponible':d.toLocaleString('fr-FR'))}
@@ -87,24 +273,13 @@ const el=document.createElement('div');el.id='profile-overlay';el.className='pro
 function closeProfile(){document.getElementById('profile-overlay')?.remove()}
 function saveProfileName(){const v=document.getElementById('hero-name')?.value.trim();if(!v){alert('Choisis un nom pour ton personnage.');return}state.name=v.slice(0,36);save();closeProfile();render()}
 function header(){return `<header class="top"><div class="brand"><button class="avatar-trigger" onclick="openProfile()" aria-label="Ouvrir la fiche du personnage"><img class="brand-icon" src="assets/dragon-icon.svg" alt="Dragon de jade"></button><div><strong>Dragon de Jade</strong><br><small>V${APP_VERSION} · ${esc(state.name)}, ${esc(state.class)}</small></div></div><div><span class="pill">${state.xp} XP</span><button onclick="checkUpdate()" style="display:block;margin-top:6px;padding:5px 9px;font-size:12px">Mises à jour</button><button onclick="voiceHelp()" style="display:block;margin-top:6px;padding:5px 9px;font-size:12px">Aide voix</button></div></header>`}function nav(){return `<nav class="nav">${[['aventure','📜','Aventure'],['carnet','📖','Carnet'],['calligraphie','🖌️','Écriture'],['atlas','🗺️','Atlas'],['campagne','🐉','Livres']].map(([id,icon,name])=>`<button class="${tab===id?'active':''}" onclick="switchTab('${id}')"><span style="font-size:21px">${icon}</span>${name}</button>`).join('')}</nav>`}
-function speakScene(example=false){const i=Math.min(state.scene,scenes.length-1);speak(heroText(example?['你好！','我叫 Esmée。','龙','我喝茶。','谢谢你！','我叫 Esmée。'][i]:scenes[i].zh))}
+function speakScene(example=false){const i=Math.min(state.scene,scenes.length-1);speak(heroText(example?scenes[i].options[0][0]:scenes[i].zh))}
 function heroText(value){return String(value).replace(/Esmée|Esmee|Edmee|Edmée/gi,()=>state.name)}
 function heroAnswer(value){return heroText(value)}
 function spokenNameMatch(value){const t=normalize(value),n=normalize(state.name);return ['我叫','我是','我的名字叫','我名字叫'].some(prefix=>t===normalize(prefix+state.name)||t===normalize(prefix+state.name.replace(/é/g,'e')))||t.includes(n)&&t.startsWith('我')}
-function adventure(){let i=Math.min(state.scene,scenes.length-1),s=scenes[i],done=state.completed.includes(i),skipped=state.skipped.includes(i),attempts=state.attempts[i]||0;const speaker=s.speaker==='Narratrice'?'Maître Chen':s.speaker;const side=speaker==='Lóng'?'dragon':speaker==='Mei'?'messenger':'master';return `<div class="hero location-banner"><h1>Les Chroniques du Dragon de Jade</h1></div><main class="page"><div class="label">Livre I · Épisode 1 · Scène ${i+1}/6</div><h2>${esc(s.title)}</h2><div class="progress"><span style="width:${((state.completed.length+state.skipped.length)/6)*100}%"></span></div><p class="narration">${esc(heroText(s.text))}</p><section class="comic-panel ${side}" aria-label="Dialogue illustré"><div class="speech-bubble"><div class="label">${esc(speaker)}</div><div class="han" lang="zh-CN">${esc(heroText(s.zh))}</div>${showPinyin?`<div class="pinyin">${esc(heroText(s.py))}</div>`:''}${showTranslation?`<p class="translation">${esc(heroText(s.fr))}</p>`:''}</div><img class="dialogue-art" src="assets/dialogue-v026.jpg" alt="Le personnage rencontre Maître Chen, le petit dragon Lóng et la messagère Mei dans la boutique d’antiquités."></section><div class="controls dialogue-controls"><button onclick="speakScene()">🔊 Écouter</button><button onclick="showPinyin=!showPinyin;render()">${showPinyin?'Masquer':'Afficher'} pinyin</button><button onclick="showTranslation=!showTranslation;render()">${showTranslation?'Masquer':'Afficher'} traduction</button></div><p class="audio-status small muted" role="status" aria-live="polite"></p><div class="paper"><div class="label">Défi de dialogue · ${Math.min(attempts,3)}/3 essais utilisés</div><h3>${esc(heroText(s.question))}</h3><div class="choices">${s.options.map(([a,ok],j)=>`<button class="${selected===String(j)?'selected':''}" onclick="selectAnswer('${j}')">${esc(heroAnswer(a))}</button>`).join('')}</div><div class="rule"></div><strong>🎙️ Répondre en mandarin</strong><div class="controls"><button onclick="${activeRecognition?'stopRecognition()':'recognize()'}">${activeRecognition?'⏹ Arrêter':'🎤 Parler'}</button><button onclick="speakScene(true)">🔊 Écouter un exemple</button></div><p class="audio-status small muted" role="status" aria-live="polite"></p><input type="text" id="answer" placeholder="Réponse orale transcrite ou texte chinois" value="${esc(speechText)}" oninput="speechText=this.value"><p class="small muted">${esc(micStatus||'Touche Parler et autorise le micro. Ta voix est transcrite en texte ; le jeu ne sauvegarde aucun fichier audio. Le service vocal du navigateur peut traiter ta voix en ligne. Les tons ne sont pas évalués.')}</p>${!done&&!skipped?`<button class="primary" onclick="validate()">Valider ma réponse</button>`:`<div class="toast">${skipped?'Défi passé · 0 XP':'✓ Défi terminé · '+s.reward+' XP obtenus'}</div><button class="primary" onclick="nextScene()">${i===5?'Voir le bilan':'Scène suivante →'}</button>`}<div id="feedback" role="status" aria-live="polite">${answerFeedback}</div></div><div class="paper"><div class="label">Découverte · Culture et géographie</div><p>${esc(heroText(s.info))}</p></div>${state.scene>=6?'<div class="toast">🏆 Épisode 1 terminé ! La première écaille de jade est à toi. Les autres épisodes sont en préparation.</div>':''}</main>`}
+function adventure(){let i=Math.min(state.scene,scenes.length-1),s=scenes[i],done=state.completed.includes(i),skipped=state.skipped.includes(i),attempts=state.attempts[i]||0;const speaker=s.speaker==='Narratrice'?'Maître Chen':s.speaker;const side=speaker==='Lóng'?'dragon':speaker==='Mei'?'messenger':'master';return `<div class="hero location-banner"><h1>Les Chroniques du Dragon de Jade</h1></div><main class="page"><div class="label">Livre I · Épisode 1 · Scène ${i+1}/6</div><h2>${esc(s.title)}</h2><div class="progress"><span style="width:${((state.completed.length+state.skipped.length)/6)*100}%"></span></div><p class="narration">${esc(heroText(s.text))}</p><section class="comic-panel ${side}" aria-label="Dialogue illustré"><div class="speech-bubble"><div class="label">${esc(speaker)}</div><div class="han" lang="zh-CN">${esc(heroText(s.zh))}</div>${showPinyin?`<div class="pinyin">${esc(heroText(s.py))}</div>`:''}${showTranslation?`<p class="translation">${esc(heroText(s.fr))}</p>`:''}</div><img class="dialogue-art" src="assets/dialogue-v026.jpg" alt="Le personnage rencontre Maître Chen, le petit dragon Lóng et la messagère Mei dans la boutique d’antiquités."></section><div class="controls dialogue-controls"><button onclick="speakScene()">🔊 Écouter</button><button onclick="showPinyin=!showPinyin;render()">${showPinyin?'Masquer':'Afficher'} pinyin</button><button onclick="showTranslation=!showTranslation;render()">${showTranslation?'Masquer':'Afficher'} traduction</button></div><p class="audio-status small muted" role="status" aria-live="polite"></p><div class="paper"><div class="label">Défi de dialogue · ${Math.min(attempts,3)}/3 essais utilisés</div><h3>${esc(heroText(s.question))}</h3><div class="choices">${s.options.map(([a,ok],j)=>`<button class="${selected===String(j)?'selected':''}" onclick="selectAnswer('${j}')">${esc(heroAnswer(a))}</button>`).join('')}</div><div class="rule"></div><strong>🎙️ Répondre en mandarin</strong><div class="controls"><button onclick="${activeRecognition?'stopRecognition()':'recognize()'}">${activeRecognition?'⏹ Arrêter':'🎤 Parler'}</button><button onclick="speakScene(true)">🔊 Écouter un exemple</button></div><p class="audio-status small muted" role="status" aria-live="polite"></p><input type="text" id="answer" placeholder="Réponse orale transcrite ou texte chinois" value="${esc(speechText)}" oninput="speechText=this.value"><p class="small muted">${esc(micStatus||'Touche Parler et autorise le micro. Ta voix est transcrite en texte ; le jeu ne sauvegarde aucun fichier audio. Le service vocal du navigateur peut traiter ta voix en ligne. Les tons ne sont pas évalués.')}</p>${!done&&!skipped?`<button class="primary" onclick="validate()">Valider ma réponse</button>`:`<div class="toast">${skipped?'Défi passé · 0 XP':'✓ Défi terminé · '+s.reward+' XP obtenus'}</div><button class="primary" onclick="nextScene()">${i===5?'Voir le bilan':'Scène suivante →'}</button>`}<div id="feedback" role="status" aria-live="polite">${answerFeedback}</div></div><div class="paper"><div class="label">📖 Comprendre la langue</div><p>${esc(s.grammar||"")}</p></div><div class="paper"><div class="label">Découverte · Culture et géographie</div><p>${esc(heroText(s.info))}</p></div>${state.scene>=6?'<div class="toast">🏆 Épisode 1 terminé ! La première écaille de jade est à toi. Les autres épisodes sont en préparation.</div>':''}</main>`}
 function normalize(s){return String(s).normalize('NFKC').replace(/[\\s.,!?。，！？、:：;；'’"“”]/g,'').toLowerCase()}
-function speechAccepted(answer,scene){
- const text=normalize(answer).replace(/艾斯梅|埃斯梅|艾斯美|esmee|esmé|esme|esmee/g,'esmée');
- const patterns=[
-  ['你好','您好','你们好'],
-  ['我叫esmée','我是esmée','我的名字叫esmée','我名字叫esmée','我叫艾斯梅','我叫埃斯梅'],
-  ['龙','龍','一条龙','这是龙'],
-  ['我喝茶','我要喝茶','我喜欢喝茶','喝茶'],
-  ['谢谢你','谢谢','非常感谢你','多谢你'],
-  ['我叫esmée','我是esmée','我的名字叫esmée']
- ];
- return patterns[scene]?.some(p=>text===normalize(p))||false;
-}
+function speechAccepted(answer,scene){const t=normalize(answer);return scenes[scene].options.some(([value,correct])=>correct&&normalize(heroAnswer(value))===t)||(scene===1&&spokenNameMatch(answer))}
 function validate(){
  const sceneIndex=Math.min(state.scene,scenes.length-1),s=scenes[sceneIndex];
  if(state.completed.includes(sceneIndex)||state.skipped.includes(sceneIndex)){nextScene();return}
@@ -140,7 +315,7 @@ let speakingMode='all',speakingCount=10,speakingItems=[],speakingIndex=0,speakin
 let carnetEpisode='1',writingEpisode='1',atlasEpisode='1',atlasSearch='';
 let carnetPanel='none',writingPanel='none',writingTestMode='all',writingTestCount=10,writingTestItems=[],writingSelected=Array.isArray(state.writingSelected)?state.writingSelected:[];
 let carnetSearch='',carnetLesson='all',carnetTheme='all',carnetSort='lesson',revisionIndex=0,revisionReveal=false;
-const wordThemes={'你':'Présentation','好':'Salutations','你好':'Salutations','我':'Présentation','叫':'Présentation','名字':'Présentation','我叫':'Présentation','谢谢':'Politesse','龙':'Aventure','喝':'Thé','茶':'Thé','吗':'Grammaire'};
+const wordThemes={'您':'Politesse','什么':'Questions','谁':'Questions','是':'Grammaire','人':'Présentation','先生':'Politesse','对不起':'Politesse','没关系':'Politesse','请':'Politesse','请问':'Politesse','大家':'Salutations','我们':'Présentation','你们':'Présentation','这':'Grammaire','再见':'Politesse','不客气':'Politesse','认识':'Présentation','你':'Présentation','好':'Salutations','你好':'Salutations','我':'Présentation','叫':'Présentation','名字':'Présentation','我叫':'Présentation','谢谢':'Politesse','龙':'Aventure','喝':'Thé','茶':'Thé','吗':'Grammaire'};
 function episodeOfScene(index){return Math.floor(index/6)+1}
 function episodeOfWord(word){const lesson=wordLesson(word);return lesson===null?null:episodeOfScene(lesson-1)}
 function unlockedEpisodes(){return [...new Set(scenes.map((sc,i)=>episodeOfScene(i)).filter(ep=>scenes.some((sc,i)=>episodeOfScene(i)===ep&&(state.completed.includes(i)||state.skipped.includes(i)))))]}
