@@ -64,3 +64,5 @@
 .profile-stats>div{background:linear-gradient(160deg,#fff0cb,#f0dcb0);border-color:#c9a56b}
 .profile-stats strong{color:#14604e}.profile-history>div{border-color:#caa976}
 @media(max-width:380px){.profile-character{gap:9px}.profile-portrait{width:80px;height:100px}.profile-sheet{padding:16px}}
+
+.carnet-filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}.carnet-filters label{display:flex;flex-direction:column;gap:5px;font-weight:600}.carnet-filters select,#word-search{width:100%;min-width:0;padding:11px;border:1px solid #bfa579;border-radius:9px;background:#fffaf0;color:#203f37}.word-entry{display:flex;align-items:center;gap:12px;padding:12px 16px}.word-check{display:flex;align-items:center;gap:10px;flex-shrink:0}.word-check input{width:22px;height:22px;accent-color:#14705d}.word-check .han{font-size:27px}.word-detail{flex:1;min-width:0}.word-detail .small{margin-top:5px}.revision-sheet{text-align:center}.revision-word{font-size:clamp(60px,15vw,110px);margin:25px 0}.revision-answer{font-size:22px;margin:20px 0}.revision-sheet .controls{justify-content:center}
