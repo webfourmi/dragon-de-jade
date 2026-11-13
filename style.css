@@ -85,3 +85,16 @@
 .han-token:focus-visible{outline:3px solid #276e58;outline-offset:2px}
 .intro-page p{font-size:1.08rem;line-height:1.8}
 @media(max-width:480px){.choices button{min-height:56px}.han-choice{font-size:2rem!important}.speech-bubble{max-width:100%}}
+
+/* v0.5.1 : pointes des bulles selon le personnage qui parle.
+   Positionnement indépendant des textes et de la largeur des bulles. */
+.comic-panel .speech-bubble{position:relative;overflow:visible}
+.comic-panel.master .speech-bubble{margin-left:18px;margin-right:auto}
+.comic-panel.messenger .speech-bubble{margin-left:auto;margin-right:18px}
+.comic-panel.dragon .speech-bubble{margin-left:auto;margin-right:auto}
+.comic-panel .speech-bubble::after{content:"";position:absolute;bottom:-16px;width:22px;height:22px;background:#fffdf6;border-right:2px solid #4d6254;border-bottom:2px solid #4d6254;transform:rotate(45deg) skew(5deg,5deg)}
+.comic-panel.master .speech-bubble::after{left:36px;right:auto}
+.comic-panel.messenger .speech-bubble::after{left:auto;right:36px}
+.comic-panel.dragon .speech-bubble::after{left:calc(50% - 11px);right:auto}
+.comic-panel .speech-bubble .label{font-weight:800;color:#245c50}
+@media(max-width:480px){.comic-panel.master .speech-bubble{margin-left:12px;margin-right:auto}.comic-panel.messenger .speech-bubble{margin-right:12px;margin-left:auto}}
