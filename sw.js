@@ -1,7 +1,7 @@
-const VERSION='0.3.7';
-const NOTES='Carnet et écriture : boutons Recherche et Test ; test de la sélection ; Livre I : objectif HSK 1 de 300 mots.';
+const VERSION='0.3.8';
+const NOTES='Calligraphie : tests par thème, sélection ou aléatoire, 10 ou 20 questions.';
 const CACHE='dragonjade-'+VERSION;
-const CORE=['./','./index.html','./style.css?v=0.3.7','./app.js?v=0.3.7','./manifest.webmanifest'];
+const CORE=['./','./index.html','./style.css?v=0.3.8','./app.js?v=0.3.8','./manifest.webmanifest'];
 const OPTIONAL=['./assets/dragon-icon.svg','./assets/cover.png','./assets/dialogue-v026.jpg','./assets/icon.png','./assets/icon512.png','./assets/place-v026.jpg','./assets/journal-v026.jpg','./assets/writing-v026.jpg','./assets/atlas-v026.jpg'];
 self.addEventListener('install',event=>event.waitUntil((async()=>{
  const cache=await caches.open(CACHE);
