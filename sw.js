@@ -1,7 +1,7 @@
-const VERSION='0.4.4';
-const NOTES='Épisode 1 réécrit : six scènes, 24 mots HSK 1, grammaire, dialogue et reprise de l’épisode.';
+const VERSION='0.4.5';
+const NOTES='Premier sceau : épreuve finale de 12 questions, lecture, écoute et expression orale, bilan enregistré.';
 const CACHE='dragonjade-'+VERSION;
-const CORE=['./','./index.html','./style.css?v=0.4.4','./app.js?v=0.4.4','./hsk1-reference.js?v=0.4.4','./hsk1-plan.js?v=0.4.4','./manifest.webmanifest'];
+const CORE=['./','./index.html','./style.css?v=0.4.5','./app.js?v=0.4.5','./hsk1-reference.js?v=0.4.5','./hsk1-plan.js?v=0.4.5','./manifest.webmanifest'];
 const OPTIONAL=['./assets/dragon-icon.svg','./assets/cover.png','./assets/dialogue-v026.jpg','./assets/icon.png','./assets/icon512.png','./assets/place-v026.jpg','./assets/journal-v026.jpg','./assets/writing-v026.jpg','./assets/atlas-v026.jpg'];
 self.addEventListener('install',event=>event.waitUntil((async()=>{
  const cache=await caches.open(CACHE);
