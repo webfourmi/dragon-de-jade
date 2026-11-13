@@ -74,3 +74,14 @@
 .writing-choices{display:flex;flex-wrap:wrap;gap:10px}.writing-choice{display:flex;align-items:center;gap:5px;padding:4px;border:1px solid #d6c49e;border-radius:10px}.writing-choice input{width:19px;height:19px;accent-color:#14705d}.writing-choice button{min-width:46px}
 
 .episode-filter{display:flex;flex-direction:column;gap:7px;margin:14px 0;color:#315b50;font-weight:700}.episode-filter select{width:100%;padding:12px;border:1px solid #c3ae7c;border-radius:10px;background:#fffdf6;color:#254c40;font-size:1rem}
+
+/* v0.4.7 : caractères lisibles sur téléphone et en évaluation */
+.han,.han-dialogue{font-family:'Noto Sans CJK SC','Noto Sans SC','Microsoft YaHei',sans-serif;font-size:clamp(3rem,9vw,5rem);line-height:1.55;overflow-wrap:anywhere}
+.han-choice,.seal-choices button:has(.han){font-family:'Noto Sans CJK SC','Noto Sans SC',sans-serif;font-size:clamp(1.8rem,6vw,2.8rem);line-height:1.55;min-height:64px}
+.seal-prompt{font-size:clamp(1.2rem,4.4vw,1.55rem);line-height:1.6}
+.han-token{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;border:0;border-bottom:2px dotted #bca26c;border-radius:0;background:transparent;padding:0 .08em;color:inherit;font:inherit;min-width:1em}
+.han-token small{display:none;font:600 clamp(.9rem,3.2vw,1.1rem)/1.3 system-ui,sans-serif;color:#225d51;white-space:nowrap}
+.han-token.revealed small{display:block}
+.han-token:focus-visible{outline:3px solid #276e58;outline-offset:2px}
+.intro-page p{font-size:1.08rem;line-height:1.8}
+@media(max-width:480px){.choices button{min-height:56px}.han-choice{font-size:2rem!important}.speech-bubble{max-width:100%}}
