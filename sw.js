@@ -1,7 +1,7 @@
-const VERSION='0.3.4';
-const NOTES='Carnet amélioré : recherche, tri par leçon, thème et date, sélection de mots et cartes de révision.';
+const VERSION='0.3.5';
+const NOTES='Tests 10 ou 20 questions par thème ou aléatoires, écoute des choix de dialogue, écriture basée sur les caractères appris avec recherche et test.';
 const CACHE='dragonjade-'+VERSION;
-const CORE=['./','./index.html','./style.css?v=0.3.4','./app.js?v=0.3.4','./manifest.webmanifest'];
+const CORE=['./','./index.html','./style.css?v=0.3.5','./app.js?v=0.3.5','./manifest.webmanifest'];
 const OPTIONAL=['./assets/dragon-icon.svg','./assets/cover.png','./assets/dialogue-v026.jpg','./assets/icon.png','./assets/icon512.png','./assets/place-v026.jpg','./assets/journal-v026.jpg','./assets/writing-v026.jpg','./assets/atlas-v026.jpg'];
 self.addEventListener('install',event=>event.waitUntil((async()=>{
  const cache=await caches.open(CACHE);
