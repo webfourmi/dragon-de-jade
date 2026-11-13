@@ -1,7 +1,7 @@
-const VERSION='0.5.0';
+const VERSION='0.5.1';
 const NOTES='Épisode 2 : six nouvelles scènes sur la famille, 24 mots HSK 1, accès après le premier sceau.';
 const CACHE='dragonjade-'+VERSION;
-const CORE=['./','./index.html','./style.css?v=0.5.0','./app.js?v=0.5.0','./hsk1-reference.js?v=0.5.0','./hsk1-plan.js?v=0.5.0','./episode2.js?v=0.5.0','./manifest.webmanifest'];
+const CORE=['./','./index.html','./style.css?v=0.5.1','./app.js?v=0.5.1','./hsk1-reference.js?v=0.5.1','./hsk1-plan.js?v=0.5.1','./episode2.js?v=0.5.1','./manifest.webmanifest'];
 const OPTIONAL=['./assets/dragon-icon.svg','./assets/cover.png','./assets/dialogue-v026.jpg','./assets/icon.png','./assets/icon512.png','./assets/place-v026.jpg','./assets/journal-v026.jpg','./assets/writing-v026.jpg','./assets/atlas-v026.jpg'];
 self.addEventListener('install',event=>event.waitUntil((async()=>{
  const cache=await caches.open(CACHE);
