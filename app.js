@@ -1,4 +1,4 @@
-const APP_VERSION='0.5.1';
+const APP_VERSION='0.5.2';
 const KEY='dragonjade-v02';const base={scene:0,xp:0,choice:{},completed:[],words:[],chars:[],discoveries:[],name:'Esmée',class:'Exploratrice',attempts:{},skipped:[],activity:{},speechSuccess:0,writingSessions:0,wordDates:{},reviewSelected:[],reviewSchedule:{},introSeen:false};let state;try{state={...base,...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch{state={...base}}state.attempts=state.attempts||{};state.skipped=state.skipped||[];state.activity=state.activity||{};state.speechSuccess=state.speechSuccess||0;state.writingSessions=state.writingSessions||0;state.wordDates=state.wordDates||{};state.reviewSelected=state.reviewSelected||[];state.reviewSchedule=state.reviewSchedule||{};let tab='aventure',speechText='',micStatus='',selected='',showPinyin=true,showTranslation=true,drawChar='你',guide=true,strokes=[],currentStroke=null,strokeStep=0,canvasMode='trace';
 const scenes=[
   {
@@ -30,7 +30,7 @@ const scenes=[
       "您"
     ],
     "reward": 10,
-    "info": "À Pékin, le mandarin standard est la langue commune ; certains habitants utilisent aussi des expressions et un accent locaux. 你好 (nǐ hǎo) signifie « bonjour » ; 您 (nín) est une forme respectueuse de « vous ».",
+    "info": "Les hutongs sont les ruelles traditionnelles de Pékin. Beaucoup longent les murs des siheyuan, des maisons organisées autour d'une cour. En les parcourant, on découvre un Pékin résidentiel très différent des grandes avenues.",
     "grammar": "你好 est une salutation. 您好 (nín hǎo) est plus respectueux. Écoute la différence entre nǐ (3e ton) et nín (2e ton)."
   },
   {
@@ -62,7 +62,7 @@ const scenes=[
       "什么"
     ],
     "reward": 15,
-    "info": "En mandarin, 叫 (jiào) sert à dire « s’appeler ». Dans 你叫什么名字？, 什么 (shénme) signifie « quel / quoi ».",
+    "info": "Les portes des anciennes maisons à cour intérieure cachent souvent la vie de la famille derrière un mur d'enceinte. Dans un siheyuan, les pièces s'ouvrent vers une cour commune, lieu de rencontre et de vie quotidienne.",
     "grammar": "我叫 + prénom : « Je m’appelle… ». 你叫什么名字？ : « Comment t’appelles-tu ? » Le nom du personnage est automatiquement remplacé par le tien."
   },
   {
@@ -94,7 +94,7 @@ const scenes=[
       "先生"
     ],
     "reward": 15,
-    "info": "先生 (xiānsheng) est une manière courante de dire « monsieur ». 谁 (shéi) signifie « qui ». Le pronom 他 (tā) sera étudié dans l’épisode sur la famille.",
+    "info": "Dans les quartiers anciens de Pékin, les portes, leurs heurtoirs et leurs encadrements sont des éléments importants de l'architecture domestique. Une façade discrète peut dissimuler une vaste cour et plusieurs bâtiments.",
     "grammar": "谁 = « qui ? » ; 是 = « être ». La phrase 他是谁？ utilise un pronom que tu retrouveras plus tard. On peut aussi dire 这是谁？ : « Qui est-ce ? »."
   },
   {
@@ -126,7 +126,7 @@ const scenes=[
       "请问"
     ],
     "reward": 15,
-    "info": "请 (qǐng) permet de formuler une demande polie ; 请问 (qǐngwèn) introduit une question avec courtoisie. 对不起 et 没关系 forment une paire utile dans les échanges.",
+    "info": "Les siheyuan traditionnels disposent souvent de pièces réparties sur quatre côtés de la cour. L'orientation et la disposition des bâtiments reflètent des usages familiaux et des conceptions anciennes de l'habitat.",
     "grammar": "请 + verbe : « s’il vous plaît… ». 请问 : « Excusez-moi, puis-je demander… ? ». 对不起 : « pardon » ; 没关系 : « ce n’est pas grave »."
   },
   {
@@ -158,7 +158,7 @@ const scenes=[
       "这"
     ],
     "reward": 15,
-    "info": "大家 signifie « tout le monde » ; 这 veut dire « ce, ceci ». 女士 (nǚshì) est une formule de politesse pour « madame ». 吗 (ma) transforme une phrase affirmative en question fermée.",
+    "info": "Les dragons de jade ne sont pas une invention du jeu : des sculptures en jade représentant des dragons existent depuis le Néolithique chinois. La culture de Hongshan a laissé de remarquables dragons au corps enroulé. Lóng, lui, appartient à notre fiction.",
     "grammar": "大家好 ! signifie « Bonjour à tous ! ». 这 = « ceci ». 你好吗？ veut dire « Comment vas-tu ? ». 女士 est un titre de politesse."
   },
   {
@@ -190,7 +190,7 @@ const scenes=[
       "认识"
     ],
     "reward": 30,
-    "info": "谢谢 (xièxie) veut dire « merci » ; 不客气 (bú kèqi) signifie « de rien ». 认识 (rènshi) veut dire « connaître / faire connaissance ». La carte annonce la prochaine étape de l’aventure.",
+    "info": "Dans les traditions chinoises, le dragon est notamment associé à la pluie et à l'eau. Des représentations anciennes témoignent de ce lien avec les rites demandant de bonnes récoltes. Notre carte enchantée s'inspire de cet imaginaire, sans être une légende traditionnelle précise.",
     "grammar": "谢谢 → 不客气 : « merci » → « de rien ». 再见 signifie « au revoir ». 认识 peut servir à dire « ravi de faire votre connaissance » dans une phrase plus longue."
   }
 ];
