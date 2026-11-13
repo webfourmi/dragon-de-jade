@@ -1,1 +1,1 @@
-{"version":"0.5.3","notes":"Dialogues BD : chaque intervenant dispose d’une zone de portrait distincte avec sa propre bulle de texte adjacente. Suppression des pointes approximatives, mise en page adaptée au mobile."}
+{"version":"0.5.4","notes":"Les 12 scènes répartissent désormais les répliques entre Maître Chen, Mei, Lóng et le personnage joueur. Chaque prise de parole a son propre portrait et sa zone de texte, même dans un échange à plusieurs personnages."}
