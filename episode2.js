@@ -29,7 +29,7 @@ const EPISODE2_SCENES=[
       "家人"
     ],
     "reward": 15,
-    "info": "Dans les archives familiales de Pékin, les noms chinois sont généralement écrits avec le nom de famille avant le prénom. Les registres anciens peuvent employer des caractères traditionnels.",
+    "info": "Un jiapu, ou zupu, est un registre généalogique traditionnel d'un clan chinois. Il peut conserver sur plusieurs générations des noms, des biographies, des déplacements et parfois des portraits d'ancêtres. C'est un véritable trésor pour une enquête familiale.",
     "grammar": "爸爸 (bàba) = papa ; 妈妈 (māma) = maman. 家 = maison ou famille, selon le contexte."
   },
   {
@@ -61,7 +61,7 @@ const EPISODE2_SCENES=[
       "妹妹"
     ],
     "reward": 15,
-    "info": "En mandarin, les mots pour frères et sœurs indiquent souvent si la personne est plus âgée ou plus jeune.",
+    "info": "Dans les généalogies traditionnelles chinoises, les lignées masculines sont souvent mieux documentées que celles des filles. L'absence d'un enfant dans un registre ne prouve donc pas à elle seule qu'il n'a jamais existé.",
     "grammar": "哥哥 = grand frère ; 弟弟 = petit frère ; 姐姐 = grande sœur ; 妹妹 = petite sœur."
   },
   {
@@ -93,7 +93,7 @@ const EPISODE2_SCENES=[
       "女"
     ],
     "reward": 15,
-    "info": "他 et 她 se prononcent tous deux tā. La distinction est visible à l’écrit, mais pas à l’oral.",
+    "info": "Certains registres de clan comprennent des portraits ancestraux et des informations sur les lieux de sépulture. Ils servaient aussi à transmettre la mémoire familiale et les liens entre générations.",
     "grammar": "男 = homme / masculin ; 女 = femme / féminin. 他 = il ; 她 = elle."
   },
   {
@@ -125,7 +125,7 @@ const EPISODE2_SCENES=[
       "朋友"
     ],
     "reward": 15,
-    "info": "孩子 signifie enfant. 儿子 désigne un fils, 女儿 une fille. 朋友 signifie ami ou amie.",
+    "info": "Dans les maisons à cour de Pékin, plusieurs générations d'une famille pouvaient vivre dans des bâtiments autour d'un espace commun. L'organisation de cette cour reflétait parfois la place des différents membres du foyer.",
     "grammar": "Le contexte précise les liens familiaux. Les pronoms au pluriel utilisent souvent 们."
   },
   {
@@ -157,7 +157,7 @@ const EPISODE2_SCENES=[
       "你们"
     ],
     "reward": 15,
-    "info": "男朋友 et 女朋友 désignent généralement un petit ami et une petite amie dans un contexte amoureux.",
+    "info": "Les jiapu peuvent raconter les migrations d'une famille et mentionner ses villages d'origine. Pour retrouver une personne, une adresse ou un changement de résidence peut être aussi utile qu'un nom.",
     "grammar": "我们 = nous ; 你们 = vous (pluriel). 男朋友 et 女朋友 sont des mots composés de 朋友."
   },
   {
@@ -189,7 +189,7 @@ const EPISODE2_SCENES=[
       "岁"
     ],
     "reward": 15,
-    "info": "岁 (suì) s’emploie pour l’âge. Les nombres seront étudiés dans l’épisode 3, qui permettra de résoudre l’énigme.",
+    "info": "Certains registres familiaux chinois consignent des dates et des générations, mais leur présentation varie selon les époques et les familles. Les enquêteurs doivent parfois croiser ces archives avec d'autres documents pour identifier une personne.",
     "grammar": "他们 = ils / groupe mixte ; 她们 = elles ; 们 marque le pluriel de certains pronoms ; 几岁 ? demande l’âge."
   }
 ];
