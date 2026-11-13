@@ -29,7 +29,7 @@ const EPISODE2_SCENES=[
       "家人"
     ],
     "reward": 15,
-    "info": "À Hong Kong, les noms chinois peuvent apparaître dans des ordres et des transcriptions différents selon les langues et les documents.",
+    "info": "Dans les archives familiales de Pékin, les noms chinois sont généralement écrits avec le nom de famille avant le prénom. Les registres anciens peuvent employer des caractères traditionnels.",
     "grammar": "爸爸 (bàba) = papa ; 妈妈 (māma) = maman. 家 = maison ou famille, selon le contexte."
   },
   {
