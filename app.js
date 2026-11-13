@@ -1,4 +1,4 @@
-const APP_VERSION='0.3.2';
+const APP_VERSION='0.3.3';
 const KEY='dragonjade-v02';const base={scene:0,xp:0,choice:{},completed:[],words:[],chars:[],discoveries:[],name:'Esmée',class:'Exploratrice',attempts:{},skipped:[],activity:{},speechSuccess:0,writingSessions:0};let state;try{state={...base,...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch{state={...base}}state.attempts=state.attempts||{};state.skipped=state.skipped||[];state.activity=state.activity||{};state.speechSuccess=state.speechSuccess||0;state.writingSessions=state.writingSessions||0;let tab='aventure',speechText='',micStatus='',selected='',showPinyin=true,showTranslation=true,drawChar='你',guide=true,strokes=[],currentStroke=null,strokeStep=0,canvasMode='trace';
 const scenes=[
 {title:'La rue des Lanternes',speaker:'Narratrice',text:'La pluie vient de cesser sur Sheung Wan. Une lettre mystérieuse conduit Esmée jusqu’à une boutique d’antiquités. Un vieil homme lève les yeux.',zh:'你好！',py:'Nǐ hǎo!',fr:'Bonjour !',question:'Que signifie la salutation de Maître Chen ?',options:[['Bonjour !',true],['Merci !',false],['Au revoir !',false]],words:['你好'],reward:10,info:'Sheung Wan est un quartier historique de Hong Kong. On y trouve des rues commerçantes, des temples et des boutiques traditionnelles.'},
@@ -153,12 +153,27 @@ updateBox().innerHTML='<strong>Version '+esc(release.version)+' disponible</stro
 worker.postMessage({type:'GET_VERSION'},[channel.port2]);
 }
 async function checkUpdate(){
-const box=updateBox();box.textContent='Version actuelle : '+APP_VERSION+'. Recherche de mise à jour…';
-try{if(!updateRegistration){box.textContent='Les mises à jour ne sont pas disponibles dans ce navigateur.';return}
-await updateRegistration.update();
-if(updateRegistration.waiting){offerUpdate();return}
-box.innerHTML='<p>Version actuelle : '+APP_VERSION+'. '+(updateRegistration.installing?'Une mise à jour se prépare. Elle te sera proposée dès qu’elle sera prête.':'Aucune mise à jour prête pour le moment.')+'</p><button onclick="closeUpdate()">Fermer</button>';
-}catch{box.innerHTML='<p>Impossible de vérifier les mises à jour. Vérifie ta connexion et réessaie.</p><button onclick="closeUpdate()">Fermer</button>'}
+ const box=updateBox();box.textContent='V'+APP_VERSION+' · Vérification de la version publiée…';
+ try{
+  const response=await fetch('./version.json?check='+Date.now(),{cache:'no-store'});
+  if(!response.ok)throw Error('HTTP '+response.status);
+  const remote=await response.json();
+  const published=String(remote.version||'');
+  if(!published)throw Error('Version manquante');
+  if(published===APP_VERSION){
+   box.innerHTML='<p>Version '+esc(APP_VERSION)+' installée et à jour.</p><button onclick="closeUpdate()">Fermer</button>';return;
+  }
+  box.innerHTML='<strong>Version '+esc(published)+' disponible</strong><p>'+esc(remote.notes||'Des améliorations sont disponibles.')+'</p><p>Ta progression locale sera conservée. Si la nouvelle version ne s’affiche pas immédiatement, rouvre le jeu.</p><button class="primary" onclick="refreshGame()">Installer la mise à jour</button><button onclick="closeUpdate()">Plus tard</button>';
+ }catch(e){
+  box.innerHTML='<p>Impossible de vérifier la version publiée ('+esc(e.message)+'). Vérifie Internet et réessaie.</p><button onclick="closeUpdate()">Fermer</button>';
+ }
+}
+async function refreshGame(){
+ save();const box=updateBox();box.textContent='Mise à jour en cours…';
+ try{
+  if('serviceWorker'in navigator){const reg=updateRegistration||await navigator.serviceWorker.getRegistration();if(reg)await reg.update()}
+ }catch(e){console.warn('Mise à jour du service worker',e)}
+ window.location.replace('./index.html?refresh='+Date.now());
 }
 function acceptUpdate(){if(!updateRegistration?.waiting)return;save();acceptingUpdate=true;updateBox().textContent='Installation de la mise à jour…';updateRegistration.waiting.postMessage({type:'SKIP_WAITING'})}
 if('serviceWorker'in navigator){
