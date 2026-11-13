@@ -72,3 +72,5 @@
 .notebook-actions{display:flex;gap:10px;margin:14px 0}.notebook-actions button{flex:1;padding:13px;border:1px solid #b99959;border-radius:12px;background:#e9f1e7;color:#174d41;font-weight:700}.paper[hidden],section[hidden]{display:none!important}
 
 .writing-choices{display:flex;flex-wrap:wrap;gap:10px}.writing-choice{display:flex;align-items:center;gap:5px;padding:4px;border:1px solid #d6c49e;border-radius:10px}.writing-choice input{width:19px;height:19px;accent-color:#14705d}.writing-choice button{min-width:46px}
+
+.episode-filter{display:flex;flex-direction:column;gap:7px;margin:14px 0;color:#315b50;font-weight:700}.episode-filter select{width:100%;padding:12px;border:1px solid #c3ae7c;border-radius:10px;background:#fffdf6;color:#254c40;font-size:1rem}
