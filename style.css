@@ -70,3 +70,5 @@
 .quiz-choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}.quiz-choices button{padding:14px 10px;border:1px solid #b89b63;border-radius:12px;background:#fff2d4;color:#25483e}.quiz-choices button:disabled{opacity:.7}.revision-sheet .quiz-choices{text-align:left}@media(max-width:390px){.quiz-choices{grid-template-columns:1fr}}
 
 .notebook-actions{display:flex;gap:10px;margin:14px 0}.notebook-actions button{flex:1;padding:13px;border:1px solid #b99959;border-radius:12px;background:#e9f1e7;color:#174d41;font-weight:700}.paper[hidden],section[hidden]{display:none!important}
+
+.writing-choices{display:flex;flex-wrap:wrap;gap:10px}.writing-choice{display:flex;align-items:center;gap:5px;padding:4px;border:1px solid #d6c49e;border-radius:10px}.writing-choice input{width:19px;height:19px;accent-color:#14705d}.writing-choice button{min-width:46px}
