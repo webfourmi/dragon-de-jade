@@ -1,7 +1,7 @@
-const VERSION='0.5.8';
-const NOTES='Présentation en mandarin : le prénom du héros ne bloque plus la validation vocale.';
+const VERSION='0.5.9';
+const NOTES='Reconnaissance vocale : traduction française affichée après la phrase entendue.';
 const CACHE='dragonjade-'+VERSION;
-const CORE=['./','./index.html','./style.css?v=0.5.8','./app.js?v=0.5.8','./hsk1-reference.js?v=0.5.8','./hsk1-plan.js?v=0.5.8','./episode2.js?v=0.5.8','./manifest.webmanifest'];
+const CORE=['./','./index.html','./style.css?v=0.5.9','./app.js?v=0.5.9','./hsk1-reference.js?v=0.5.9','./hsk1-plan.js?v=0.5.9','./episode2.js?v=0.5.9','./manifest.webmanifest'];
 const OPTIONAL=['./assets/dragon-icon.svg','./assets/cover.png','./assets/dialogue-v026.jpg','./assets/prologue-dragon-de-jade.webp','./assets/icon.png','./assets/icon512.png','./assets/place-v026.jpg','./assets/journal-v026.jpg','./assets/writing-v026.jpg','./assets/atlas-v026.jpg'];
 self.addEventListener('install',event=>event.waitUntil((async()=>{
  const cache=await caches.open(CACHE);
