@@ -1,8 +1,8 @@
-const VERSION='0.5.9';
-const NOTES='Reconnaissance vocale : traduction française affichée après la phrase entendue.';
+const VERSION='0.5.10';
+const NOTES='Portraits aquarellés dans les dialogues après ajout des quatre images au dossier assets.';
 const CACHE='dragonjade-'+VERSION;
-const CORE=['./','./index.html','./style.css?v=0.5.9','./app.js?v=0.5.9','./hsk1-reference.js?v=0.5.9','./hsk1-plan.js?v=0.5.9','./episode2.js?v=0.5.9','./manifest.webmanifest'];
-const OPTIONAL=['./assets/dragon-icon.svg','./assets/cover.png','./assets/dialogue-v026.jpg','./assets/prologue-dragon-de-jade.webp','./assets/icon.png','./assets/icon512.png','./assets/place-v026.jpg','./assets/journal-v026.jpg','./assets/writing-v026.jpg','./assets/atlas-v026.jpg'];
+const CORE=['./','./index.html','./style.css?v=0.5.10','./app.js?v=0.5.10','./hsk1-reference.js?v=0.5.10','./hsk1-plan.js?v=0.5.10','./episode2.js?v=0.5.10','./manifest.webmanifest'];
+const OPTIONAL=['./assets/dragon-icon.svg','./assets/cover.png','./assets/dialogue-v026.jpg','./assets/prologue-dragon-de-jade.webp','./assets/heros.webp','./assets/mei.webp','./assets/maitre-chen.webp','./assets/long.webp','./assets/icon.png','./assets/icon512.png','./assets/place-v026.jpg','./assets/journal-v026.jpg','./assets/writing-v026.jpg','./assets/atlas-v026.jpg'];
 self.addEventListener('install',event=>event.waitUntil((async()=>{
  const cache=await caches.open(CACHE);
  await Promise.all(CORE.map(async path=>{const response=await fetch(new Request(path,{cache:'reload'}));if(!response.ok)throw Error('Core asset '+path+' HTTP '+response.status);await cache.put(path,response)}));
