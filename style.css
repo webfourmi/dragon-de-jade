@@ -128,3 +128,7 @@
 .prologue-comic img{display:block;width:100%;height:auto;border:2px solid #ad9061;border-radius:14px;box-shadow:0 8px 25px #382d1c25}
 .prologue-comic figcaption{font-size:.9rem;color:#596052;text-align:center;margin-top:9px}
 @media(max-width:600px){.intro-page .prologue-comic{margin-left:-12px;margin-right:-12px}.prologue-comic img{border-radius:8px}}
+
+/* Portraits aquarellés : image ronde dans les dialogues */
+.character-portrait .portrait-watercolor{display:block;width:100%;max-width:116px;aspect-ratio:1;object-fit:cover;border-radius:50%;border:2px solid #bd9b64;box-shadow:0 3px 9px #49372230;margin:auto}
+.character-portrait .portrait-fallback{font-size:3rem}
