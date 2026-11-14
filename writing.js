@@ -1,6 +1,6 @@
 /* Hanzi Writer guided calligraphy, additive module. */
 const HZ_URL=c=>'https://cdn.jsdelivr.net/npm/hanzi-writer-data@2.0.1/'+encodeURIComponent(c)+'.json';
-let hzWriter=null,hzDone=0,hzTotal=0,hzErrors=0,hzHints=0,hzFinished=false,writeMode='trace',writingTestResults=[];
+let hzWriter=null,hzDone=0,hzTotal=0,hzErrors=0,hzHints=0,hzFinished=false,writeMode='trace',writingTestResults=[],hzSession=0;
 function hzAvailable(){return typeof HanziWriter!=='undefined'}
 function hzStats(){return state.writingStats||(state.writingStats={})}
 function writingBadge(c){let x=hzStats()[c];return x&&x.mastered?'<small class="wbadge" title="Réussi sans aide">★</small>':x&&x.trained?'<small class="wbadge">✓</small>':''}
@@ -16,17 +16,17 @@ function hzDots(){let e=document.getElementById('stroke-dots');if(e)e.textConten
 function initWriting(){
  if(!hzAvailable()){initCanvas();return}
  let e=document.getElementById('hanzi-target');if(!e)return;
- try{hzWriter?.cancelQuiz()}catch(_){}
+ const session=++hzSession;try{hzWriter?.cancelQuiz()}catch(_){}
  hzFinished=false;hzDone=0;hzTotal=0;hzErrors=0;hzHints=0;
  let mode=writingTest?(writingReveal?'watch':'memory'):writeMode;
  let side=Math.max(200,Math.min(330,e.parentElement.clientWidth-18));e.style.width=e.style.height=side+'px';
- hzWriter=HanziWriter.create(e,drawChar,{width:side,height:side,padding:14,showOutline:mode!=='memory',showCharacter:mode==='watch',strokeColor:'#272722',outlineColor:'#d9cdb2',drawingColor:'#1d5149',highlightColor:'#2a6856',onLoadCharDataSuccess:d=>{hzTotal=d.strokes.length;hzDots()},onLoadCharDataError:()=>hzFeedback('Données de traits indisponibles : connecte-toi ou télécharge les caractères.')});
+ hzWriter=HanziWriter.create(e,drawChar,{width:side,height:side,padding:14,showOutline:mode!=='memory',showCharacter:mode==='watch',strokeColor:'#272722',outlineColor:'#d9cdb2',drawingColor:'#1d5149',highlightColor:'#2a6856',onLoadCharDataSuccess:d=>{if(session!==hzSession)return;hzTotal=d.strokes.length;hzDots()},onLoadCharDataError:()=>{if(session!==hzSession)return;hzFeedback('Données de traits indisponibles : connecte-toi ou télécharge les caractères.')} });
  if(mode==='watch'){hzWriter.animateCharacter({onComplete:()=>hzFeedback('Animation terminée. Passe en mode Guidé.')});return}
- hzWriter.quiz({leniency:1.2,showHintAfterMisses:mode==='trace'?2:3,onCorrectStroke:d=>{hzDone=d.strokeNum+1;hzDots()},onMistake:d=>{hzErrors=d.totalMistakes;hzFeedback('Réessaie le trait '+(d.strokeNum+1)+' · '+hzErrors+' erreur(s).')},onComplete:d=>hzComplete(d.totalMistakes)});
+ hzWriter.quiz({leniency:1.2,showHintAfterMisses:mode==='trace'?2:3,onCorrectStroke:d=>{if(session!==hzSession)return;hzDone=d.strokeNum+1;hzDots()},onMistake:d=>{if(session!==hzSession)return;hzErrors=d.totalMistakes;hzFeedback('Réessaie le trait '+(d.strokeNum+1)+' · '+hzErrors+' erreur(s).')},onComplete:d=>{if(session===hzSession)hzComplete(d.totalMistakes)}});
 }
 function writingHint(){if(!hzWriter||hzFinished)return;try{hzWriter.highlightStroke(hzDone);hzHints++;hzFeedback('Indice utilisé pour le trait '+(hzDone+1))}catch(_){}}
 function hzComplete(errors){
- if(hzFinished)return;hzFinished=true;let c=drawChar,n=(errors||0)+hzHints,s=hzStats()[c]||{trained:0,mastered:0};
+ if(hzFinished)return;hzFinished=true;let c=drawChar,n=(errors||0)+hzHints+(writingTest&&writingReveal?1:0),s=hzStats()[c]||{trained:0,mastered:0};
  s.trained++;if(n===0)s.mastered++;s.lastMistakes=n;hzStats()[c]=s;
  if(!state.chars.includes(c))state.chars.push(c);state.writingSessions++;save();
  if(writingTest)writingTestResults[writingTestIndex]={character:c,mastered:n===0,mistakes:n};
