@@ -1,8 +1,8 @@
 const VERSION='0.5.6';
-const NOTES='Épisode 2 : six nouvelles scènes sur la famille, 24 mots HSK 1, accès après le premier sceau.';
+const NOTES='Prologue : nouvelle planche BD illustrée, visible depuis Histoire et avant le premier épisode.';
 const CACHE='dragonjade-'+VERSION;
 const CORE=['./','./index.html','./style.css?v=0.5.6','./app.js?v=0.5.6','./hsk1-reference.js?v=0.5.6','./hsk1-plan.js?v=0.5.6','./episode2.js?v=0.5.6','./manifest.webmanifest'];
-const OPTIONAL=['./assets/dragon-icon.svg','./assets/cover.png','./assets/dialogue-v026.jpg','./assets/icon.png','./assets/icon512.png','./assets/place-v026.jpg','./assets/journal-v026.jpg','./assets/writing-v026.jpg','./assets/atlas-v026.jpg'];
+const OPTIONAL=['./assets/dragon-icon.svg','./assets/cover.png','./assets/dialogue-v026.jpg','./assets/prologue-dragon-de-jade.webp','./assets/icon.png','./assets/icon512.png','./assets/place-v026.jpg','./assets/journal-v026.jpg','./assets/writing-v026.jpg','./assets/atlas-v026.jpg'];
 self.addEventListener('install',event=>event.waitUntil((async()=>{
  const cache=await caches.open(CACHE);
  await Promise.all(CORE.map(async path=>{const response=await fetch(new Request(path,{cache:'reload'}));if(!response.ok)throw Error('Core asset '+path+' HTTP '+response.status);await cache.put(path,response)}));
