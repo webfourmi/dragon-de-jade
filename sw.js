@@ -1,7 +1,7 @@
-const VERSION='0.6.0';
-const NOTES='Atelier de calligraphie : traits validés, modes Voir/Guidé/Mémoire, tests notés et téléchargement hors ligne.';
+const VERSION='0.6.1';
+const NOTES='Correctifs calligraphie : tracés isolés entre caractères et notation juste après affichage du modèle.';
 const CACHE='dragonjade-'+VERSION;
-const CORE=['./','./index.html','./style.css?v=0.6.0','./app.js?v=0.6.0','./writing.js?v=0.6.0','./hsk1-reference.js?v=0.6.0','./hsk1-plan.js?v=0.6.0','./episode2.js?v=0.6.0','./manifest.webmanifest'];
+const CORE=['./','./index.html','./style.css?v=0.6.1','./app.js?v=0.6.1','./writing.js?v=0.6.1','./hsk1-reference.js?v=0.6.1','./hsk1-plan.js?v=0.6.1','./episode2.js?v=0.6.1','./manifest.webmanifest'];
 const OPTIONAL=['./assets/dragon-icon.svg','./assets/cover.png','./assets/dialogue-v026.jpg','./assets/prologue-dragon-de-jade.webp','./assets/heros.webp','./assets/mei.webp','./assets/maitre-chen.webp','./assets/long.webp','./assets/heros-garcon.webp','./assets/icon.png','./assets/icon512.png','./assets/place-v026.jpg','./assets/journal-v026.jpg','./assets/writing-v026.jpg','./assets/atlas-v026.jpg'];
 self.addEventListener('install',event=>event.waitUntil((async()=>{
  const cache=await caches.open(CACHE);
