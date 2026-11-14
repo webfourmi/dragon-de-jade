@@ -1,1 +1,1 @@
-{"version":"0.5.10","notes":"Portraits aquarellés des personnages dans les dialogues (après ajout des quatre images au dossier assets). En cas d'image manquante, l'icône précédente reste affichée."}
+{"version":"0.5.11","notes":"Fiche personnage : choix et sauvegarde du portrait fille ou garçon. L'avatar sélectionné est repris dans les dialogues. L'image heros-garcon.webp doit être ajoutée dans assets pour afficher le nouveau portrait."}
