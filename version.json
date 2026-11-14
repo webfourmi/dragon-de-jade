@@ -1,1 +1,1 @@
-{"version":"0.5.7","notes":"Correctif audio : boutons Écouter, Écouter un exemple et écoute individuelle des personnages. Moteur de synthèse vocale unifié avec langue mandarin zh-CN et gestion des voix Android."}
+{"version":"0.5.8","notes":"Correction de l'exercice de présentation : le prénom du héros n'est plus évalué comme un mot chinois. La formule 我叫 (wǒ jiào) est reconnue même si le prénom français est transcrit différemment par le microphone."}
