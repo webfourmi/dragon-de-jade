@@ -1,4 +1,4 @@
-const APP_VERSION='0.5.6';
+const APP_VERSION='0.5.7';
 const KEY='dragonjade-v02';const base={scene:0,xp:0,choice:{},completed:[],words:[],chars:[],discoveries:[],name:'Esmée',class:'Exploratrice',attempts:{},skipped:[],activity:{},speechSuccess:0,writingSessions:0,wordDates:{},reviewSelected:[],reviewSchedule:{},introSeen:false};let state;try{state={...base,...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch{state={...base}}state.attempts=state.attempts||{};state.skipped=state.skipped||[];state.activity=state.activity||{};state.speechSuccess=state.speechSuccess||0;state.writingSessions=state.writingSessions||0;state.wordDates=state.wordDates||{};state.reviewSelected=state.reviewSelected||[];state.reviewSchedule=state.reviewSchedule||{};let tab='aventure',speechText='',micStatus='',selected='',showPinyin=true,showTranslation=true,drawChar='你',guide=true,strokes=[],currentStroke=null,strokeStep=0,canvasMode='trace';
 const scenes=[
   {
@@ -223,25 +223,28 @@ const installed=window.matchMedia?.('(display-mode: standalone)').matches;
 const box=updateBox();
 box.innerHTML='<strong>Aide voix · V'+APP_VERSION+'</strong><p>Mode : '+(installed?'application installée':'navigateur')+'</p><p>Langues vocales proposées : '+esc(languages)+'</p><p>Mandarin détecté : '+(window.speechSynthesis&&mandarinVoice()?'oui':'non')+'</p><p>Reconnaissance vocale : '+((window.SpeechRecognition||window.webkitSpeechRecognition)?'présente':'absente')+'</p><p>Sur Android : Paramètres → recherche « Synthèse vocale » → moteur vocal → données vocales → chinois (mandarin). Les noms varient selon le téléphone. Ferme ensuite le jeu et rouvre-le.</p><p>Si le micro est actif sans transcription, vérifie Internet. En attendant, ouvre le jeu directement dans Chrome, où la voix fonctionne sur ton appareil.</p><button onclick="closeUpdate()">Fermer</button>';
 }
-function speak(s){
-const synth=window.speechSynthesis;
-if(!synth){audioMessage('La lecture vocale est indisponible dans ce navigateur.');return}
-const request=++audioRequest;clearTimeout(audioTimer);synth.cancel();
-function play(voice){
-if(request!==audioRequest)return;
-const u=new SpeechSynthesisUtterance(s);activeUtterance=u;u.lang=voice.lang;u.voice=voice;u.rate=.83;
-u.onstart=()=>{if(request===audioRequest){clearTimeout(audioTimer);audioMessage('Lecture en mandarin…')}};
-u.onend=()=>{if(request===audioRequest){clearTimeout(audioTimer);audioMessage('Écouter à nouveau pour répéter.');activeUtterance=null}};
-u.onerror=e=>{if(request===audioRequest){clearTimeout(audioTimer);audioMessage('Lecture impossible. Vérifie la voix mandarin et le volume, puis réessaie.');activeUtterance=null}};
-audioMessage('Préparation de la voix mandarin…');synth.resume();synth.speak(u);
-audioTimer=setTimeout(()=>{if(request===audioRequest)audioMessage('La voix ne démarre pas. Vérifie le volume et installe une voix chinois (mandarin) dans les réglages vocaux de ton appareil.');},8000);
-}
-const voice=mandarinVoice();if(voice){play(voice);return}
-audioMessage('Recherche d’une voix mandarin…');
-const loaded=()=>{if(request!==audioRequest){synth.removeEventListener('voiceschanged',loaded);return}const v=mandarinVoice();if(v){cleanup();play(v)}};
-function cleanup(){synth.removeEventListener('voiceschanged',loaded);clearTimeout(audioTimer)}
-synth.addEventListener('voiceschanged',loaded);
-audioTimer=setTimeout(()=>{cleanup();if(request===audioRequest)audioMessage('Aucune voix mandarin exposée par cette application. Touche « Aide voix » en haut pour voir les langues disponibles et les réglages Android.');},2000);
+function speak(s){playMandarinTurns([{speaker:'Vous',zh:String(s)}])}
+function playMandarinTurns(turns){
+ const synth=window.speechSynthesis;
+ if(!synth||!window.SpeechSynthesisUtterance){audioMessage('Synthèse vocale indisponible dans ce navigateur.');return}
+ const request=++audioRequest;clearTimeout(audioTimer);
+ try{synth.cancel()}catch(e){}
+ const styles={'Maître Chen':{rate:.82,pitch:.9},'Mei':{rate:.87,pitch:1.08},'Lóng':{rate:.9,pitch:1.12},'Vous':{rate:.85,pitch:1}};
+ let index=0,started=false;
+ function playNext(){
+  if(request!==audioRequest)return;
+  if(index>=turns.length){activeUtterance=null;clearTimeout(audioTimer);audioMessage('Écoute terminée.');return}
+  const turn=turns[index++],style=styles[turn.speaker]||styles['Vous'];
+  const u=new SpeechSynthesisUtterance(heroText(turn.zh));
+  const voice=mandarinVoice();u.lang='zh-CN';if(voice)u.voice=voice;
+  u.rate=style.rate;u.pitch=style.pitch;activeUtterance=u;
+  u.onstart=()=>{if(request===audioRequest){started=true;clearTimeout(audioTimer);audioMessage('🔊 '+turn.speaker+' · '+index+'/'+turns.length)}};
+  u.onend=()=>{if(request===audioRequest)playNext()};
+  u.onerror=e=>{if(request===audioRequest){clearTimeout(audioTimer);activeUtterance=null;audioMessage('Lecture impossible ('+(e.error||'erreur vocale')+'). Essaie dans Chrome ou ouvre Aide voix.')}};
+  try{synth.speak(u);synth.resume()}catch(e){audioMessage('Erreur de synthèse vocale : '+e.message);return}
+  audioTimer=setTimeout(()=>{if(request===audioRequest&&!started){audioMessage('La lecture tarde à démarrer. Vérifie la voix mandarin dans Aide voix.')}},7000);
+ }
+ audioMessage('Préparation de la lecture…');playNext();
 }
 let activeRecognition=null,answerFeedback='';
 function stopRecognition(){activeRecognition?.stop()}
@@ -281,22 +284,7 @@ function saveProfileName(){const v=document.getElementById('hero-name')?.value.t
 function header(){return `<header class="top"><div class="brand"><button class="avatar-trigger" onclick="openProfile()" aria-label="Ouvrir la fiche du personnage"><img class="brand-icon" src="assets/dragon-icon.svg" alt="Dragon de jade"></button><div><strong>Dragon de Jade</strong> <button class="intro-link" onclick="openIntro()" title="Relire le prologue">📜 Histoire</button><br><small>V${APP_VERSION} · ${esc(state.name)}, ${esc(state.class)}</small></div></div><div><span class="pill">${state.xp} XP</span><button onclick="checkUpdate()" style="display:block;margin-top:6px;padding:5px 9px;font-size:12px">Mises à jour</button><button onclick="voiceHelp()" style="display:block;margin-top:6px;padding:5px 9px;font-size:12px">Aide voix</button></div></header>`}function nav(){return `<nav class="nav">${[['aventure','📜','Aventure'],['carnet','📖','Carnet'],['calligraphie','🖌️','Écriture'],['atlas','🗺️','Atlas'],['campagne','🐉','Livres']].map(([id,icon,name])=>`<button class="${tab===id?'active':''}" onclick="switchTab('${id}')"><span style="font-size:21px">${icon}</span>${name}</button>`).join('')}</nav>`}
 function speakScene(example=false){const i=Math.min(state.scene,scenes.length-1);if(example){speak(heroText(scenes[i].options[0][0]));return}playSceneDialogue(sceneTurns(i,scenes[i]))}
 function speakSceneTurn(j){const i=Math.min(state.scene,scenes.length-1),t=sceneTurns(i,scenes[i])[j];if(t)playSceneDialogue([t])}
-function playSceneDialogue(turns){
-const synth=window.speechSynthesis;if(!synth){audioMessage('Lecture vocale indisponible.');return}
-const voice=mandarinVoice();if(!voice){audioMessage('Aucune voix mandarin disponible. Consulte Aide voix.');return}
-const request=++audioRequest;clearTimeout(audioTimer);synth.cancel();
-const styles={'Maître Chen':{rate:.76,pitch:.8},'Mei':{rate:.87,pitch:1.2},'Lóng':{rate:.92,pitch:1.4},'Vous':{rate:.83,pitch:1}};
-let n=0;
-function next(){if(request!==audioRequest)return;if(n>=turns.length){activeUtterance=null;audioMessage('Dialogue terminé. Tu peux réécouter une réplique.');return}
-const t=turns[n++],u=new SpeechSynthesisUtterance(heroText(t.zh)),style=styles[t.speaker]||styles['Vous'];
-u.lang=voice.lang;u.voice=voice;u.rate=style.rate;u.pitch=style.pitch;activeUtterance=u;
-u.onstart=()=>{if(request===audioRequest)audioMessage('🎧 '+t.speaker+' · réplique '+n+'/'+turns.length)};
-u.onend=()=>{if(request===audioRequest)next()};
-u.onerror=()=>{if(request===audioRequest){activeUtterance=null;audioMessage('Lecture interrompue. Vérifie la voix mandarin.')}};
-synth.resume();synth.speak(u)}
-audioMessage('Préparation du dialogue…');next()
-}
-
+function playSceneDialogue(turns){playMandarinTurns(turns)}
 function heroText(value){return String(value).replace(/Esmée|Esmee|Edmee|Edmée/gi,()=>state.name)}
 function heroAnswer(value){return heroText(value)}
 function spokenNameMatch(value){const t=normalize(value),n=normalize(state.name);return ['我叫','我是','我的名字叫','我名字叫'].some(prefix=>t===normalize(prefix+state.name)||t===normalize(prefix+state.name.replace(/é/g,'e')))||t.includes(n)&&t.startsWith('我')}
