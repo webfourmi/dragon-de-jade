@@ -1,0 +1,271 @@
+{
+  "scope": "48 mots du carnet, épisodes 1 et 2 ; 4 aquarelles de V0.6.2 conservées, 44 nouvelles",
+  "tool": "Génération d’images intégrée",
+  "commonPrompt": "Use case: illustration-story. Create ONE square watercolor vocabulary vignette for a Mandarin learning notebook. Delicate hand-painted watercolor on warm ivory paper, airy edges fading into empty ivory, jade and coral palette, spare composition readable at 96px. Only show subjects explicitly requested in the scene, no extra people, portraits, ghost figures, decorative faces or dragons. When present, Mei has dark messy bun, red ribbons and red cloak; elderly Master Chen has white bun and beard and gold ochre robe; Long is a green Chinese dragon with gold horns and mane. Reference images define appearances only, do not reproduce unrequested characters. Never show the customizable player hero. Absolutely no text, letters, Chinese characters, numbers, labels, punctuation, speech bubbles, borders or watermark. The scene is a memory cue for a word, not a comic panel or character etymology. Scene: ",
+  "entries": [
+    {
+      "word": "我",
+      "file": "assets/vocabulary/wo-v1.jpg",
+      "alt": "Mei pose la main sur sa poitrine.",
+      "scene": "Mei alone points gently to her own chest: I, me."
+    },
+    {
+      "word": "叫",
+      "file": "assets/vocabulary/jiao-v1.jpg",
+      "alt": "Mei se présente à Maître Chen.",
+      "scene": "Mei introduces herself to Master Chen, hand on her chest, speaking with a friendly expression."
+    },
+    {
+      "word": "名字",
+      "file": "assets/vocabulary/mingzi-v1.jpg",
+      "alt": "Chen présente une étiquette vierge attachée à une sacoche.",
+      "scene": "Master Chen holds out a beautiful blank name tag tied to a travel satchel, a visual memory cue for a name; absolutely no writing."
+    },
+    {
+      "word": "什么",
+      "file": "assets/vocabulary/shenme-v1.jpg",
+      "alt": "Mei s’interroge devant deux objets.",
+      "scene": "Mei looks puzzled at two different small objects on a table, one open palm and a questioning expression: what?"
+    },
+    {
+      "word": "谁",
+      "file": "assets/vocabulary/shei-v1.jpg",
+      "alt": "Mei aperçoit Chen derrière un paravent.",
+      "scene": "Mei looks curiously toward a partly open screen where Master Chen's recognizable face appears: who?"
+    },
+    {
+      "word": "是",
+      "file": "assets/vocabulary/shi-v1.jpg",
+      "alt": "Chen confirme en désignant Lóng.",
+      "scene": "Master Chen nods in confirmation while pointing to the clearly recognizable jade dragon Long: yes, it is."
+    },
+    {
+      "word": "人",
+      "file": "assets/vocabulary/ren-clear-v1.jpg",
+      "alt": "Une personne debout, seule.",
+      "scene": "ONE ordinary adult Chinese person in simple neutral traditional clothes, full figure, standing calmly, centered. This image contains exactly one human figure and nothing else except a soft small ground wash. No Mei, no Chen, no dragon, no faces in background."
+    },
+    {
+      "word": "先生",
+      "file": "assets/vocabulary/xiansheng-clear-v1.jpg",
+      "alt": "Maître Chen dans sa tenue traditionnelle.",
+      "scene": "Master Chen ALONE stands with dignified friendly posture in his gold ochre robe: gentleman, sir. Exactly one person, no Mei, no dragon, no other figures, no decorative portraits."
+    },
+    {
+      "word": "对不起",
+      "file": "assets/vocabulary/duibuqi-v1.jpg",
+      "alt": "Mei s’excuse après avoir renversé du thé.",
+      "scene": "Mei looks apologetic with hand on chest beside a teacup she accidentally tipped over, small spill only; Chen listens kindly."
+    },
+    {
+      "word": "没关系",
+      "file": "assets/vocabulary/mei-guanxi-v1.jpg",
+      "alt": "Chen rassure Mei près de la tasse renversée.",
+      "scene": "Master Chen reassures embarrassed Mei beside a tipped teacup, smiling and gently raising a calming open hand: it is all right."
+    },
+    {
+      "word": "请",
+      "file": "assets/vocabulary/qing-v1.jpg",
+      "alt": "Chen invite Mei à entrer.",
+      "scene": "Master Chen graciously invites Mei through the antique shop doorway with an open palm."
+    },
+    {
+      "word": "请问",
+      "file": "assets/vocabulary/qingwen-v1.jpg",
+      "alt": "Mei pose poliment une question à Chen.",
+      "scene": "Mei politely gets Master Chen's attention at his desk, one hand gently raised, an enquiring expression."
+    },
+    {
+      "word": "大家",
+      "file": "assets/vocabulary/dajia-v1.jpg",
+      "alt": "Un groupe se rassemble autour de Mei et Chen.",
+      "scene": "Mei, Chen, Long and three ordinary adult townspeople together in a friendly welcoming semicircle: everyone."
+    },
+    {
+      "word": "这",
+      "file": "assets/vocabulary/zhe-v1.jpg",
+      "alt": "Mei désigne la tasse près d’elle.",
+      "scene": "Close view of Mei pointing clearly to a teacup immediately next to her, near foreground: this."
+    },
+    {
+      "word": "谢谢",
+      "file": "assets/vocabulary/xiexie-v1.jpg",
+      "alt": "Mei remercie Chen pour un cadeau.",
+      "scene": "Mei receives a small gift wrapped in plain cloth from Chen, hand on chest and grateful smile: thank you."
+    },
+    {
+      "word": "再见",
+      "file": "assets/vocabulary/zaijian-v1.jpg",
+      "alt": "Mei et Chen se disent au revoir.",
+      "scene": "Mei walks away from the shop and turns to wave goodbye to Chen, who waves back."
+    },
+    {
+      "word": "不客气",
+      "file": "assets/vocabulary/bu-keqi-v1.jpg",
+      "alt": "Chen répond avec un geste accueillant.",
+      "scene": "Chen responds warmly to grateful Mei with a modest open-hand gesture and smile: you are welcome."
+    },
+    {
+      "word": "认识",
+      "file": "assets/vocabulary/renshi-v1.jpg",
+      "alt": "Chen présente Mei à Lóng.",
+      "scene": "Master Chen introduces Mei to the friendly jade dragon Long, all three exchange welcoming looks."
+    },
+    {
+      "word": "吗",
+      "file": "assets/vocabulary/ma-v1.jpg",
+      "alt": "Mei interroge Chen en lui proposant du thé.",
+      "scene": "Mei asks Chen a yes-or-no question, offering him a teacup with an enquiring tilt of her head; Chen considers. No punctuation or question mark."
+    },
+    {
+      "word": "女士",
+      "file": "assets/vocabulary/nvshi-v1.jpg",
+      "alt": "Une dame en tenue traditionnelle.",
+      "scene": "A dignified adult Chinese woman in a simple elegant plum-colored traditional robe, a friendly poised portrait: madam, lady. Not the player hero."
+    },
+    {
+      "word": "爸爸",
+      "file": "assets/vocabulary/baba-v1.jpg",
+      "alt": "Un père serre sa fille dans ses bras.",
+      "scene": "An ordinary kind middle-aged Chinese father in a blue traditional jacket hugs his little daughter. Father is the clear main subject."
+    },
+    {
+      "word": "妈妈",
+      "file": "assets/vocabulary/mama-v1.jpg",
+      "alt": "Une mère serre son fils dans ses bras.",
+      "scene": "An ordinary kind middle-aged Chinese mother in a muted plum traditional blouse hugs her little son. Mother is the clear main subject."
+    },
+    {
+      "word": "哥哥",
+      "file": "assets/vocabulary/gege-v1.jpg",
+      "alt": "Un grand frère accompagne son petit frère.",
+      "scene": "Two Chinese brothers together, an older teenage brother in blue taller than his small younger brother in beige; older brother gently guides him, older brother is emphasized."
+    },
+    {
+      "word": "弟弟",
+      "file": "assets/vocabulary/didi-v1.jpg",
+      "alt": "Un petit frère sourit auprès de son aîné.",
+      "scene": "Two Chinese brothers together, teenage brother in blue and small younger brother in beige; the little younger brother is centered and emphasized, older brother at side."
+    },
+    {
+      "word": "姐姐",
+      "file": "assets/vocabulary/jiejie-v1.jpg",
+      "alt": "Une grande sœur accompagne sa petite sœur.",
+      "scene": "Two Chinese sisters together, older teenage sister in plum taller than her small younger sister in pale coral; older sister gently guides her, older sister emphasized."
+    },
+    {
+      "word": "妹妹",
+      "file": "assets/vocabulary/meimei-v1.jpg",
+      "alt": "Une petite sœur sourit auprès de son aînée.",
+      "scene": "Two Chinese sisters together, older teenage sister in plum and small younger sister in pale coral; the little younger sister centered and emphasized, older sister at side."
+    },
+    {
+      "word": "儿子",
+      "file": "assets/vocabulary/erzi-v1.jpg",
+      "alt": "Un fils entouré de ses parents.",
+      "scene": "An ordinary middle-aged Chinese mother in plum and father in blue smile lovingly at their young son in beige, son centered and emphasized: son."
+    },
+    {
+      "word": "女儿",
+      "file": "assets/vocabulary/nver-v1.jpg",
+      "alt": "Une fille entourée de ses parents.",
+      "scene": "An ordinary middle-aged Chinese mother in plum and father in blue smile lovingly at their young daughter in pale coral, daughter centered and emphasized: daughter."
+    },
+    {
+      "word": "家",
+      "file": "assets/vocabulary/jia-v1.jpg",
+      "alt": "Une maison à cour intérieure.",
+      "scene": "A cozy modest traditional Chinese courtyard home with warm light in the doorway and a small potted plant, no people necessary: home."
+    },
+    {
+      "word": "家人",
+      "file": "assets/vocabulary/jiaren-v1.jpg",
+      "alt": "Une famille réunie devant sa maison.",
+      "scene": "A loving ordinary Chinese family outside a modest courtyard home: father in blue, mother in plum, son in beige, daughter in pale coral, all grouped warmly."
+    },
+    {
+      "word": "孩子",
+      "file": "assets/vocabulary/haizi-v1.jpg",
+      "alt": "Un enfant observe un papillon.",
+      "scene": "A cheerful ordinary Chinese child in beige traditional clothes crouches to observe a butterfly: child."
+    },
+    {
+      "word": "朋友",
+      "file": "assets/vocabulary/pengyou-v1.jpg",
+      "alt": "Mei partage des fruits avec un ami.",
+      "scene": "Mei and an ordinary young adult Chinese friend in a muted blue robe sit side by side sharing fruit with easy friendly smiles; platonic friendship."
+    },
+    {
+      "word": "男",
+      "file": "assets/vocabulary/nan-v1.jpg",
+      "alt": "Un homme en veste bleue.",
+      "scene": "A single ordinary adult Chinese man in a simple muted blue traditional jacket, waist-up friendly portrait: male, man."
+    },
+    {
+      "word": "女",
+      "file": "assets/vocabulary/nv-v1.jpg",
+      "alt": "Une femme en tenue prune.",
+      "scene": "A single ordinary adult Chinese woman in a simple muted plum traditional blouse, waist-up friendly portrait: female, woman."
+    },
+    {
+      "word": "男朋友",
+      "file": "assets/vocabulary/nan-pengyou-v1.jpg",
+      "alt": "Un jeune homme avec sa compagne.",
+      "scene": "An ordinary young adult Chinese couple holding hands, boyfriend in blue centered and emphasized, girlfriend in plum slightly at side, gentle affectionate gaze; both adults."
+    },
+    {
+      "word": "女朋友",
+      "file": "assets/vocabulary/nv-pengyou-v1.jpg",
+      "alt": "Une jeune femme avec son compagnon.",
+      "scene": "An ordinary young adult Chinese couple holding hands, girlfriend in plum centered and emphasized, boyfriend in blue slightly at side, gentle affectionate gaze; both adults."
+    },
+    {
+      "word": "他",
+      "file": "assets/vocabulary/ta-male-v1.jpg",
+      "alt": "Mei désigne Chen.",
+      "scene": "Mei in partial foreground points with an open hand toward Master Chen at a little distance; Chen is clear main focus: he, him."
+    },
+    {
+      "word": "她",
+      "file": "assets/vocabulary/ta-female-v1.jpg",
+      "alt": "Chen désigne Mei.",
+      "scene": "Master Chen in partial foreground gestures with an open hand toward Mei at a little distance; Mei is clear main focus: she, her."
+    },
+    {
+      "word": "他们",
+      "file": "assets/vocabulary/tamen-mixed-v1.jpg",
+      "alt": "Mei désigne un groupe mixte.",
+      "scene": "Mei in partial foreground gestures toward a small group of three ordinary Chinese adults including men and women, clearly separate from herself: they, mixed group."
+    },
+    {
+      "word": "她们",
+      "file": "assets/vocabulary/tamen-female-v1.jpg",
+      "alt": "Chen désigne un groupe de femmes.",
+      "scene": "Master Chen in partial foreground gestures toward a small group of three ordinary adult Chinese women, clearly separate from himself: they, women."
+    },
+    {
+      "word": "我们",
+      "file": "assets/vocabulary/women-v1.jpg",
+      "alt": "Mei, Chen et Lóng réunis.",
+      "scene": "Mei stands together with Chen and Long, one hand toward her own chest and other arm including her companions: we, us."
+    },
+    {
+      "word": "你们",
+      "file": "assets/vocabulary/nimen-v1.jpg",
+      "alt": "Chen s’adresse à plusieurs personnes.",
+      "scene": "Master Chen faces a small group of three ordinary Chinese adults, extending both open hands toward the whole group as he addresses them: you plural."
+    },
+    {
+      "word": "们",
+      "file": "assets/vocabulary/men-v1.jpg",
+      "alt": "Un groupe de personnes, signe du pluriel.",
+      "scene": "A small group of three ordinary Chinese people stands close together, contrasted with a single faint person silhouette to one side, grouping as a visual memory cue for plural suffix. No arrows or symbols."
+    },
+    {
+      "word": "岁",
+      "file": "assets/vocabulary/sui-v1.jpg",
+      "alt": "Un enfant fête son anniversaire avec ses parents.",
+      "scene": "An ordinary Chinese child celebrates a birthday with a small steamed birthday peach bun and a single candle, parents behind smiling. A memory cue for age in years. No digits or writing."
+    }
+  ]
+}

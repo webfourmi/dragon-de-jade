@@ -1,4 +1,4 @@
-const APP_VERSION='0.6.2';
+const APP_VERSION='0.6.3';
 const KEY='dragonjade-v02';const base={scene:0,xp:0,choice:{},completed:[],words:[],chars:[],discoveries:[],name:'Esmée',class:'Exploratrice',attempts:{},skipped:[],activity:{},speechSuccess:0,writingSessions:0,wordDates:{},reviewSelected:[],reviewSchedule:{},introSeen:false,heroPortrait:'heros'};let state;try{state={...base,...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch{state={...base}}state.attempts=state.attempts||{};state.skipped=state.skipped||[];state.activity=state.activity||{};state.speechSuccess=state.speechSuccess||0;state.writingSessions=state.writingSessions||0;state.wordDates=state.wordDates||{};state.reviewSelected=state.reviewSelected||[];state.reviewSchedule=state.reviewSchedule||{};state.heroPortrait=['heros','heros-garcon'].includes(state.heroPortrait)?state.heroPortrait:'heros';let tab='aventure',speechText='',micStatus='',selected='',showPinyin=true,showTranslation=true,drawChar='你',guide=true,strokes=[],currentStroke=null,strokeStep=0,canvasMode='trace';
 const scenes=[
   {
@@ -410,7 +410,51 @@ const VOCAB_WATERCOLORS={
  '你好':{src:'assets/vocabulary/ni-hao-v1.jpg',alt:'Mei et Maître Chen se saluent devant la boutique.'},
  '你':{src:'assets/vocabulary/ni-v1.jpg',alt:'Mei tend une main ouverte vers son interlocuteur.'},
  '好':{src:'assets/vocabulary/hao-v1.jpg',alt:'Mei approuve avec un sourire, auprès de Lóng.'},
- '您':{src:'assets/vocabulary/nin-v1.jpg',alt:'Mei salue respectueusement Maître Chen.'}
+ '您':{src:'assets/vocabulary/nin-v1.jpg',alt:'Mei salue respectueusement Maître Chen.'},
+ "我":{"src":"assets/vocabulary/wo-v1.jpg","alt":"Mei pose la main sur sa poitrine."},
+ "叫":{"src":"assets/vocabulary/jiao-v1.jpg","alt":"Mei se présente à Maître Chen."},
+ "名字":{"src":"assets/vocabulary/mingzi-v1.jpg","alt":"Chen présente une étiquette vierge attachée à une sacoche."},
+ "什么":{"src":"assets/vocabulary/shenme-v1.jpg","alt":"Mei s’interroge devant deux objets."},
+ "谁":{"src":"assets/vocabulary/shei-v1.jpg","alt":"Mei aperçoit Chen derrière un paravent."},
+ "是":{"src":"assets/vocabulary/shi-v1.jpg","alt":"Chen confirme en désignant Lóng."},
+ "人":{"src":"assets/vocabulary/ren-clear-v1.jpg","alt":"Une personne debout, seule."},
+ "先生":{"src":"assets/vocabulary/xiansheng-clear-v1.jpg","alt":"Maître Chen dans sa tenue traditionnelle."},
+ "对不起":{"src":"assets/vocabulary/duibuqi-v1.jpg","alt":"Mei s’excuse après avoir renversé du thé."},
+ "没关系":{"src":"assets/vocabulary/mei-guanxi-v1.jpg","alt":"Chen rassure Mei près de la tasse renversée."},
+ "请":{"src":"assets/vocabulary/qing-v1.jpg","alt":"Chen invite Mei à entrer."},
+ "请问":{"src":"assets/vocabulary/qingwen-v1.jpg","alt":"Mei pose poliment une question à Chen."},
+ "大家":{"src":"assets/vocabulary/dajia-v1.jpg","alt":"Un groupe se rassemble autour de Mei et Chen."},
+ "这":{"src":"assets/vocabulary/zhe-v1.jpg","alt":"Mei désigne la tasse près d’elle."},
+ "谢谢":{"src":"assets/vocabulary/xiexie-v1.jpg","alt":"Mei remercie Chen pour un cadeau."},
+ "再见":{"src":"assets/vocabulary/zaijian-v1.jpg","alt":"Mei et Chen se disent au revoir."},
+ "不客气":{"src":"assets/vocabulary/bu-keqi-v1.jpg","alt":"Chen répond avec un geste accueillant."},
+ "认识":{"src":"assets/vocabulary/renshi-v1.jpg","alt":"Chen présente Mei à Lóng."},
+ "吗":{"src":"assets/vocabulary/ma-v1.jpg","alt":"Mei interroge Chen en lui proposant du thé."},
+ "女士":{"src":"assets/vocabulary/nvshi-v1.jpg","alt":"Une dame en tenue traditionnelle."},
+ "爸爸":{"src":"assets/vocabulary/baba-v1.jpg","alt":"Un père serre sa fille dans ses bras."},
+ "妈妈":{"src":"assets/vocabulary/mama-v1.jpg","alt":"Une mère serre son fils dans ses bras."},
+ "哥哥":{"src":"assets/vocabulary/gege-v1.jpg","alt":"Un grand frère accompagne son petit frère."},
+ "弟弟":{"src":"assets/vocabulary/didi-v1.jpg","alt":"Un petit frère sourit auprès de son aîné."},
+ "姐姐":{"src":"assets/vocabulary/jiejie-v1.jpg","alt":"Une grande sœur accompagne sa petite sœur."},
+ "妹妹":{"src":"assets/vocabulary/meimei-v1.jpg","alt":"Une petite sœur sourit auprès de son aînée."},
+ "儿子":{"src":"assets/vocabulary/erzi-v1.jpg","alt":"Un fils entouré de ses parents."},
+ "女儿":{"src":"assets/vocabulary/nver-v1.jpg","alt":"Une fille entourée de ses parents."},
+ "家":{"src":"assets/vocabulary/jia-v1.jpg","alt":"Une maison à cour intérieure."},
+ "家人":{"src":"assets/vocabulary/jiaren-v1.jpg","alt":"Une famille réunie devant sa maison."},
+ "孩子":{"src":"assets/vocabulary/haizi-v1.jpg","alt":"Un enfant observe un papillon."},
+ "朋友":{"src":"assets/vocabulary/pengyou-v1.jpg","alt":"Mei partage des fruits avec un ami."},
+ "男":{"src":"assets/vocabulary/nan-v1.jpg","alt":"Un homme en veste bleue."},
+ "女":{"src":"assets/vocabulary/nv-v1.jpg","alt":"Une femme en tenue prune."},
+ "男朋友":{"src":"assets/vocabulary/nan-pengyou-v1.jpg","alt":"Un jeune homme avec sa compagne."},
+ "女朋友":{"src":"assets/vocabulary/nv-pengyou-v1.jpg","alt":"Une jeune femme avec son compagnon."},
+ "他":{"src":"assets/vocabulary/ta-male-v1.jpg","alt":"Mei désigne Chen."},
+ "她":{"src":"assets/vocabulary/ta-female-v1.jpg","alt":"Chen désigne Mei."},
+ "他们":{"src":"assets/vocabulary/tamen-mixed-v1.jpg","alt":"Mei désigne un groupe mixte."},
+ "她们":{"src":"assets/vocabulary/tamen-female-v1.jpg","alt":"Chen désigne un groupe de femmes."},
+ "我们":{"src":"assets/vocabulary/women-v1.jpg","alt":"Mei, Chen et Lóng réunis."},
+ "你们":{"src":"assets/vocabulary/nimen-v1.jpg","alt":"Chen s’adresse à plusieurs personnes."},
+ "们":{"src":"assets/vocabulary/men-v1.jpg","alt":"Un groupe de personnes, signe du pluriel."},
+ "岁":{"src":"assets/vocabulary/sui-v1.jpg","alt":"Un enfant fête son anniversaire avec ses parents."}
 };
 function vocabIllustration(v){
  const art=VOCAB_WATERCOLORS[v[0]];
