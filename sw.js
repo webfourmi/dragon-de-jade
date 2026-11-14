@@ -1,7 +1,7 @@
-const VERSION='0.5.12';
-const NOTES='Rejouer un épisode : icône discrète. Carnet : petits pictogrammes de vocabulaire.';
+const VERSION='0.6.0';
+const NOTES='Atelier de calligraphie : traits validés, modes Voir/Guidé/Mémoire, tests notés et téléchargement hors ligne.';
 const CACHE='dragonjade-'+VERSION;
-const CORE=['./','./index.html','./style.css?v=0.5.12','./app.js?v=0.5.12','./hsk1-reference.js?v=0.5.12','./hsk1-plan.js?v=0.5.12','./episode2.js?v=0.5.12','./manifest.webmanifest'];
+const CORE=['./','./index.html','./style.css?v=0.6.0','./app.js?v=0.6.0','./writing.js?v=0.6.0','./hsk1-reference.js?v=0.6.0','./hsk1-plan.js?v=0.6.0','./episode2.js?v=0.6.0','./manifest.webmanifest'];
 const OPTIONAL=['./assets/dragon-icon.svg','./assets/cover.png','./assets/dialogue-v026.jpg','./assets/prologue-dragon-de-jade.webp','./assets/heros.webp','./assets/mei.webp','./assets/maitre-chen.webp','./assets/long.webp','./assets/heros-garcon.webp','./assets/icon.png','./assets/icon512.png','./assets/place-v026.jpg','./assets/journal-v026.jpg','./assets/writing-v026.jpg','./assets/atlas-v026.jpg'];
 self.addEventListener('install',event=>event.waitUntil((async()=>{
  const cache=await caches.open(CACHE);
@@ -17,7 +17,12 @@ self.addEventListener('message',event=>{
  if(event.data?.type==='SKIP_WAITING')self.skipWaiting();
 });
 self.addEventListener('fetch',event=>{
- const req=event.request;if(req.method!=='GET'||new URL(req.url).origin!==self.location.origin)return;
+ const req=event.request;if(req.method!=='GET')return;
+ const remote=new URL(req.url);
+ if(remote.origin!==self.location.origin){
+  if(remote.hostname!=='cdn.jsdelivr.net'||!(/^\/npm\/(hanzi-writer@3\\.7\\.2\/dist\/hanzi-writer\\.min\\.js|hanzi-writer-data@2\\.0\\.1\/.+\\.json)$/.test(remote.pathname)))return;
+  event.respondWith((async()=>{const cache=await caches.open(CACHE);const saved=await cache.match(req);if(saved)return saved;try{const response=await fetch(req);if(response.ok)await cache.put(req,response.clone());return response}catch{return Response.error()}})());return;
+ }
  const url=new URL(req.url);
  if(url.pathname.endsWith('/version.json')||url.pathname.endsWith('/sw.js')){event.respondWith(fetch(req,{cache:'no-store'}));return}
  if(req.mode==='navigate'){
