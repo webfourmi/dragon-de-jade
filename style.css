@@ -132,3 +132,6 @@
 /* Portraits aquarellés : image ronde dans les dialogues */
 .character-portrait .portrait-watercolor{display:block;width:100%;max-width:116px;aspect-ratio:1;object-fit:cover;border-radius:50%;border:2px solid #bd9b64;box-shadow:0 3px 9px #49372230;margin:auto}
 .character-portrait .portrait-fallback{font-size:3rem}
+
+/* v0.5.11 : sélection du portrait du personnage */
+.hero-avatar-choices{margin:8px 0 12px}.hero-avatar-choices strong{display:block;font-size:.9rem;margin-bottom:6px}.hero-avatar-options{display:flex;gap:10px;flex-wrap:wrap}.hero-avatar-options button{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:85px;padding:6px;border:2px solid #c9b18a;border-radius:12px;background:#fff9ec;color:#513a2c}.hero-avatar-options button.active{border-color:#a02d46;box-shadow:0 0 0 2px #a02d4626}.hero-avatar-options img{width:64px;height:64px;border-radius:50%;object-fit:cover}.hero-profile-portrait{background-size:cover;background-position:center}
