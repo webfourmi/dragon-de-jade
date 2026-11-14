@@ -1,1 +1,1 @@
-{"version":"0.5.6","notes":"La planche BD illustrée du prologue est intégrée à la page Histoire, avant le premier épisode. Affichage adapté au mobile, texte narratif conservé et accès permanent par le bouton Histoire."}
+{"version":"0.5.7","notes":"Correctif audio : boutons Écouter, Écouter un exemple et écoute individuelle des personnages. Moteur de synthèse vocale unifié avec langue mandarin zh-CN et gestion des voix Android."}
