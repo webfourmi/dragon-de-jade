@@ -1,4 +1,4 @@
-const APP_VERSION='0.5.7';
+const APP_VERSION='0.5.8';
 const KEY='dragonjade-v02';const base={scene:0,xp:0,choice:{},completed:[],words:[],chars:[],discoveries:[],name:'Esmée',class:'Exploratrice',attempts:{},skipped:[],activity:{},speechSuccess:0,writingSessions:0,wordDates:{},reviewSelected:[],reviewSchedule:{},introSeen:false};let state;try{state={...base,...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch{state={...base}}state.attempts=state.attempts||{};state.skipped=state.skipped||[];state.activity=state.activity||{};state.speechSuccess=state.speechSuccess||0;state.writingSessions=state.writingSessions||0;state.wordDates=state.wordDates||{};state.reviewSelected=state.reviewSelected||[];state.reviewSchedule=state.reviewSchedule||{};let tab='aventure',speechText='',micStatus='',selected='',showPinyin=true,showTranslation=true,drawChar='你',guide=true,strokes=[],currentStroke=null,strokeStep=0,canvasMode='trace';
 const scenes=[
   {
@@ -287,7 +287,18 @@ function speakSceneTurn(j){const i=Math.min(state.scene,scenes.length-1),t=scene
 function playSceneDialogue(turns){playMandarinTurns(turns)}
 function heroText(value){return String(value).replace(/Esmée|Esmee|Edmee|Edmée/gi,()=>state.name)}
 function heroAnswer(value){return heroText(value)}
-function spokenNameMatch(value){const t=normalize(value),n=normalize(state.name);return ['我叫','我是','我的名字叫','我名字叫'].some(prefix=>t===normalize(prefix+state.name)||t===normalize(prefix+state.name.replace(/é/g,'e')))||t.includes(n)&&t.startsWith('我')}
+function spokenNameMatch(value){
+ const t=normalize(value),name=normalize(state.name);
+ // The hero's personal name is not a Mandarin vocabulary item.
+ // Accept a correctly spoken self-introduction even if Chinese ASR
+ // transliterates the French name into Hanzi or leaves it out.
+ return ['我叫','我是','我的名字叫','我名字叫'].some(prefix=>{
+  const p=normalize(prefix);
+  if(!t.startsWith(p))return false;
+  const rest=t.slice(p.length);
+  return rest===''||rest===name||rest.length>0;
+ });
+}
 function replayEpisode(ep){const first=(ep-1)*6,last=Math.min(first+6,scenes.length);if(first>=scenes.length)return;if(!confirm('Rejouer cet épisode ? Le carnet et les révisions seront conservés. Aucun XP en double.'))return;state.replayRewards=state.replayRewards||[];for(let i=first;i<last;i++)if(state.completed.includes(i))state.replayRewards.push(i);state.replayRewards=[...new Set(state.replayRewards)];state.completed=state.completed.filter(i=>i<first||i>=last);state.skipped=state.skipped.filter(i=>i<first||i>=last);for(let i=first;i<last;i++)delete state.attempts[i];state.scene=first;if(ep===2)state.episode2Started=true;selected='';speechText='';answerFeedback='';introOverride=false;state.introSeen=true;tab='aventure';save();render()}
 function restartEpisodeOne(){replayEpisode(1)}
 function episodeReplayMenu(){return '<div class="paper"><h3>↻ Rejouer un épisode</h3><p>Les mots appris et les résultats des tests sont conservés.</p><div class="controls">'+[1,2].filter(ep=>ep===1||state.scene>=6||state.episode2Started).map(ep=>'<button onclick="replayEpisode('+ep+')">Épisode '+ep+'</button>').join('')+'</div></div>'}
