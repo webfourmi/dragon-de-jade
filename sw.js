@@ -20,7 +20,7 @@ self.addEventListener('fetch',event=>{
  const req=event.request;if(req.method!=='GET')return;
  const remote=new URL(req.url);
  if(remote.origin!==self.location.origin){
-  if(remote.hostname!=='cdn.jsdelivr.net'||!(/^\/npm\/(hanzi-writer@3\\.7\\.2\/dist\/hanzi-writer\\.min\\.js|hanzi-writer-data@2\\.0\\.1\/.+\\.json)$/.test(remote.pathname)))return;
+  if(remote.hostname!=='cdn.jsdelivr.net'||!(/^\/npm\/(hanzi-writer@3\.7\.2\/dist\/hanzi-writer\.min\.js|hanzi-writer-data@2\.0\.1\/.+\.json)$/.test(remote.pathname)))return;
   event.respondWith((async()=>{const cache=await caches.open(CACHE);const saved=await cache.match(req);if(saved)return saved;try{const response=await fetch(req);if(response.ok)await cache.put(req,response.clone());return response}catch{return Response.error()}})());return;
  }
  const url=new URL(req.url);
