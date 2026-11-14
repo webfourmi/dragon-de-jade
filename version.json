@@ -1,1 +1,1 @@
-{"version":"0.5.9","notes":"Reconnaissance vocale pédagogique : la phrase transcrite en mandarin est suivie de sa traduction française lorsqu'elle correspond au vocabulaire ou aux dialogues du jeu. La présentation avec le prénom du héros est également prise en charge."}
+{"version":"0.5.10","notes":"Portraits aquarellés des personnages dans les dialogues (après ajout des quatre images au dossier assets). En cas d'image manquante, l'icône précédente reste affichée."}
