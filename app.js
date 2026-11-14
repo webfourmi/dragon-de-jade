@@ -1,4 +1,4 @@
-const APP_VERSION='0.5.8';
+const APP_VERSION='0.5.9';
 const KEY='dragonjade-v02';const base={scene:0,xp:0,choice:{},completed:[],words:[],chars:[],discoveries:[],name:'Esmée',class:'Exploratrice',attempts:{},skipped:[],activity:{},speechSuccess:0,writingSessions:0,wordDates:{},reviewSelected:[],reviewSchedule:{},introSeen:false};let state;try{state={...base,...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch{state={...base}}state.attempts=state.attempts||{};state.skipped=state.skipped||[];state.activity=state.activity||{};state.speechSuccess=state.speechSuccess||0;state.writingSessions=state.writingSessions||0;state.wordDates=state.wordDates||{};state.reviewSelected=state.reviewSelected||[];state.reviewSchedule=state.reviewSchedule||{};let tab='aventure',speechText='',micStatus='',selected='',showPinyin=true,showTranslation=true,drawChar='你',guide=true,strokes=[],currentStroke=null,strokeStep=0,canvasMode='trace';
 const scenes=[
   {
@@ -248,6 +248,18 @@ function playMandarinTurns(turns){
 }
 let activeRecognition=null,answerFeedback='';
 function stopRecognition(){activeRecognition?.stop()}
+function recognizedFrench(phrase){
+ const clean=normalize(phrase);
+ if(!clean)return '';
+ if(['我叫','我是','我的名字叫','我名字叫'].some(prefix=>clean.startsWith(normalize(prefix))))return 'Je m’appelle…';
+ const turns=scenes.flatMap((scene,i)=>sceneTurns(i,scene));
+ const turn=turns.find(t=>normalize(heroText(t.zh))===clean);
+ if(turn)return heroText(turn.fr);
+ const entry=vocab.find(v=>normalize(v[0])===clean);
+ if(entry)return entry[2];
+ const scene=scenes.find(sc=>normalize(heroText(sc.zh))===clean);
+ return scene?heroText(scene.fr):'';
+}
 function recognize(){
 if(activeRecognition)return;
 if(!window.isSecureContext){micStatus='Ouvre le jeu depuis son adresse HTTPS pour utiliser le micro.';render();return}
@@ -261,7 +273,7 @@ r.onsoundstart=()=>{micStatus='Son détecté. Parle en mandarin, puis fais une p
 r.onnomatch=()=>{micStatus='Du son a été reçu, mais aucune phrase reconnue. Essaie une phrase courte comme nǐ hǎo.';render()};
 r.onresult=e=>{const result=e.results[e.resultIndex??0];if(!result?.[0])return;
 if(!result.isFinal){micStatus='Transcription provisoire : '+result[0].transcript+' — continue ou fais une pause.';render();return}
-selected='';speechText=result[0].transcript.trim();answerFeedback='';micStatus='Phrase reconnue : '+speechText+'. Appuie sur « Valider ma réponse ».';render()};
+selected='';speechText=result[0].transcript.trim();answerFeedback='';const french=recognizedFrench(speechText);micStatus='Phrase reconnue : '+speechText+(french?' · Traduction : '+french:' · Traduction non disponible pour cette transcription.')+'. Appuie sur « Valider ma réponse ».';render()};
 r.onerror=e=>{const errors={
 'not-allowed':'Accès au micro refusé. Dans les réglages du site de ton navigateur, autorise le microphone, puis réessaie.',
 'service-not-allowed':'Le service vocal est bloqué par le navigateur. Vérifie ses autorisations ou utilise le clavier.',
