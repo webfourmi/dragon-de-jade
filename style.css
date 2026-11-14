@@ -143,3 +143,10 @@
 .replay-options button{padding:7px 11px!important;font-size:.9rem!important}
 .word-entry .word-pictogram{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;min-width:44px;border-radius:12px;background:#f4ead8;border:1px solid #e4d4b8;font-size:25px;line-height:1}
 @media(max-width:480px){.word-entry .word-pictogram{width:38px;height:38px;min-width:38px;font-size:22px}}
+
+/* v0.6.0 : Hanzi Writer */
+.hanzi-target{margin:12px auto;touch-action:none;max-width:100%;border:1px solid #d7c4a1;border-radius:12px;background:#fffaf1}
+.write-modes{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;margin:12px 0}
+.write-modes button.active{border-color:#1d5149;background:#d9ece3;color:#1d5149}
+.stroke-dots{text-align:center;min-height:1.5em;color:#41695a;font-weight:bold}
+.wbadge{font-size:.65rem;color:#247052;vertical-align:top}
