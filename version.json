@@ -1,1 +1,1 @@
-{"version":"0.6.1","notes":"Fiabilisation de la calligraphie : un ancien tracé ne peut plus valider un autre caractère et l'affichage du modèle pendant un test empêche de compter une réussite sans aide. Tests de logique et de syntaxe réalisés. Test tactile Android encore nécessaire."}
+{"version":"0.6.2","notes":"Carnet illustré : quatre nouvelles aquarelles pour 你好, 你, 好 et 您, sans texte ni héros personnalisable. Pictogrammes conservés pour les autres mots. Lots suivants préparés. Tests de logique et de cache réalisés ; rendu mobile et test tactile Android à confirmer."}

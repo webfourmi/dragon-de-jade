@@ -1,0 +1,39 @@
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const vm=require('node:vm');
+const source=fs.readFileSync('app.js','utf8');
+const start=source.indexOf('const VOCAB_PICTOGRAMS=');
+const end=source.indexOf('function renderWordList()',start);
+assert(start>0&&end>start);
+const ctx=vm.createContext({state:{reviewSelected:['你']},esc:s=>String(s).replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;'),wordLesson:()=>1,wordThemes:{},wordDate:()=>''});
+vm.runInContext(source.slice(start,end),ctx);
+const words=[['你好','nǐ hǎo','bonjour'],['你','nǐ','tu, toi'],['好','hǎo','bien'],['您','nín','vous'],['我','wǒ','je']];
+const html=ctx.wordCards(words);
+assert.equal((html.match(/class="word-watercolor"/g)||[]).length,4);
+assert.equal((html.match(/class="word-pictogram"/g)||[]).length,1);
+assert.equal((html.match(/onchange="toggleReview/g)||[]).length,5);
+assert.equal((html.match(/onclick="speak/g)||[]).length,5);
+assert(html.includes('checked'));
+assert(html.includes('this.hidden=true;this.nextElementSibling.hidden=false'));
+const failedImage={hidden:false,nextElementSibling:{hidden:true}};
+Function(html.match(/onerror="([^"]+)"/)[1]).call(failedImage);
+assert.equal(failedImage.hidden,true);
+assert.equal(failedImage.nextElementSibling.hidden,false);
+assert(!ctx.wordCards([words[4]]).includes('<img'));
+assert(!ctx.wordCards([]).includes('<img'));
+const filtered=ctx.wordCards([words[3]]);
+assert(filtered.includes('nin-v1.jpg')&&!filtered.includes('ni-hao-v1.jpg'));
+const files=[...html.matchAll(/src="([^"]+)"/g)].map(m=>m[1]);
+for(const path of files){const data=fs.readFileSync(path);assert(data.length>1000);assert.equal(data.readUInt16BE(0),0xffd8)}
+const sw=fs.readFileSync('sw.js','utf8');
+const version=JSON.parse(fs.readFileSync('version.json')).version;
+assert(source.includes(`const APP_VERSION='${version}'`));
+assert(sw.includes(`const VERSION='${version}'`));
+for(const m of fs.readFileSync('index.html','utf8').matchAll(/(?:src|href)="([^"?]+)\?v=([^"]+)"/g)){assert.equal(m[2],version);assert(fs.existsSync(m[1]))}
+for(const path of files)assert(sw.includes('./'+path));
+// Exercise the actual install handler: four images must be put in the new cache.
+const listeners={},cached=[];
+const swctx=vm.createContext({self:{addEventListener:(name,fn)=>listeners[name]=fn,skipWaiting:async()=>{}},caches:{open:async()=>({put:async path=>cached.push(path)})},Request:class{constructor(path){this.path=path}},fetch:async req=>{assert(fs.existsSync(req.path==='./'?'index.html':req.path.slice(2).split('?')[0]),req.path);return {ok:true}}});
+vm.runInContext(sw,swctx);
+let install;listeners.install({waitUntil:p=>install=p});
+install.then(()=>{for(const path of files)assert(cached.includes('./'+path));console.log('PASS: cards, selection, audio, fallback, filtering, JPEG files, versions and service-worker precache')}).catch(err=>{console.error(err);process.exitCode=1});

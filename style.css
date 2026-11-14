@@ -150,3 +150,10 @@
 .write-modes button.active{border-color:#1d5149;background:#d9ece3;color:#1d5149}
 .stroke-dots{text-align:center;min-height:1.5em;color:#41695a;font-weight:bold}
 .wbadge{font-size:.65rem;color:#247052;vertical-align:top}
+
+/* Aquarelles du carnet : conserver les illustrations entières. */
+.word-art{display:flex;align-items:center;justify-content:center;flex:0 0 96px;width:96px;height:96px}
+.word-watercolor{display:block;width:100%;height:100%;object-fit:contain;border-radius:8px}
+.word-watercolor[hidden],.word-art-fallback[hidden]{display:none}
+.word-art-fallback{font-size:32px}
+@media(max-width:540px){.word-entry{display:grid;grid-template-columns:72px minmax(0,1fr) auto;gap:10px}.word-art{width:72px;height:72px;grid-row:1 / 3}.word-entry .word-detail{grid-column:2 / 4}.word-entry .word-check{min-width:0}.word-entry .word-check .han{overflow-wrap:anywhere}.word-entry>button{grid-column:3;grid-row:1}}

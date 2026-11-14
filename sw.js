@@ -1,8 +1,8 @@
-const VERSION='0.6.1';
-const NOTES='Correctifs calligraphie : tracés isolés entre caractères et notation juste après affichage du modèle.';
+const VERSION='0.6.2';
+const NOTES='Carnet : quatre petites aquarelles pour 你好, 你, 好 et 您. Autres pictogrammes et progression conservés.';
 const CACHE='dragonjade-'+VERSION;
-const CORE=['./','./index.html','./style.css?v=0.6.1','./app.js?v=0.6.1','./writing.js?v=0.6.1','./hsk1-reference.js?v=0.6.1','./hsk1-plan.js?v=0.6.1','./episode2.js?v=0.6.1','./manifest.webmanifest'];
-const OPTIONAL=['./assets/dragon-icon.svg','./assets/cover.png','./assets/dialogue-v026.jpg','./assets/prologue-dragon-de-jade.webp','./assets/heros.webp','./assets/mei.webp','./assets/maitre-chen.webp','./assets/long.webp','./assets/heros-garcon.webp','./assets/icon.png','./assets/icon512.png','./assets/place-v026.jpg','./assets/journal-v026.jpg','./assets/writing-v026.jpg','./assets/atlas-v026.jpg'];
+const CORE=['./','./index.html','./style.css?v=0.6.2','./app.js?v=0.6.2','./writing.js?v=0.6.2','./hsk1-reference.js?v=0.6.2','./hsk1-plan.js?v=0.6.2','./episode2.js?v=0.6.2','./manifest.webmanifest'];
+const OPTIONAL=['./assets/vocabulary/ni-hao-v1.jpg','./assets/vocabulary/ni-v1.jpg','./assets/vocabulary/hao-v1.jpg','./assets/vocabulary/nin-v1.jpg','./assets/dragon-icon.svg','./assets/cover.png','./assets/dialogue-v026.jpg','./assets/prologue-dragon-de-jade.webp','./assets/heros.webp','./assets/mei.webp','./assets/maitre-chen.webp','./assets/long.webp','./assets/heros-garcon.webp','./assets/icon.png','./assets/icon512.png','./assets/place-v026.jpg','./assets/journal-v026.jpg','./assets/writing-v026.jpg','./assets/atlas-v026.jpg'];
 self.addEventListener('install',event=>event.waitUntil((async()=>{
  const cache=await caches.open(CACHE);
  await Promise.all(CORE.map(async path=>{const response=await fetch(new Request(path,{cache:'reload'}));if(!response.ok)throw Error('Core asset '+path+' HTTP '+response.status);await cache.put(path,response)}));
