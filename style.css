@@ -122,3 +122,9 @@
 /* v0.5.5 : écoute individuelle des répliques */
 .turn-audio{display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;margin-left:8px;padding:5px 9px;min-width:40px;min-height:38px;border:1px solid #b5a07b;border-radius:12px;background:#f0e6ce;color:#245449;font-size:1.1rem;cursor:pointer}
 .turn-audio:focus-visible{outline:3px solid #245449;outline-offset:2px}
+
+/* v0.5.6 : planche BD du prologue, lisible et sans débordement mobile */
+.prologue-comic{margin:18px 0 24px;padding:0;max-width:100%}
+.prologue-comic img{display:block;width:100%;height:auto;border:2px solid #ad9061;border-radius:14px;box-shadow:0 8px 25px #382d1c25}
+.prologue-comic figcaption{font-size:.9rem;color:#596052;text-align:center;margin-top:9px}
+@media(max-width:600px){.intro-page .prologue-comic{margin-left:-12px;margin-right:-12px}.prologue-comic img{border-radius:8px}}
