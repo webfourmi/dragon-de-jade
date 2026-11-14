@@ -135,3 +135,11 @@
 
 /* v0.5.11 : sélection du portrait du personnage */
 .hero-avatar-choices{margin:8px 0 12px}.hero-avatar-choices strong{display:block;font-size:.9rem;margin-bottom:6px}.hero-avatar-options{display:flex;gap:10px;flex-wrap:wrap}.hero-avatar-options button{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:85px;padding:6px;border:2px solid #c9b18a;border-radius:12px;background:#fff9ec;color:#513a2c}.hero-avatar-options button.active{border-color:#a02d46;box-shadow:0 0 0 2px #a02d4626}.hero-avatar-options img{width:64px;height:64px;border-radius:50%;object-fit:cover}.hero-profile-portrait{background-size:cover;background-position:center}
+
+/* v0.5.12 : replay discret et repères visuels de vocabulaire */
+.replay-mini{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:8px 0 12px}
+.replay-icon{width:42px;height:42px;min-width:42px;padding:0!important;border-radius:50%!important;font-size:24px!important;line-height:1;display:inline-flex;align-items:center;justify-content:center}
+.replay-options{display:flex;gap:7px;flex-wrap:wrap}
+.replay-options button{padding:7px 11px!important;font-size:.9rem!important}
+.word-entry .word-pictogram{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;min-width:44px;border-radius:12px;background:#f4ead8;border:1px solid #e4d4b8;font-size:25px;line-height:1}
+@media(max-width:480px){.word-entry .word-pictogram{width:38px;height:38px;min-width:38px;font-size:22px}}
