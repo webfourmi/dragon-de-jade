@@ -1,7 +1,7 @@
-const VERSION='0.5.11';
-const NOTES='Fiche PJ : choix du portrait fille ou garçon, conservé dans la sauvegarde.';
+const VERSION='0.5.12';
+const NOTES='Rejouer un épisode : icône discrète. Carnet : petits pictogrammes de vocabulaire.';
 const CACHE='dragonjade-'+VERSION;
-const CORE=['./','./index.html','./style.css?v=0.5.11','./app.js?v=0.5.11','./hsk1-reference.js?v=0.5.11','./hsk1-plan.js?v=0.5.11','./episode2.js?v=0.5.11','./manifest.webmanifest'];
+const CORE=['./','./index.html','./style.css?v=0.5.12','./app.js?v=0.5.12','./hsk1-reference.js?v=0.5.12','./hsk1-plan.js?v=0.5.12','./episode2.js?v=0.5.12','./manifest.webmanifest'];
 const OPTIONAL=['./assets/dragon-icon.svg','./assets/cover.png','./assets/dialogue-v026.jpg','./assets/prologue-dragon-de-jade.webp','./assets/heros.webp','./assets/mei.webp','./assets/maitre-chen.webp','./assets/long.webp','./assets/heros-garcon.webp','./assets/icon.png','./assets/icon512.png','./assets/place-v026.jpg','./assets/journal-v026.jpg','./assets/writing-v026.jpg','./assets/atlas-v026.jpg'];
 self.addEventListener('install',event=>event.waitUntil((async()=>{
  const cache=await caches.open(CACHE);
