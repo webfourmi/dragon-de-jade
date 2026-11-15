@@ -62,3 +62,7 @@ Les 24 mots du deuxième épisode sont illustrés, dont 爸爸, 妈妈, 家, 家
 Le registre `VOCAB_WATERCOLORS` associe explicitement un mot à un fichier réellement présent. Les autres mots conservent leurs pictogrammes. Les images ne débloquent aucun mot et ne modifient aucune sauvegarde. Le texte chinois, le pinyin, le son, les filtres et les sélections de révision restent indépendants de l'image.
 
 Ajouter chaque fichier de diffusion à la liste du service worker, mettre à jour la version et les notes seulement pour un lot prêt à publier. Contrôler le chargement normal, le repli après erreur d'image, le carnet sur écran étroit et le cache hors connexion. La calligraphie tactile doit toujours être vérifiée sur l'appareil Android.
+
+## Épisodes 3 à 6 : 106 mots sans aquarelle
+
+Les mots des épisodes 3 (nombres, quantités, argent : 26), 4 (jours, dates, heure : 29), 5 (thé, nourriture, repas : 25) et 6 (achats, démonstratifs : 26) utilisent pour l'instant leur pictogramme. Aucune aquarelle n'a été produite pour eux. Les 48 images existantes ne sont pas concernées. Pour en ajouter : suivre `vocabulary-art.json`, ajouter l'entrée dans `VOCAB_WATERCOLORS` et les fichiers dans le cache de `sw.js`, puis adapter les compteurs de `tests/vocabulary-art.cjs` (48 → nouveau total).

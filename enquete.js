@@ -19,16 +19,50 @@ const EQ_CLUES=[
  {id:'amoureux',scene:10,title:'朋友 ou 男朋友 ?',text:'Une lettre parle d’un 男朋友 (petit ami). Sur la liste de départs, le même homme n’est noté que comme 朋友.'},
  {id:'sceau',scene:10,title:'Un sceau, trois courriers',text:'Le même sceau figure sur ton courrier venu de France, sur l’enveloppe anonyme de Chen et au bas de la lettre ancienne.'},
  {id:'age',scene:11,title:'Un âge gratté',text:'Sur la dernière fiche, la case de l’âge est grattée : il ne reste que trois traits horizontaux.'},
+ {id:'trois',scene:12,title:'Trois traits, trois ans',text:'L’âge gratté se lit sans doute 三岁 : trois traits horizontaux, trois ans. L’enfant oubliée n’était qu’une toute petite fille.'},
+ {id:'tiroir',scene:13,title:'Le tiroir sept',text:'Dans l’armoire des archives, la poignée du tiroir 七 est brillante et la poussière a été essuyée tout autour : quelqu’un l’a ouvert récemment.'},
+ {id:'adresse',scene:14,title:'Le numéro 三十六',text:'L’adresse du verso se termine par le numéro 三十六 (36), noté à côté d’un minuscule dessin de théière. Le nom de la rue a disparu.'},
+ {id:'compte',scene:15,title:'Cinq sur la photo, six au registre',text:'Le cliché 一百零三 montre 五个人, mais le registre nomme six personnes : l’une d’elles ne figure sur aucune photographie.'},
+ {id:'moitie',scene:16,title:'Les deux moitiés',text:'Le papier qui enveloppait ton jade est l’autre moitié d’une page du registre : les deux bords s’emboîtent. Le portrait d’une fillette apparaît, et Lóng la reconnaît « un peu » (一点儿).'},
+ {id:'plan',scene:17,title:'Le plan du quartier',text:'Sur le plan, le numéro 三十六 est entouré d’un symbole de théière, à deux pas de la tour du Tambour : sans doute une maison de thé.'},
+ {id:'rdv',scene:18,title:'Un rendez-vous sans signature',text:'Un papier glissé sous le rideau de la boutique, au sceau du dragon, dit seulement 明天下午三点. Pas de lieu, pas de nom.'},
+ {id:'calendrier',scene:19,title:'La page d’hier arrachée',text:'La page d’hier est arrachée du calendrier de la boutique, alors que Chen assure avoir verrouillé la porte : quelqu’un est entré, ou a voulu effacer une date.'},
+ {id:'date',scene:20,title:'Le 15 septembre',text:'Aujourd’hui, c’est le 九月十四号 : le rendez-vous tombe donc le 九月十五号.'},
+ {id:'jour',scene:21,title:'Rendez-vous en plein jour',text:'Le message dit 下午, pas 上午 : le rendez-vous a lieu de jour (白天), en plein après-midi.'},
+ {id:'encre',scene:22,title:'去年九月',text:'En marge de la page reconstituée, une date à l’encre vert pâle : 去年九月. Ton nom a été ajouté il y a un an, presque jour pour jour.'},
+ {id:'lanterne',scene:23,title:'La lanterne verte',text:'À trois heures, personne ne s’est montré, mais une lanterne verte au sceau du dragon est apparue devant la maison 三十六. L’expéditeur vous observe sans se dévoiler.'},
+ {id:'attendus',scene:24,title:'Quatre tasses prêtes',text:'Quatre tasses étaient déjà alignées sur le plateau de la patronne quand vous êtes arrivés, et la lanterne verte avait disparu de la porte : elle vous attendait.'},
+ {id:'tasse',scene:25,title:'La tasse réservée',text:'Sous le comptoir, une tasse de jade pâle est gardée « pour celui qui reviendra ». Le sceau du dragon est gravé sous son pied.'},
+ {id:'table',scene:26,title:'La table près de la fenêtre',text:'L’ami s’asseyait chaque après-midi à la même table, près de la fenêtre, vers trois heures, et regardait la rue sans presque rien manger.'},
+ {id:'commande',scene:27,title:'Une commande pour deux',text:'Il commandait toujours de quoi nourrir deux personnes (两个包子, 一个鸡蛋) et posait la seconde part devant la chaise vide.'},
+ {id:'pommes',scene:28,title:'Des pommes pour la petite',text:'Il achetait des pommes et du lait pour la petite : Lóng s’en souvient soudain, 她喜欢苹果. La fillette du portrait aimait les pommes.'},
+ {id:'noir',scene:29,title:'Un homme tout de noir',text:'La veille de votre venue, un homme tout de noir a posé des questions sur la tasse, payé son thé trois fois le prix et demandé quand vous viendriez. Il loge au 饭店 voisin et cherche une écaille au marché.'},
+ {id:'marche',scene:30,title:'Une lueur verte au marché',text:'Au marché aux antiquités, Lóng sent une lueur verte tout au fond, entre deux étals : une autre écaille s’y trouve peut-être.'},
+ {id:'panier',scene:31,title:'Un panier de vieilles affaires',text:'Le libraire, ami de Chen, a vu vendre la semaine dernière un panier de vieilles affaires de famille (carnets, petite veste d’enfant) à un étal du marché.'},
+ {id:'caillou',scene:32,title:'Le galet trop beau',text:'Un galet de jade très poli brille plus que tout le reste de l’étal : Lóng le désigne d’abord (那个), mais il est presque trop beau pour être vrai.'},
+ {id:'prix',scene:33,title:'Un prix qui baisse vite',text:'Le vendeur demande 三百块 du galet, puis 两百块 après marchandage : bien cher pour un simple caillou.'},
+ {id:'wu',scene:34,title:'Monsieur Wu',text:'Un homme mince tout de noir, gants de cuir, salue Chen comme une vieille connaissance. C’est Monsieur Wu : il offre 八百块 du galet sans marchander, puis lance un regard à ton jade.'},
+ {id:'veste',scene:35,title:'La veste d’enfant',text:'Sous la table, une petite veste d’enfant dont un bouton de jade vert brille comme l’écaille de Lóng. Le vendeur la cède pour 十块 : c’est la deuxième écaille.'},
+ {id:'neuf',scene:35,title:'Un galet neuf',text:'Chen juge le galet de Wu 新 (neuf) : poli à la machine, c’est un leurre. Wu a payé cher une fausse écaille.'},
  {id:'d1',scene:null,ded:1,title:'Conclusion : un expéditeur inconnu',text:'Quelqu’un d’extérieur a glissé ton nom dans le registre et envoyé l’enveloppe. Son message, 请认识我, demande simplement qu’on fasse sa connaissance.'},
- {id:'d2',scene:null,ded:2,title:'Conclusion : l’ami était le petit ami',text:'L’« ami » de la liste de départs était le petit ami de la jeune femme, et c’est sans doute lui qui a envoyé le sceau jusqu’à toi.'}
+ {id:'d2',scene:null,ded:2,title:'Conclusion : l’ami était le petit ami',text:'L’« ami » de la liste de départs était le petit ami de la jeune femme, et c’est sans doute lui qui a envoyé le sceau jusqu’à toi.'},
+ {id:'d3',scene:null,ded:3,title:'Conclusion : une enfant bien réelle',text:'L’enfant oubliée avait trois ans, elle ne figure sur aucune photographie du registre, et Lóng la reconnaît un peu : elle a bien existé, et quelqu’un tient à ce qu’on retrouve sa trace.'},
+ {id:'d4',scene:null,ded:4,title:'Conclusion : quelqu’un vous observe',text:'L’expéditeur connaît la boutique, tes horaires et la maison 三十六 : il vous observe avant de se dévoiler.'},
+ {id:'d5',scene:null,ded:5,title:'Conclusion : un ami qui attendait quelqu’un',text:'L’ami venait chaque après-midi nourrir une petite fille qui l’attendait, et gardait une tasse pour son retour. Un homme tout de noir cherche, lui aussi, ses traces.'},
+ {id:'d6',scene:null,ded:6,title:'Conclusion : Wu a été trompé',text:'Monsieur Wu, un collectionneur que Chen connaît, a payé 八百块 un leurre neuf : la vraie écaille est le bouton de la veste d’enfant. Mais il cherche une écaille et vous a vus : il reviendra.'}
 ];
-const EQ_LINKS=[['enveloppe','sceau'],['nom','enveloppe'],['nom','ajout'],['effaces','verte'],['verte','dragon'],['effaces','main'],['ami','amoureux'],['sceau','amoureux'],['boite','inscription'],['age','ajout'],['photo','effaces']];
+const EQ_LINKS=[['enveloppe','sceau'],['nom','enveloppe'],['nom','ajout'],['effaces','verte'],['verte','dragon'],['effaces','main'],['ami','amoureux'],['sceau','amoureux'],['boite','inscription'],['age','ajout'],['photo','effaces'],['trois','age'],['trois','ajout'],['tiroir','effaces'],['tiroir','calendrier'],['compte','ajout'],['moitie','nom'],['moitie','trois'],['adresse','plan'],['plan','lanterne'],['adresse','lanterne'],['rdv','sceau'],['rdv','lanterne'],['date','rdv'],['jour','rdv'],['encre','nom'],['attendus','tasse'],['tasse','sceau'],['table','commande'],['commande','pommes'],['pommes','moitie'],['pommes','trois'],['noir','wu'],['noir','lanterne'],['marche','noir'],['caillou','neuf'],['caillou','prix'],['veste','pommes'],['veste','panier'],['wu','prix'],['panier','marche'],['attendus','rdv']];
 const EQ_QUESTIONS=[
- {id:'venue',title:'Qui a préparé ta venue ?',evidence:['nom','enveloppe','sceau'],conclusion:'d1'},
- {id:'noms',title:'Qui a effacé les noms de la famille ?',evidence:['photo','effaces','carte','verte','main']},
- {id:'enfant',title:'Qui est l’enfant ajouté aux archives ?',evidence:['ajout','age']},
- {id:'ami',title:'Qui est l’ami de la famille ?',evidence:['ami','amoureux','sceau'],conclusion:'d2'},
- {id:'boite',title:'Que dit la phrase grattée sur la boîte ?',evidence:['boite','inscription','dragon']}
+ {id:'venue',title:'Qui a préparé ta venue ?',evidence:['nom','enveloppe','sceau','rdv','encre'],conclusion:'d1'},
+ {id:'noms',title:'Qui a effacé les noms de la famille ?',evidence:['photo','effaces','carte','verte','main','tiroir','calendrier']},
+ {id:'enfant',title:'Qui est l’enfant ajoutée aux archives ?',evidence:['ajout','age','trois','compte','moitie','pommes','veste'],conclusion:'d3'},
+ {id:'ami',title:'Qui est l’ami de la famille ?',evidence:['ami','amoureux','sceau','lanterne','table','commande'],conclusion:'d2'},
+ {id:'boite',title:'Que dit la phrase grattée sur la boîte ?',evidence:['boite','inscription','dragon']},
+ {id:'maison',title:'Que cache la maison 三十六 ?',evidence:['adresse','plan','lanterne','tasse']},
+ {id:'observe',title:'Qui vous observe ?',evidence:['rdv','calendrier','jour','lanterne','attendus','noir'],conclusion:'d4'},
+ {id:'attente',title:'Qui l’ami attendait-il à la maison de thé ?',evidence:['attendus','tasse','table','commande','pommes'],conclusion:'d5'},
+ {id:'noir',title:'Qui est l’homme tout de noir ?',evidence:['noir','wu','caillou','prix','neuf'],conclusion:'d6'},
+ {id:'ecaille',title:'Où est la deuxième écaille ?',evidence:['marche','panier','caillou','veste']}
 ];
 const EQ_INSCRIPTION=['这','是','你','的','家'];
 
@@ -51,14 +85,53 @@ const EQ_REACTIONS={
   {t:'Tu suis l’intuition de Mei : l’ami a protégé les enfants.',fx:{mei:1},res:'Mei serre les poings, reconnaissante : personne n’avait pris son hypothèse au sérieux.'}]},
  10:{prompt:'Le sceau de la lettre est celui de ton courrier. Qui interroges-tu ?',options:[
   {t:'Chen : il connaît peut-être ce sceau.',fx:{chen:1},res:'Chen hésite, puis admet qu’il l’a déjà vu… sans pouvoir dire où.'},
-  {t:'Lóng : ce sceau lui rappelle quelque chose.',fx:{long:1},res:'Lóng ferme les yeux ; une image floue de jardin et de rires remonte, puis s’évanouit.'}]}
+  {t:'Lóng : ce sceau lui rappelle quelque chose.',fx:{long:1},res:'Lóng ferme les yeux ; une image floue de jardin et de rires remonte, puis s’évanouit.'}]},
+ 13:{prompt:'Le tiroir sept a été ouvert récemment. Que proposes-tu ?',options:[
+  {t:'Tu proposes de veiller dans la boutique cette nuit.',fx:{chen:1},res:'Chen te remercie d’un signe : veiller seul lui pesait.'},
+  {t:'Tu demandes à Lóng de flairer les alentours.',fx:{long:1},res:'Lóng renifle l’air et frissonne : une odeur de pluie et de jade chaud, déjà sentie quelque part.'}]},
+ 15:{prompt:'Cinq personnes sur la photo, six noms au registre. Quelle hypothèse retiens-tu ?',options:[
+  {t:'Un nom a été ajouté au registre.',fx:{mei:1},res:'Mei acquiesce lentement : cela rejoint l’encre fraîche qu’elle avait remarquée.'},
+  {t:'Une personne a été découpée de la photographie.',fx:{chen:1},res:'Chen fronce les sourcils et examine les bords du cliché à la loupe : aucun coup de ciseaux.'}]},
+ 16:{prompt:'Lóng reconnaît « un peu » la fillette. Comment l’aides-tu ?',options:[
+  {t:'Tu le laisses se souvenir à son rythme.',fx:{long:1},res:'Lóng s’assoit sur le registre, les yeux mi-clos : un souvenir vert pâle affleure, sans se laisser attraper.'},
+  {t:'Tu le presses : un nom, vite !',fx:{chen:1},res:'Lóng se crispe et le souvenir se referme. Chen te fait signe que la patience paie mieux.'}]},
+ 19:{prompt:'La page d’hier est arrachée du calendrier. Que fais-tu ?',options:[
+  {t:'Tu cherches la page dans la corbeille.',fx:{mei:1},res:'Mei fouille la corbeille avec toi : quelques bribes de papier sentent encore l’encre fraîche.'},
+  {t:'Tu demandes à Chen qui avait la clé.',fx:{chen:1},res:'Chen jure que la porte était verrouillée… puis vérifie sa clé, soudain inquiet.'}]},
+ 21:{prompt:'Mei jure avoir lu « matin ». Que fais-tu ?',options:[
+  {t:'Tu relis le signe avec elle, trait par trait.',fx:{mei:1},res:'Mei rit de sa méprise : le trait court est en haut pour 上, en bas pour 下.'},
+  {t:'Tu t’en remets à Chen, qui a l’œil exercé.',fx:{chen:1},res:'Chen se redresse, flatté : trente ans de registres ne s’oublient pas.'}]},
+ 23:{prompt:'Une lanterne verte vient d’apparaître sur la porte. Que fais-tu ?',options:[
+  {t:'Tu décroches la lanterne.',fx:{long:1},res:'La lanterne s’allume d’un vert doux. Lóng ferme les yeux, comme si on lui rendait un vieux souvenir.'},
+  {t:'Tu la laisses en place et guettes la rue.',fx:{chen:1},res:'Chen approuve : mieux vaut ne pas montrer qu’on a trouvé le message.'}]},
+ 25:{prompt:'La patronne te tend la tasse réservée. Que fais-tu ?',options:[
+  {t:'Tu bois une gorgée, comme elle te le propose.',fx:{chen:1},res:'Le thé est amer, puis doux. La patronne sourit : l’ami faisait la même grimace.'},
+  {t:'Tu poses la tasse pour l’examiner de près.',fx:{long:1},res:'Lóng se penche sur le pied de la tasse : le sceau luit faiblement, comme une braise.'}]},
+ 28:{prompt:'Lóng se souvient soudain que la fillette aimait les pommes. Comment réagis-tu ?',options:[
+  {t:'Tu lui demandes de décrire son souvenir.',fx:{long:1},res:'Lóng ferme les yeux : une main tend une pomme rouge, quelqu’un rit. Puis l’image s’efface.'},
+  {t:'Tu notes l’indice et le laisses souffler.',fx:{mei:1},res:'Mei approuve : un souvenir ne se force pas. Elle glisse une pomme dans la patte de Lóng.'}]},
+ 31:{prompt:'Le libraire parle d’un panier de vieilles affaires de famille. Que fais-tu ?',options:[
+  {t:'Tu veux aller à l’étal tout de suite.',fx:{mei:1},res:'Mei est déjà à la porte : chaque heure compte, et elle le sait.'},
+  {t:'Tu proposes d’observer l’étal avant de t’approcher.',fx:{chen:1},res:'Chen hoche la tête : sur un marché, on regarde d’abord, on parle ensuite.'}]},
+ 34:{prompt:'Monsieur Wu salue Chen comme une vieille connaissance. Que fais-tu ?',options:[
+  {t:'Tu interroges Chen du regard.',fx:{chen:1},res:'Chen détourne les yeux : « Plus tard. Pas ici. »'},
+  {t:'Tu observes Wu sans rien dire.',fx:{long:1},res:'Lóng fronce le nez : cet homme sent le jade neuf et le parfum cher.'}]}
 };
 
 /* Variantes de scène : une ligne en plus (ou en moins) selon la confiance accordée. */
 const EQ_VARIANTS={
  8:t=>t.mei>=1?'Mei hésite, puis ajoute à voix basse qu’elle reconnaît le col de la veste de l’homme : celui d’un tailleur du quartier.':'Mei serre les lèvres : elle ne dira rien de plus pour l’instant.',
  9:t=>t.chen>=2?'À voix basse, Chen te confie que cette écriture appliquée lui rappelle celle des carnets de son grand-père.':'',
- 11:t=>t.long>=1?'Lóng passe sa petite patte sur le grattage : sous la poussière, une écaille verte semble se dessiner.':''
+ 11:t=>t.long>=1?'Lóng passe sa petite patte sur le grattage : sous la poussière, une écaille verte semble se dessiner.':'',
+ 14:t=>t.chen>=3?'Chen te regarde longuement : tu lis déjà les chiffres comme un gardien d’archives.':'',
+ 16:t=>t.long>=2?'Lóng murmure un son, peut-être le début d’un prénom, sans parvenir à le finir.':'',
+ 17:t=>t.mei>=2?'Mei glisse quelques pièces au libraire avant même que tu aies fini de compter : « Les amis de la famille ne paient pas plein tarif. »':'',
+ 20:t=>t.mei>=3?'Mei note la date dans son carnet, puis ajoute en dessous : « Je serai là. »':'',
+ 22:t=>t.long>=2?'Lóng pose sa patte sur la date : l’encre vert pâle s’illumine un instant, de la même teinte que la marque verte du registre.':'',
+ 26:t=>t.mei>=3?'Mei s’assoit près de la fenêtre, sans un mot, comme pour essayer la place de l’ami.':'',
+ 28:t=>t.chen>=3?'Chen sort son carnet et note chaque mot de la patronne, comme il le fait pour un registre.':'',
+ 31:t=>t.mei>=3?'Mei glisse la main dans sa cape : elle a déjà préparé quelques billets pour l’occasion.':'',
+ 33:t=>t.chen>=3?'Chen te souffle une règle de marchand : quand le prix paraît trop haut, il suffit de regarder ailleurs.':''
 };
 
 /* Scènes de déduction : un petit problème de vocabulaire, puis un raisonnement à partir de tes indices. */
@@ -74,7 +147,31 @@ const EQ_DEDUCTIONS={
   zh:'男朋友',
   vocab:{q:'Que signifie ce mot ?',options:[['petit ami',true],['ami d’enfance',false],['frère aîné',false]]},
   pick:{prompt:'Quels trois indices montrent que l’ami de la liste a pu t’envoyer le sceau ?',need:['ami','amoureux','sceau'],pool:['ami','amoureux','sceau','age','verte'],hint:'Compare ce que dit la liste, ce que dit la lettre et ce que montre le sceau.'},
-  conclusion:'d2',reward:25,trust:{mei:1}}
+  conclusion:'d2',reward:25,trust:{mei:1}},
+ 3:{title:'Qui était l’enfant oubliée ?',
+  intro:'La case grattée de l’âge se lit enfin, après tout ce que vous avez compté :',
+  zh:'她三岁。',
+  vocab:{q:'Quel âge a-t-elle ?',options:[['trois ans',true],['treize ans',false],['trente ans',false]]},
+  pick:{prompt:'Quels trois indices montrent que cette enfant a bien existé, même si le registre l’a effacée ?',need:['trois','compte','moitie'],pool:['trois','compte','moitie','tiroir','adresse','plan'],hint:'Cherche son âge, l’endroit où elle manque, et ce qui la montre enfin.'},
+  conclusion:'d3',reward:25,trust:{long:1}},
+ 4:{title:'Qui vous observe ?',
+  intro:'Le rendez-vous est passé sans visite. Reste le message, dont tu connais maintenant chaque mot :',
+  zh:'明天下午三点。',
+  vocab:{q:'Quand a lieu le rendez-vous ?',options:[['Demain, à 15 h',true],['Hier, à 3 h du matin',false],['Aujourd’hui, à 13 h',false]]},
+  pick:{prompt:'Quels trois indices montrent que l’expéditeur vous observe sans se dévoiler ?',need:['rdv','calendrier','lanterne'],pool:['rdv','calendrier','lanterne','encre','adresse','date'],hint:'Pense au message sans lieu, à la page arrachée et à la lanterne apparue à l’heure dite.'},
+  conclusion:'d4',reward:30,trust:{mei:1}},
+ 5:{title:'Qui l’ami attendait-il ?',
+  intro:'La patronne a fini son récit. Reste la phrase de Lóng, celle qui a fait remonter son souvenir :',
+  zh:'她喜欢苹果。',
+  vocab:{q:'Que dit Lóng ?',options:[['Elle aime les pommes.',true],['Elle veut du lait.',false],['Elle cuisine pour nous.',false]]},
+  pick:{prompt:'Quels trois indices montrent que l’ami venait nourrir une petite fille qui l’attendait ?',need:['commande','pommes','tasse'],pool:['commande','pommes','tasse','attendus','table','noir'],hint:'Cherche ce qu’il commandait, ce qu’il achetait et ce qu’il gardait en réserve.'},
+  conclusion:'d5',reward:25,trust:{long:1}},
+ 6:{title:'Qui est l’homme tout de noir ?',
+  intro:'Chen a jugé le galet d’un seul mot :',
+  zh:'那个新。',
+  vocab:{q:'Que dit Chen du galet ?',options:[['Il est neuf.',true],['Il est cher.',false],['Il est ancien.',false]]},
+  pick:{prompt:'Quels trois indices montrent que Monsieur Wu a été trompé et que la vraie écaille est ailleurs ?',need:['caillou','neuf','veste'],pool:['caillou','neuf','veste','wu','prix','panier'],hint:'Pense à ce qui brille trop, à ce qui est trop récent, et à ce qui brille au fond d’un panier.'},
+  conclusion:'d6',reward:30,trust:{chen:1}}
 };
 
 let eqDedForce=0,eqDed=null;
@@ -154,9 +251,11 @@ function eqPendingDeduction(){
   if(eqDed&&eqDed.step==='done')return eqDed.ep;/* garde l'écran de réussite jusqu'à « Continuer » */
   if(eqDedForce&&!eqDone(eqDedForce))return eqDedForce;
   eqDedForce=0;
-  if(state.scene===6&&!state.episode2Started&&!st.deduced.includes(1))return 1;
-  if(scenes.length>=12&&state.scene>=scenes.length&&!st.deduced.includes(2))return 2;
-  return 0;
+  const sc=state.scene,total=scenes.length;
+  let ep=0;
+  if(sc>=total&&total>=12)ep=Math.floor(total/6);
+  else if(sc>=6&&sc%6===0&&!epStarted(sc/6+1))ep=sc/6;
+  return ep&&EQ_DEDUCTIONS[ep]&&!st.deduced.includes(ep)?ep:0;
 }
 function deductionPage(){
   const ep=eqPendingDeduction();if(!ep)return '';
@@ -222,7 +321,7 @@ function eqBar(n){return '<span class="trust-bar" aria-label="'+n+' sur 5">'+'�
 function enquete(){
   const st=eqState(),clues=eqUnlocked(),ids=new Set(clues.map(c=>c.id));
   const questions=EQ_QUESTIONS.filter(q=>q.evidence.some(id=>ids.has(id)));
-  const pending=[1,2].filter(ep=>st.scalesLit.includes(ep)&&!eqDone(ep)&&EQ_DEDUCTIONS[ep]);
+  const pending=Object.keys(EQ_DEDUCTIONS).map(Number).filter(ep=>st.scalesLit.includes(ep)&&!eqDone(ep));
   return '<main class="page"><div class="label">Livre I · Enquête</div><h2>Le carnet d’enquête</h2>'
     +'<div class="paper"><h3>Les écailles de Lóng</h3>'+scalesBar()+'<p class="small muted">Chaque épisode terminé rallume une écaille et rend un souvenir à Lóng.</p></div>'
     +'<div class="paper"><h3>La phrase de la boîte</h3>'+eqInscription()+'</div>'

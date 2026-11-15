@@ -99,6 +99,7 @@ function writingHint(){
 function hzComplete(apiMistakes){
   if(hzFinished)return;hzFinished=true;
   const c=drawChar,total=(apiMistakes||0)+hzHints,stats=hzStats(),s=stats[c]||{ok:0,ko:0,mistakes:0};
+  if(writingTest&&typeof writingTestResults!=='undefined')writingTestResults[writingTestIndex]={character:c,mastered:total===0&&!writingReveal,skipped:false,mistakes:total};
   total===0?s.ok++:s.ko++;s.mistakes+=total;
   const day=localDay(),first=s.day!==day;s.day=day;stats[c]=s;
   if(!state.chars.includes(c))state.chars.push(c);

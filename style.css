@@ -184,3 +184,6 @@
 
 /* Aquarelles de vocabulaire conservées depuis V0.6.3 */
 .word-art{display:inline-flex;flex:0 0 70px;width:70px;height:70px;align-items:center;justify-content:center}.word-watercolor{width:70px;height:70px;object-fit:cover;border-radius:12px}.word-art-fallback{font-size:28px}
+
+/* Personnages secondaires (patronne, vendeur, collectionneur) */
+.character-portrait.guest{background:linear-gradient(145deg,#ead9c9,#f8f0dd)}
