@@ -1,0 +1,19 @@
+name: Dragon de Jade - tests integration
+on:
+  push:
+    branches: [integration-v0.8.1]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  validation:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax and integration checks
+        run: node tests/integration.cjs
