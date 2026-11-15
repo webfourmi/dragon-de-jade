@@ -3,7 +3,7 @@ const EPISODE2_SCENES=[
   {
     "title": "Le registre des familles",
     "speaker": "Maître Chen",
-    "text": "Dans l'arrière-boutique, Chen ouvre le registre indiqué par la carte de Lóng. Une photographie montre un père et une mère devant une maison. Mei reconnaît sa mère, mais le nom de son père a été effacé. « 爸爸，妈妈 », dit-elle en touchant les deux visages. Chen remarque une marque verte à l'endroit de la signature.",
+    "text": "Dans l’arrière-boutique, Chen ouvre le registre indiqué par la carte de Lóng. Une photographie montre un père et une mère devant une maison. Mei reconnaît sa mère, mais le nom de son père a été effacé. « 爸爸，妈妈 », dit-elle en touchant les deux visages. À l’endroit de la signature, une marque verte a remplacé l’encre : Lóng frémit, car elle brille du même vert que son écaille.",
     "zh": "这是爸爸和妈妈。",
     "py": "Zhè shì bàba hé māma.",
     "fr": "Voici le papa et la maman.",
@@ -35,7 +35,7 @@ const EPISODE2_SCENES=[
   {
     "title": "La photographie déchirée",
     "speaker": "Mei",
-    "text": "Mei retourne la photographie : quatre enfants y sont nommés selon leur place dans la famille. « 哥哥，姐姐，弟弟，妹妹 », lit-elle. Pourtant, elle affirme n'avoir jamais connu de petite sœur. Quelqu'un a-t-il ajouté un enfant aux archives ? Lóng remarque que l'encre du dernier nom est plus récente.",
+    "text": "Mei retourne la photographie : au dos, les enfants sont désignés par leur place dans la fratrie. « 哥哥，姐姐，弟弟，妹妹 », lit-elle. Pourtant, elle affirme n’avoir jamais eu de petite sœur. Quelqu’un a-t-il ajouté un enfant aux archives ? Lóng remarque que l’encre du dernier nom est plus récente.",
     "zh": "这是我的哥哥和姐姐。",
     "py": "Zhè shì wǒ de gēge hé jiějie.",
     "fr": "Voici mon grand frère et ma grande sœur.",
@@ -67,7 +67,7 @@ const EPISODE2_SCENES=[
   {
     "title": "Le portrait sans visage",
     "speaker": "Lóng",
-    "text": "Une deuxième page révèle deux portraits, un homme et une femme. Lóng demande : « 他是谁？她是谁？ » Mei reconnaît la femme, mais pas l'homme. Chen constate que les deux noms ont été recopiés d'une autre main. La piste mène à une personne qui a modifié le registre après la disparition.",
+    "text": "Une deuxième page révèle deux portraits, un homme et une femme. Lóng demande : « 他是谁？她是谁？ » Mei reconnaît la femme, mais pas l’homme. Chen constate que les deux noms ont été recopiés d’une autre main, appliquée, qui connaissait l’écriture de la famille. La piste mène à une personne qui a modifié le registre après la disparition.",
     "zh": "他是谁？她是谁？",
     "py": "Tā shì shéi? Tā shì shéi?",
     "fr": "Qui est-il ? Qui est-elle ?",
@@ -99,7 +99,7 @@ const EPISODE2_SCENES=[
   {
     "title": "Les enfants de la maison",
     "speaker": "Maître Chen",
-    "text": "Sur une liste de départs, Chen découvre la mention d'un fils et d'une fille accompagnés d'un ami de la famille. « 他们是孩子 », lit-il. Mei pense que le mystérieux ami a peut-être protégé les enfants. Une adresse est inscrite au verso, mais les chiffres sont presque illisibles.",
+    "text": "Sur une liste de départs, Chen découvre la mention d’un fils et d’une fille, accompagnés d’un 朋友, un ami de la famille. « 他们是孩子 », lit-il. Mei pense que ce mystérieux ami a peut-être protégé les enfants. Une adresse est inscrite au verso, mais les chiffres sont presque illisibles.",
     "zh": "他们是孩子。",
     "py": "Tāmen shì háizi.",
     "fr": "Ce sont des enfants.",
@@ -131,7 +131,7 @@ const EPISODE2_SCENES=[
   {
     "title": "Les alliés du Dragon",
     "speaker": "Mei",
-    "text": "Mei montre une lettre plus récente. Un homme y parle de son petit ami et d'une jeune femme qu'il appelle sa compagne. Elle explique que les mots 男朋友 et 女朋友 indiquent une relation amoureuse, et non simplement une amitié. Lóng reconnaît le sceau au bas de la lettre : c'est celui qui figurait sur ton courrier reçu en France.",
+    "text": "Mei sort une lettre plus récente, écrite par une jeune femme de la famille. Elle y parle de son 男朋友, et Mei se fige : sur la liste de départs, l’homme n’était noté que comme 朋友. Elle t’explique que 男朋友 désigne un petit ami et 女朋友 une petite amie : une relation amoureuse, pas une simple amitié. Le scribe a peut-être caché la vérité. Lóng reconnaît alors le sceau au bas de la lettre : c’est celui de l’enveloppe anonyme reçue par Chen, et de ton courrier venu de France.",
     "zh": "他是男朋友。她是女朋友。",
     "py": "Tā shì nánpéngyou. Tā shì nǚpéngyou.",
     "fr": "Il est le petit ami. Elle est la petite amie.",
@@ -163,7 +163,7 @@ const EPISODE2_SCENES=[
   {
     "title": "La date sur le registre",
     "speaker": "Lóng",
-    "text": "Une dernière fiche contient la question « 她几岁？ » : quel âge avait-elle ? Le nombre a été gratté, mais Lóng distingue trois traces. Chen propose de revenir aux nombres pour retrouver l'âge et identifier l'enfant oublié. Une nouvelle piste s'ouvre pour l'épisode suivant.",
+    "text": "Sur la dernière fiche, la case de l’âge a été grattée. Lóng la lit comme une question : « 她几岁？ », quel âge avait-elle ? Il ne reste que trois traits horizontaux, qui pourraient former un nombre… ou le début d’un autre caractère. Chen propose de revenir aux nombres pour le déchiffrer et identifier l’enfant oublié. Une nouvelle piste s’ouvre pour l’épisode suivant.",
     "zh": "她几岁？",
     "py": "Tā jǐ suì?",
     "fr": "Quel âge a-t-elle ?",
@@ -189,7 +189,7 @@ const EPISODE2_SCENES=[
       "岁"
     ],
     "reward": 15,
-    "info": "Certains registres familiaux chinois consignent des dates et des générations, mais leur présentation varie selon les époques et les familles. Les enquêteurs doivent parfois croiser ces archives avec d'autres documents pour identifier une personne.",
+    "info": "Traditionnellement, on pouvait compter l’âge à la chinoise : un nouveau-né avait déjà un an, et on prenait souvent une année de plus au Nouvel An lunaire. Cet usage, appelé xūsuì, explique que l’âge noté dans d’anciens documents ne corresponde pas toujours à celui d’aujourd’hui.",
     "grammar": "他们 = ils / groupe mixte ; 她们 = elles ; 们 marque le pluriel de certains pronoms ; 几岁 ? demande l’âge."
   }
 ];
