@@ -1,4 +1,4 @@
-# Les Chroniques du Dragon de Jade · V0.10
+# Les Chroniques du Dragon de Jade · V0.11
 
 PWA statique, sans backend, pour apprendre le chinois en jouant. Le Livre I contient six épisodes de 6 scènes (salutations, famille, nombres, temps, thé et repas, marché), des dialogues en mandarin avec synthèse vocale du navigateur, un carnet de vocabulaire illustré à l'aquarelle, un quiz à quatre exercices, une calligraphie validée trait par trait et une enquête (indices, écailles de Lóng, déductions).
 
@@ -11,7 +11,7 @@ Depuis ce dossier : `python -m http.server 8000`, puis ouvrir http://localhost:8
 - La voix est générée par le navigateur et dépend des voix installées ; l'exercice d'écoute du quiz exige une voix mandarin.
 - La reconnaissance vocale du navigateur n'est pas disponible partout. Elle compare des chaînes simples, sans évaluer les tons.
 - Calligraphie : Hanzi Writer 3.7.2 (MIT) et les données hanzi-writer-data 2.0.1 sont chargés depuis jsDelivr, sans contrôle d'intégrité. Sans connexion à la toute première visite, l'atelier retombe sur le dessin libre non validé. Le bouton « Télécharger les caractères » les met en cache pour le hors-ligne.
-- Seuls les 48 mots des épisodes 1 et 2 ont une aquarelle ; les 106 mots des épisodes 3 à 6 gardent leur pictogramme (voir `VOCABULARY-ART.md`).
+- Les 300 mots du plan HSK 1 ont une aquarelle (voir `VOCABULARY-ART.md`). Le pictogramme sert de repli si une image ne se charge pas.
 - Les listes de vocabulaire suivent le plan HSK 1 de `hsk1-plan.js`, qui n'est pas un référentiel officiel versionné.
 - La sauvegarde locale stocke la progression, pas les tracés complets.
 - Les épisodes 7 à 12 du Livre I et les livres suivants sont des plans.
@@ -48,9 +48,7 @@ node tests/service-worker.cjs
 
 `integration.cjs` vérifie aussi que chaque image référencée par le code, le CSS ou le service worker existe dans le dépôt. `episodes.cjs` vérifie que le vocabulaire de chaque épisode correspond au plan HSK 1 et que les phrases chinoises n'emploient que des caractères déjà appris.
 
-`runtime.cjs` exécute l'application avec une interface simulée : restauration des anciennes sauvegardes, rendu des 36 scènes, parcours des six épisodes, 154 mots, transitions, déductions et absence d'XP en double lors d'une répétition. `service-worker.cjs` simule l'installation, la mise à jour et les requêtes hors connexion ; ce contrôle ne remplace pas un essai sur un appareil Android.
-
-Avant publication de la V0.10.0, contrôles réalisés dans le navigateur local : démarrage, validation d'une réponse, sauvegarde après rechargement, carnet, restauration d'une partie avancée, accès à l'épisode 5 et enquête. Aucune erreur de console ni image manquante constatée sur les écrans contrôlés. Les 252 nouvelles aquarelles préparées séparément ne font pas partie de cette version.
+Les contrôles `runtime.cjs` et `service-worker.cjs`, conservés de la V0.10.0, vérifient le parcours des 36 scènes, les sauvegardes, les récompenses et les scénarios de cache. Le test des aquarelles vérifie les 300 correspondances HSK 1 et le précache des 154 mots jouables ; les 146 autres images sont disponibles pour les épisodes futurs. Les contrôles GitHub s'exécutent sur les demandes d'intégration et sur `main`.
 
 ## Ajouter un épisode
 
