@@ -10,7 +10,7 @@ const app=fs.readFileSync('app.js','utf8');
 const sw=fs.readFileSync('sw.js','utf8');
 const quiz=fs.readFileSync('quiz.js','utf8');
 const enquiry=fs.readFileSync('enquete.js','utf8');
-assert.equal(app.split('assets/vocabulary/').length-1,48,'48 watercolor references');
+assert.equal(app.split('assets/vocabulary/').length-1,300,'300 watercolor references (HSK 1)');
 assert(app.includes("const KEY='dragonjade-v02'"),'existing saves preserved');
 assert(app.includes('writingTestResults=[]'),'calligraphy results initialized');
 assert(app.includes('writingTestResults.filter'),'calligraphy scoring retained');

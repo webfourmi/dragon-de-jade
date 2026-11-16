@@ -9,13 +9,14 @@ const ctx=vm.createContext({state:{reviewSelected:['你']},esc:s=>String(s).repl
 vm.runInContext(source.slice(start,end),ctx);
 const first=JSON.parse(source.match(/const vocab=(\[.*?\]);/)[1]);
 const second=JSON.parse(fs.readFileSync('episode2.js','utf8').match(/const EPISODE2_VOCAB=(\[.*?\]);/)[1]);
-const words=[...first,...second];
-assert.equal(words.length,48);
+const later=[3,4,5,6].flatMap(n=>JSON.parse(fs.readFileSync('episode'+n+'.js','utf8').match(new RegExp('const EPISODE'+n+'_VOCAB=(\\[.*?\\]);'))[1]));
+const words=[...first,...second,...later];
+assert.equal(words.length,154);
 const html=ctx.wordCards(words);
-assert.equal((html.match(/class="word-watercolor"/g)||[]).length,48);
+assert.equal((html.match(/class="word-watercolor"/g)||[]).length,154,'chaque mot du jeu a son aquarelle');
 assert.equal((html.match(/class="word-pictogram"/g)||[]).length,0);
-assert.equal((html.match(/onchange="toggleReview/g)||[]).length,48);
-assert.equal((html.match(/onclick="speak/g)||[]).length,48);
+assert.equal((html.match(/onchange="toggleReview/g)||[]).length,154);
+assert.equal((html.match(/onclick="speak/g)||[]).length,154);
 assert(html.includes('checked'));
 assert(html.includes('this.hidden=true;this.nextElementSibling.hidden=false'));
 const failedImage={hidden:false,nextElementSibling:{hidden:true}};
@@ -27,21 +28,28 @@ assert(!ctx.wordCards([]).includes('<img'));
 const filtered=ctx.wordCards([words[3]]);
 assert(filtered.includes('nin-v1.jpg')&&!filtered.includes('ni-hao-v1.jpg'));
 const files=[...html.matchAll(/src="([^"]+)"/g)].map(m=>m[1]);
-assert.equal(new Set(files).size,48);
-assert.equal(fs.readdirSync('assets/vocabulary').filter(p=>p.endsWith('.jpg')).length,48);
+assert.equal(new Set(files).size,154);
+const allImages=fs.readdirSync('assets/vocabulary').filter(p=>p.endsWith('.jpg'));
+assert.equal(allImages.length,300,'300 aquarelles HSK 1 dans le dépôt');
+const map=vm.runInContext('VOCAB_WATERCOLORS',ctx);
+assert.equal(Object.keys(map).length,300);
+const reference=JSON.parse(fs.readFileSync('hsk1-reference.js','utf8').match(/const HSK1_REFERENCE=(\[.*?\]);/)[1]);
+assert.deepEqual(Object.keys(map).sort(),reference.map(v=>v[0].replace(/\d/g,'')).sort(),'le registre illustre exactement les 300 entrées HSK 1');
+assert.equal(new Set(Object.values(map).map(a=>a.src)).size,300,'une image distincte par mot');
+assert.deepEqual(Object.values(map).map(a=>a.src.split('/').pop()).sort(),[...allImages].sort(),'chaque fichier du dossier est référencé, et inversement');
 const expected=JSON.parse(fs.readFileSync('vocabulary-art.json','utf8')).entries;
-assert.equal(expected.length,44);
-for(const entry of expected)assert(ctx.wordCards(words.filter(v=>v[0]===entry.word)).includes(entry.file));
-for(const path of files){const data=fs.readFileSync(path);assert(data.length>1000);assert.equal(data.readUInt16BE(0),0xffd8)}
+assert.equal(expected.length,296);
+for(const entry of expected){assert.equal(map[entry.word].src,entry.file,entry.word);if(words.some(v=>v[0]===entry.word))assert(ctx.wordCards(words.filter(v=>v[0]===entry.word)).includes(entry.file))}
+for(const f of allImages){const data=fs.readFileSync('assets/vocabulary/'+f);assert(data.length>1000);assert.equal(data.readUInt16BE(0),0xffd8,f)}
 const sw=fs.readFileSync('sw.js','utf8');
 const version=JSON.parse(fs.readFileSync('version.json')).version;
 assert(source.includes(`const APP_VERSION='${version}'`));
 assert(sw.includes(`const VERSION='${version}'`));
 for(const m of fs.readFileSync('index.html','utf8').matchAll(/(?:src|href)="([^"?]+)\?v=([^"]+)"/g)){assert.equal(m[2],version);assert(fs.existsSync(m[1]))}
 for(const path of files)assert(sw.includes('./'+path));
-// Exercise the actual install handler: four images must be put in the new cache.
+// Exercise the actual install handler: every watercolor of the words present in the game must be put in the new cache.
 const listeners={},cached=[];
 const swctx=vm.createContext({self:{addEventListener:(name,fn)=>listeners[name]=fn,skipWaiting:async()=>{}},caches:{open:async()=>({put:async path=>cached.push(path)})},Request:class{constructor(path){this.path=path}},fetch:async req=>{assert(fs.existsSync(req.path==='./'?'index.html':req.path.slice(2).split('?')[0]),req.path);return {ok:true}}});
 vm.runInContext(sw,swctx);
 let install;listeners.install({waitUntil:p=>install=p});
-install.then(()=>{for(const path of files)assert(cached.includes('./'+path));console.log('PASS: cards, selection, audio, fallback, filtering, JPEG files, versions and service-worker precache')}).catch(err=>{console.error(err);process.exitCode=1});
+install.then(()=>{for(const path of files)assert(cached.includes('./'+path));assert.equal(cached.filter(p=>p.startsWith('./assets/vocabulary/')).length,154,'seules les 154 images des mots jouables sont précachées');for(const art of Object.values(map))if(!files.includes(art.src))assert(!cached.includes('./'+art.src),'image future chargée à la demande');console.log('PASS: 300 HSK words mapped, playable cards, selection, audio, fallback, filtering, JPEG files, versions and exact 154-image precache')}).catch(err=>{console.error(err);process.exitCode=1});

@@ -1,5 +1,5 @@
 {
-  "scope": "48 mots du carnet, épisodes 1 et 2 ; 4 aquarelles de V0.6.2 conservées, 44 nouvelles",
+  "scope": "Vocabulaire HSK 1 : 300 aquarelles. Lot 1 : 48 mots des épisodes 1 et 2 (4 aquarelles de V0.6.2 conservées, 44 nouvelles). Lot 2 : 252 mots des épisodes 3 à 12 (les épisodes 7 à 12 ne sont pas encore écrits).",
   "tool": "Génération d’images intégrée",
   "commonPrompt": "Use case: illustration-story. Create ONE square watercolor vocabulary vignette for a Mandarin learning notebook. Delicate hand-painted watercolor on warm ivory paper, airy edges fading into empty ivory, jade and coral palette, spare composition readable at 96px. Only show subjects explicitly requested in the scene, no extra people, portraits, ghost figures, decorative faces or dragons. When present, Mei has dark messy bun, red ribbons and red cloak; elderly Master Chen has white bun and beard and gold ochre robe; Long is a green Chinese dragon with gold horns and mane. Reference images define appearances only, do not reproduce unrequested characters. Never show the customizable player hero. Absolutely no text, letters, Chinese characters, numbers, labels, punctuation, speech bubbles, borders or watermark. The scene is a memory cue for a word, not a comic panel or character etymology. Scene: ",
   "entries": [
@@ -266,6 +266,1527 @@
       "file": "assets/vocabulary/sui-v1.jpg",
       "alt": "Un enfant fête son anniversaire avec ses parents.",
       "scene": "An ordinary Chinese child celebrates a birthday with a small steamed birthday peach bun and a single candle, parents behind smiling. A memory cue for age in years. No digits or writing."
+    },
+    {
+      "word": "一",
+      "file": "assets/vocabulary/hsk1-ep03-01.jpg",
+      "alt": "Aquarelle pédagogique pour 一.",
+      "scene": "Exactly ONE jade pebble centered on ivory paper: one."
+    },
+    {
+      "word": "二",
+      "file": "assets/vocabulary/hsk1-ep03-02.jpg",
+      "alt": "Aquarelle pédagogique pour 二.",
+      "scene": "Exactly TWO jade pebbles side by side: two."
+    },
+    {
+      "word": "三",
+      "file": "assets/vocabulary/hsk1-ep03-03.jpg",
+      "alt": "Aquarelle pédagogique pour 三.",
+      "scene": "Exactly THREE jade pebbles in a clear triangle: three."
+    },
+    {
+      "word": "四",
+      "file": "assets/vocabulary/hsk1-ep03-04.jpg",
+      "alt": "Aquarelle pédagogique pour 四.",
+      "scene": "Exactly FOUR jade pebbles arranged two by two: four."
+    },
+    {
+      "word": "五",
+      "file": "assets/vocabulary/hsk1-ep03-05.jpg",
+      "alt": "Aquarelle pédagogique pour 五.",
+      "scene": "Exactly FIVE jade pebbles, four in a square and one centered: five."
+    },
+    {
+      "word": "六",
+      "file": "assets/vocabulary/hsk1-ep03-06.jpg",
+      "alt": "Aquarelle pédagogique pour 六.",
+      "scene": "Exactly SIX jade pebbles arranged in two rows of three: six."
+    },
+    {
+      "word": "七",
+      "file": "assets/vocabulary/hsk1-ep03-07.jpg",
+      "alt": "Aquarelle pédagogique pour 七.",
+      "scene": "Exactly SEVEN jade pebbles arranged in a row of four and a row of three: seven."
+    },
+    {
+      "word": "八",
+      "file": "assets/vocabulary/hsk1-ep03-08.jpg",
+      "alt": "Aquarelle pédagogique pour 八.",
+      "scene": "Exactly EIGHT jade pebbles arranged in two rows of four: eight."
+    },
+    {
+      "word": "九",
+      "file": "assets/vocabulary/hsk1-ep03-09.jpg",
+      "alt": "Aquarelle pédagogique pour 九.",
+      "scene": "Exactly NINE jade pebbles arranged in three rows of three: nine."
+    },
+    {
+      "word": "十",
+      "file": "assets/vocabulary/hsk1-ep03-10.jpg",
+      "alt": "Aquarelle pédagogique pour 十.",
+      "scene": "Exactly TEN jade pebbles arranged in two rows of five: ten."
+    },
+    {
+      "word": "零",
+      "file": "assets/vocabulary/hsk1-ep03-11.jpg",
+      "alt": "Aquarelle pédagogique pour 零.",
+      "scene": "An empty small porcelain counting tray next to a single pebble outside it: zero, none in the tray."
+    },
+    {
+      "word": "百",
+      "file": "assets/vocabulary/hsk1-ep03-12.jpg",
+      "alt": "Aquarelle pédagogique pour 百.",
+      "scene": "A bundle of ten slender counting sticks beside a larger bundle made from ten such small bundles: one hundred. No written numerals."
+    },
+    {
+      "word": "千",
+      "file": "assets/vocabulary/hsk1-ep03-13.jpg",
+      "alt": "Aquarelle pédagogique pour 千.",
+      "scene": "Ten large bundles of traditional counting rods arranged in a wooden case, each a bundle of hundreds, illustrating a large thousand quantity. No written numerals."
+    },
+    {
+      "word": "个",
+      "file": "assets/vocabulary/hsk1-ep03-14.jpg",
+      "alt": "Aquarelle pédagogique pour 个.",
+      "scene": "Mei holds up one small apple between finger and thumb, clearly selecting one individual item: general measure word."
+    },
+    {
+      "word": "几",
+      "file": "assets/vocabulary/hsk1-ep03-15.jpg",
+      "alt": "Aquarelle pédagogique pour 几.",
+      "scene": "Mei wonders how many pebbles are hidden in a small pouch, inquisitive gaze and open palm."
+    },
+    {
+      "word": "多少",
+      "file": "assets/vocabulary/hsk1-ep03-16.jpg",
+      "alt": "Aquarelle pédagogique pour 多少.",
+      "scene": "A shopkeeper shows a pile of apples while Mei asks about the quantity with an open palm."
+    },
+    {
+      "word": "多",
+      "file": "assets/vocabulary/hsk1-ep03-17.jpg",
+      "alt": "Aquarelle pédagogique pour 多.",
+      "scene": "Two baskets side by side, main basket overflowing with apples, secondary basket nearly empty: many, much."
+    },
+    {
+      "word": "少",
+      "file": "assets/vocabulary/hsk1-ep03-18.jpg",
+      "alt": "Aquarelle pédagogique pour 少.",
+      "scene": "Two baskets side by side, main basket containing just two apples, secondary basket overflowing: few, little."
+    },
+    {
+      "word": "两",
+      "file": "assets/vocabulary/hsk1-ep03-19.jpg",
+      "alt": "Aquarelle pédagogique pour 两.",
+      "scene": "Exactly TWO matching ceramic cups offered together on a small tray: two items, liang."
+    },
+    {
+      "word": "半",
+      "file": "assets/vocabulary/hsk1-ep03-20.jpg",
+      "alt": "Aquarelle pédagogique pour 半.",
+      "scene": "A round steamed bun neatly cut in half, its two equal halves slightly apart."
+    },
+    {
+      "word": "一半",
+      "file": "assets/vocabulary/hsk1-ep03-21.jpg",
+      "alt": "Aquarelle pédagogique pour 一半.",
+      "scene": "A single half of a round steamed bun beside a faint round plate indicating the original whole: one half."
+    },
+    {
+      "word": "一点儿",
+      "file": "assets/vocabulary/hsk1-ep03-22.jpg",
+      "alt": "Aquarelle pédagogique pour 一点儿.",
+      "scene": "Mei pinches a very small quantity of tea leaves between two fingers: a little bit."
+    },
+    {
+      "word": "一些",
+      "file": "assets/vocabulary/hsk1-ep03-23.jpg",
+      "alt": "Aquarelle pédagogique pour 一些.",
+      "scene": "A few small apples, three together in a shallow bowl: some, a small quantity."
+    },
+    {
+      "word": "块",
+      "file": "assets/vocabulary/hsk1-ep03-24.jpg",
+      "alt": "Aquarelle pédagogique pour 块.",
+      "scene": "A small square piece of silver beside a plain money pouch: monetary measure unit, no lettering."
+    },
+    {
+      "word": "元",
+      "file": "assets/vocabulary/hsk1-ep03-25.jpg",
+      "alt": "Aquarelle pédagogique pour 元.",
+      "scene": "A plain Chinese currency coin held in fingers above a small purse: monetary unit yuan. No digits, inscriptions or symbols on the coin."
+    },
+    {
+      "word": "钱",
+      "file": "assets/vocabulary/hsk1-ep03-26.jpg",
+      "alt": "Aquarelle pédagogique pour 钱.",
+      "scene": "A small cloth purse containing plain coins and folded unmarked banknotes: money."
+    },
+    {
+      "word": "今天",
+      "file": "assets/vocabulary/hsk1-ep04-01.jpg",
+      "alt": "Aquarelle pédagogique pour 今天.",
+      "scene": "Mei points at the sun shining directly above her courtyard, actively enjoying this present day: today."
+    },
+    {
+      "word": "明天",
+      "file": "assets/vocabulary/hsk1-ep04-02.jpg",
+      "alt": "Aquarelle pédagogique pour 明天.",
+      "scene": "Mei at an evening window looks toward a bright sunrise suggested beyond a low hill, tomorrow as anticipation, no panels."
+    },
+    {
+      "word": "昨天",
+      "file": "assets/vocabulary/hsk1-ep04-03.jpg",
+      "alt": "Aquarelle pédagogique pour 昨天.",
+      "scene": "Mei thoughtfully looks back at yesterday's fallen flower beside a fresh flower on the same branch, a cue for the previous day."
+    },
+    {
+      "word": "今年",
+      "file": "assets/vocabulary/hsk1-ep04-04.jpg",
+      "alt": "Aquarelle pédagogique pour 今年.",
+      "scene": "A small flowering tree in its current vibrant season, Mei tending it attentively: this year."
+    },
+    {
+      "word": "明年",
+      "file": "assets/vocabulary/hsk1-ep04-05.jpg",
+      "alt": "Aquarelle pédagogique pour 明年.",
+      "scene": "A young sapling protected beside a taller softly imagined version behind it, Mei anticipates its growth: next year."
+    },
+    {
+      "word": "去年",
+      "file": "assets/vocabulary/hsk1-ep04-06.jpg",
+      "alt": "Aquarelle pédagogique pour 去年.",
+      "scene": "Mei examines a dried pressed blossom beside the currently flowering branch: last year."
+    },
+    {
+      "word": "年",
+      "file": "assets/vocabulary/hsk1-ep04-07.jpg",
+      "alt": "Aquarelle pédagogique pour 年.",
+      "scene": "A single circular wreath combining spring blossoms, summer leaves, autumn leaves and bare winter twigs: year."
+    },
+    {
+      "word": "月",
+      "file": "assets/vocabulary/hsk1-ep04-08.jpg",
+      "alt": "Aquarelle pédagogique pour 月.",
+      "scene": "A large gentle moon above a small courtyard, a ring of moon phase shapes without markings: month."
+    },
+    {
+      "word": "日",
+      "file": "assets/vocabulary/hsk1-ep04-09.jpg",
+      "alt": "Aquarelle pédagogique pour 日.",
+      "scene": "A single sun rising over a simple mountain ridge, one complete bright day: day, ri."
+    },
+    {
+      "word": "号",
+      "file": "assets/vocabulary/hsk1-ep04-10.jpg",
+      "alt": "Aquarelle pédagogique pour 号.",
+      "scene": "Mei holds an unmarked small calendar leaf with a single red circle around one empty square, date number cue. No numerals, writing or symbols other than the circle."
+    },
+    {
+      "word": "星期",
+      "file": "assets/vocabulary/hsk1-ep04-11.jpg",
+      "alt": "Aquarelle pédagogique pour 星期.",
+      "scene": "Seven plain small calendar leaves arranged in one tidy row: week. All leaves blank, no writing."
+    },
+    {
+      "word": "星期日",
+      "file": "assets/vocabulary/hsk1-ep04-12.jpg",
+      "alt": "Aquarelle pédagogique pour 星期日.",
+      "scene": "A resting family having a picnic under a bright sun, beside a blank weekly calendar with the final square circled: Sunday."
+    },
+    {
+      "word": "星期天",
+      "file": "assets/vocabulary/hsk1-ep04-13.jpg",
+      "alt": "Aquarelle pédagogique pour 星期天.",
+      "scene": "Mei and Chen relax in the sun at a park on a restful Sunday, a tiny row of seven blank squares with the last gently shaded, no writing."
+    },
+    {
+      "word": "早上",
+      "file": "assets/vocabulary/hsk1-ep04-14.jpg",
+      "alt": "Aquarelle pédagogique pour 早上.",
+      "scene": "Mei opens a wooden window at sunrise, warm first light and a steaming breakfast cup: early morning."
+    },
+    {
+      "word": "上午",
+      "file": "assets/vocabulary/hsk1-ep04-15.jpg",
+      "alt": "Aquarelle pédagogique pour 上午.",
+      "scene": "Mei waters a courtyard plant under a sun still low but clearly risen: morning before noon."
+    },
+    {
+      "word": "中午",
+      "file": "assets/vocabulary/hsk1-ep04-16.jpg",
+      "alt": "Aquarelle pédagogique pour 中午.",
+      "scene": "A sun directly overhead a short-shadow teapot and lunch table: midday."
+    },
+    {
+      "word": "下午",
+      "file": "assets/vocabulary/hsk1-ep04-17.jpg",
+      "alt": "Aquarelle pédagogique pour 下午.",
+      "scene": "Mei drinks tea in a courtyard with long afternoon shadows and sun descending."
+    },
+    {
+      "word": "晚上",
+      "file": "assets/vocabulary/hsk1-ep04-18.jpg",
+      "alt": "Aquarelle pédagogique pour 晚上.",
+      "scene": "Warm lantern glowing in a window beneath a dark evening sky with a crescent moon: evening."
+    },
+    {
+      "word": "白天",
+      "file": "assets/vocabulary/hsk1-ep04-19.jpg",
+      "alt": "Aquarelle pédagogique pour 白天.",
+      "scene": "A bustling courtyard in clear broad daylight, blue sky and short plant shadow: daytime."
+    },
+    {
+      "word": "点",
+      "file": "assets/vocabulary/hsk1-ep04-20.jpg",
+      "alt": "Aquarelle pédagogique pour 点.",
+      "scene": "A simple traditional round clock with hands pointing to one exact hour, tick marks only, no digits or text: o'clock."
+    },
+    {
+      "word": "分",
+      "file": "assets/vocabulary/hsk1-ep04-21.jpg",
+      "alt": "Aquarelle pédagogique pour 分.",
+      "scene": "A clock close-up with the minute hand just one tick beyond the hour, tick marks only and no digits: minute."
+    },
+    {
+      "word": "分钟",
+      "file": "assets/vocabulary/hsk1-ep04-22.jpg",
+      "alt": "Aquarelle pédagogique pour 分钟.",
+      "scene": "A small kitchen sand timer almost empty beside a teacup, a short minute of waiting."
+    },
+    {
+      "word": "小时",
+      "file": "assets/vocabulary/hsk1-ep04-23.jpg",
+      "alt": "Aquarelle pédagogique pour 小时.",
+      "scene": "A round analog clock with a highlighted arc spanning one hour, tick marks only, no numbers: hour."
+    },
+    {
+      "word": "时候",
+      "file": "assets/vocabulary/hsk1-ep04-24.jpg",
+      "alt": "Aquarelle pédagogique pour 时候.",
+      "scene": "Mei pauses beside a clock and looks out toward a changing sky: a moment, a time when something happens."
+    },
+    {
+      "word": "时间",
+      "file": "assets/vocabulary/hsk1-ep04-25.jpg",
+      "alt": "Aquarelle pédagogique pour 时间.",
+      "scene": "An hourglass and a simple analog clock together, flowing sand as the focus: time."
+    },
+    {
+      "word": "现在",
+      "file": "assets/vocabulary/hsk1-ep04-26.jpg",
+      "alt": "Aquarelle pédagogique pour 现在.",
+      "scene": "Mei points down to the spot where she is standing, a small sunbeam highlighting the immediate moment: now."
+    },
+    {
+      "word": "天",
+      "file": "assets/vocabulary/hsk1-ep04-27.jpg",
+      "alt": "Aquarelle pédagogique pour 天.",
+      "scene": "A bright clear sky arching above one small green hill, sun and drifting clouds: day, sky."
+    },
+    {
+      "word": "晚",
+      "file": "assets/vocabulary/hsk1-ep04-28.jpg",
+      "alt": "Aquarelle pédagogique pour 晚.",
+      "scene": "Mei hurries toward a doorway while Chen is already putting away the tea, nearly dark sky: late."
+    },
+    {
+      "word": "早",
+      "file": "assets/vocabulary/hsk1-ep04-29.jpg",
+      "alt": "Aquarelle pédagogique pour 早.",
+      "scene": "Mei arrives at a still-closed shop at dawn before others have come: early."
+    },
+    {
+      "word": "茶",
+      "file": "assets/vocabulary/hsk1-ep05-01.jpg",
+      "alt": "Aquarelle pédagogique pour 茶.",
+      "scene": "A small porcelain teapot and cup of green tea, delicate steam curling upward."
+    },
+    {
+      "word": "水",
+      "file": "assets/vocabulary/hsk1-ep05-02.jpg",
+      "alt": "Aquarelle pédagogique pour 水.",
+      "scene": "A clear glass of fresh drinking water, a tiny water ripple and natural highlights."
+    },
+    {
+      "word": "喝",
+      "file": "assets/vocabulary/hsk1-ep05-03.jpg",
+      "alt": "Aquarelle pédagogique pour 喝.",
+      "scene": "Mei lifts a porcelain cup to her lips and drinks, clear drinking action."
+    },
+    {
+      "word": "吃",
+      "file": "assets/vocabulary/hsk1-ep05-04.jpg",
+      "alt": "Aquarelle pédagogique pour 吃.",
+      "scene": "Mei eats a dumpling with chopsticks, clear eating action."
+    },
+    {
+      "word": "饭",
+      "file": "assets/vocabulary/hsk1-ep05-05.jpg",
+      "alt": "Aquarelle pédagogique pour 饭.",
+      "scene": "A simple inviting meal on a low wooden table, bowl of rice and vegetable dish: meal."
+    },
+    {
+      "word": "米饭",
+      "file": "assets/vocabulary/hsk1-ep05-06.jpg",
+      "alt": "Aquarelle pédagogique pour 米饭.",
+      "scene": "A porcelain bowl filled with cooked white rice, simple close-up."
+    },
+    {
+      "word": "面包",
+      "file": "assets/vocabulary/hsk1-ep05-07.jpg",
+      "alt": "Aquarelle pédagogique pour 面包.",
+      "scene": "A small rustic loaf of bread with one slice, no wrapping or labels."
+    },
+    {
+      "word": "包子",
+      "file": "assets/vocabulary/hsk1-ep05-08.jpg",
+      "alt": "Aquarelle pédagogique pour 包子.",
+      "scene": "A bamboo steamer containing fluffy round steamed buns, one open to show filling."
+    },
+    {
+      "word": "饺子",
+      "file": "assets/vocabulary/hsk1-ep05-09.jpg",
+      "alt": "Aquarelle pédagogique pour 饺子.",
+      "scene": "A shallow porcelain plate of crescent-shaped Chinese dumplings."
+    },
+    {
+      "word": "面条儿",
+      "file": "assets/vocabulary/hsk1-ep05-10.jpg",
+      "alt": "Aquarelle pédagogique pour 面条儿.",
+      "scene": "A steaming bowl of long noodles with chopsticks lifting a few strands."
+    },
+    {
+      "word": "鸡蛋",
+      "file": "assets/vocabulary/hsk1-ep05-11.jpg",
+      "alt": "Aquarelle pédagogique pour 鸡蛋.",
+      "scene": "Two chicken eggs, one intact and one neatly halved boiled egg."
+    },
+    {
+      "word": "牛奶",
+      "file": "assets/vocabulary/hsk1-ep05-12.jpg",
+      "alt": "Aquarelle pédagogique pour 牛奶.",
+      "scene": "A plain glass of milk beside a small unmarked milk pitcher."
+    },
+    {
+      "word": "水果",
+      "file": "assets/vocabulary/hsk1-ep05-13.jpg",
+      "alt": "Aquarelle pédagogique pour 水果.",
+      "scene": "A shallow bowl of fresh fruit: apple, pear and orange, simple composition."
+    },
+    {
+      "word": "苹果",
+      "file": "assets/vocabulary/hsk1-ep05-14.jpg",
+      "alt": "Aquarelle pédagogique pour 苹果.",
+      "scene": "One red apple with a small green leaf, centered."
+    },
+    {
+      "word": "菜",
+      "file": "assets/vocabulary/hsk1-ep05-15.jpg",
+      "alt": "Aquarelle pédagogique pour 菜.",
+      "scene": "A simple plate of leafy green vegetables, freshly cooked."
+    },
+    {
+      "word": "好吃",
+      "file": "assets/vocabulary/hsk1-ep05-16.jpg",
+      "alt": "Aquarelle pédagogique pour 好吃.",
+      "scene": "Mei tastes a dumpling with delight, closed eyes and a happy approving smile: delicious."
+    },
+    {
+      "word": "早饭",
+      "file": "assets/vocabulary/hsk1-ep05-17.jpg",
+      "alt": "Aquarelle pédagogique pour 早饭.",
+      "scene": "A breakfast tray with steamed bun, egg and warm cup, gentle sunrise light."
+    },
+    {
+      "word": "午饭",
+      "file": "assets/vocabulary/hsk1-ep05-18.jpg",
+      "alt": "Aquarelle pédagogique pour 午饭.",
+      "scene": "A lunch table with rice and vegetables under bright midday light."
+    },
+    {
+      "word": "晚饭",
+      "file": "assets/vocabulary/hsk1-ep05-19.jpg",
+      "alt": "Aquarelle pédagogique pour 晚饭.",
+      "scene": "A warm evening meal of rice and soup beside a glowing lantern."
+    },
+    {
+      "word": "饭店",
+      "file": "assets/vocabulary/hsk1-ep05-20.jpg",
+      "alt": "Aquarelle pédagogique pour 饭店.",
+      "scene": "A welcoming small Chinese restaurant entrance with tables visible, absolutely no signs or writing."
+    },
+    {
+      "word": "杯子",
+      "file": "assets/vocabulary/hsk1-ep05-21.jpg",
+      "alt": "Aquarelle pédagogique pour 杯子.",
+      "scene": "One simple porcelain drinking cup, handle visible, no pattern text."
+    },
+    {
+      "word": "做饭",
+      "file": "assets/vocabulary/hsk1-ep05-22.jpg",
+      "alt": "Aquarelle pédagogique pour 做饭.",
+      "scene": "Mei stirs vegetables in a wok in a simple kitchen, clearly cooking a meal."
+    },
+    {
+      "word": "要",
+      "file": "assets/vocabulary/hsk1-ep05-23.jpg",
+      "alt": "Aquarelle pédagogique pour 要.",
+      "scene": "Mei reaches eagerly toward a bun offered by Chen: want."
+    },
+    {
+      "word": "喜欢",
+      "file": "assets/vocabulary/hsk1-ep05-24.jpg",
+      "alt": "Aquarelle pédagogique pour 喜欢.",
+      "scene": "Mei holds a small jade dragon figurine affectionately close to her heart: like."
+    },
+    {
+      "word": "口",
+      "file": "assets/vocabulary/hsk1-ep05-25.jpg",
+      "alt": "Aquarelle pédagogique pour 口.",
+      "scene": "A gentle close-up of a person's mouth and chin, neutral natural expression: mouth."
+    },
+    {
+      "word": "买",
+      "file": "assets/vocabulary/hsk1-ep06-01.jpg",
+      "alt": "Aquarelle pédagogique pour 买.",
+      "scene": "Mei gives plain coins to a shopkeeper while receiving a basket of fruit: buy."
+    },
+    {
+      "word": "卖",
+      "file": "assets/vocabulary/hsk1-ep06-02.jpg",
+      "alt": "Aquarelle pédagogique pour 卖.",
+      "scene": "An ordinary shopkeeper hands a basket of fruit to Mei and accepts plain coins: sell."
+    },
+    {
+      "word": "店",
+      "file": "assets/vocabulary/hsk1-ep06-03.jpg",
+      "alt": "Aquarelle pédagogique pour 店.",
+      "scene": "A small neighborhood shop with goods displayed at its open entrance, no sign."
+    },
+    {
+      "word": "商店",
+      "file": "assets/vocabulary/hsk1-ep06-04.jpg",
+      "alt": "Aquarelle pédagogique pour 商店.",
+      "scene": "A general store with neatly stocked shelves and a merchant behind a counter, no writing."
+    },
+    {
+      "word": "超市",
+      "file": "assets/vocabulary/hsk1-ep06-05.jpg",
+      "alt": "Aquarelle pédagogique pour 超市.",
+      "scene": "A modern supermarket aisle with shopping basket and orderly produce shelves, all packages blank."
+    },
+    {
+      "word": "书店",
+      "file": "assets/vocabulary/hsk1-ep06-06.jpg",
+      "alt": "Aquarelle pédagogique pour 书店.",
+      "scene": "A welcoming bookshop with closed unmarked books in wooden shelves, no lettering anywhere."
+    },
+    {
+      "word": "东西",
+      "file": "assets/vocabulary/hsk1-ep06-07.jpg",
+      "alt": "Aquarelle pédagogique pour 东西.",
+      "scene": "A few everyday objects on a cloth: cup, folded scarf, small pouch and comb: things."
+    },
+    {
+      "word": "贵",
+      "file": "assets/vocabulary/hsk1-ep06-08.jpg",
+      "alt": "Aquarelle pédagogique pour 贵.",
+      "scene": "Mei looks surprised at a small silk scarf beside a large pile of plain coins: expensive."
+    },
+    {
+      "word": "便宜",
+      "file": "assets/vocabulary/hsk1-ep06-09.jpg",
+      "alt": "Aquarelle pédagogique pour 便宜.",
+      "scene": "Mei looks pleased at the same type of scarf beside just two plain coins: inexpensive."
+    },
+    {
+      "word": "找",
+      "file": "assets/vocabulary/hsk1-ep06-10.jpg",
+      "alt": "Aquarelle pédagogique pour 找.",
+      "scene": "Mei searches inside an open satchel and under a cloth for a small key: look for."
+    },
+    {
+      "word": "给",
+      "file": "assets/vocabulary/hsk1-ep06-11.jpg",
+      "alt": "Aquarelle pédagogique pour 给.",
+      "scene": "Chen hands Mei a porcelain cup with a clear giving gesture."
+    },
+    {
+      "word": "有",
+      "file": "assets/vocabulary/hsk1-ep06-12.jpg",
+      "alt": "Aquarelle pédagogique pour 有.",
+      "scene": "Mei opens a pouch to reveal a shiny jade pebble inside: have."
+    },
+    {
+      "word": "没有",
+      "file": "assets/vocabulary/hsk1-ep06-13.jpg",
+      "alt": "Aquarelle pédagogique pour 没有.",
+      "scene": "Mei turns an empty pouch upside down, nothing falls out: not have."
+    },
+    {
+      "word": "哪",
+      "file": "assets/vocabulary/hsk1-ep06-14.jpg",
+      "alt": "Aquarelle pédagogique pour 哪.",
+      "scene": "Mei considers two different paths through a garden, open hand and enquiring face: which."
+    },
+    {
+      "word": "哪个",
+      "file": "assets/vocabulary/hsk1-ep06-15.jpg",
+      "alt": "Aquarelle pédagogique pour 哪个.",
+      "scene": "Mei chooses between two clearly different cups on a table: which one."
+    },
+    {
+      "word": "那个",
+      "file": "assets/vocabulary/hsk1-ep06-16.jpg",
+      "alt": "Aquarelle pédagogique pour 那个.",
+      "scene": "Mei points toward one particular cup at the far end of a long table: that one."
+    },
+    {
+      "word": "这个",
+      "file": "assets/vocabulary/hsk1-ep06-17.jpg",
+      "alt": "Aquarelle pédagogique pour 这个.",
+      "scene": "Mei points toward one particular cup immediately next to her hand: this one."
+    },
+    {
+      "word": "这些",
+      "file": "assets/vocabulary/hsk1-ep06-18.jpg",
+      "alt": "Aquarelle pédagogique pour 这些.",
+      "scene": "Mei gestures toward a small group of cups close to her in the foreground: these."
+    },
+    {
+      "word": "那些",
+      "file": "assets/vocabulary/hsk1-ep06-19.jpg",
+      "alt": "Aquarelle pédagogique pour 那些.",
+      "scene": "Mei gestures toward a small group of cups farther away on the table: those."
+    },
+    {
+      "word": "哪些",
+      "file": "assets/vocabulary/hsk1-ep06-20.jpg",
+      "alt": "Aquarelle pédagogique pour 哪些.",
+      "scene": "Mei asks a merchant about which group of apples to take, comparing two small baskets."
+    },
+    {
+      "word": "些",
+      "file": "assets/vocabulary/hsk1-ep06-21.jpg",
+      "alt": "Aquarelle pédagogique pour 些.",
+      "scene": "Several small pebbles grouped loosely in a shallow bowl: some, plural quantity."
+    },
+    {
+      "word": "本",
+      "file": "assets/vocabulary/hsk1-ep06-22.jpg",
+      "alt": "Aquarelle pédagogique pour 本.",
+      "scene": "Chen picks one closed unmarked book from a small stack: book measure word."
+    },
+    {
+      "word": "件",
+      "file": "assets/vocabulary/hsk1-ep06-23.jpg",
+      "alt": "Aquarelle pédagogique pour 件.",
+      "scene": "Mei holds up one folded jacket separately from a small pile of clothing: garment measure word."
+    },
+    {
+      "word": "衣服",
+      "file": "assets/vocabulary/hsk1-ep06-24.jpg",
+      "alt": "Aquarelle pédagogique pour 衣服.",
+      "scene": "A neatly arranged traditional jacket, trousers and soft cloth shoes: clothes."
+    },
+    {
+      "word": "新",
+      "file": "assets/vocabulary/hsk1-ep06-25.jpg",
+      "alt": "Aquarelle pédagogique pour 新.",
+      "scene": "A pristine new pair of cloth shoes beside a visibly worn old pair, new shoes emphasized."
+    },
+    {
+      "word": "那",
+      "file": "assets/vocabulary/hsk1-ep06-26.jpg",
+      "alt": "Aquarelle pédagogique pour 那.",
+      "scene": "Mei gestures to a distant small teapot across the courtyard: that."
+    },
+    {
+      "word": "中国",
+      "file": "assets/vocabulary/hsk1-ep07-01.jpg",
+      "alt": "Aquarelle pédagogique pour 中国.",
+      "scene": "A culturally recognizable watercolor of the Great Wall winding over green Chinese mountains, no maps, labels or writing: China."
+    },
+    {
+      "word": "国",
+      "file": "assets/vocabulary/hsk1-ep07-02.jpg",
+      "alt": "Aquarelle pédagogique pour 国.",
+      "scene": "A gently outlined anonymous country-shaped landmass with mountains, a river and a few houses, no borders text or flags: country."
+    },
+    {
+      "word": "哪里",
+      "file": "assets/vocabulary/hsk1-ep07-03.jpg",
+      "alt": "Aquarelle pédagogique pour 哪里.",
+      "scene": "Mei studies a small blank map at a crossroads and looks around inquisitively: where."
+    },
+    {
+      "word": "哪儿",
+      "file": "assets/vocabulary/hsk1-ep07-04.jpg",
+      "alt": "Aquarelle pédagogique pour 哪儿.",
+      "scene": "Mei asks Chen for directions beside two diverging streets, enquiring open palm: where."
+    },
+    {
+      "word": "那里",
+      "file": "assets/vocabulary/hsk1-ep07-05.jpg",
+      "alt": "Aquarelle pédagogique pour 那里.",
+      "scene": "Chen points toward a small pavilion far across a pond: there."
+    },
+    {
+      "word": "那儿",
+      "file": "assets/vocabulary/hsk1-ep07-06.jpg",
+      "alt": "Aquarelle pédagogique pour 那儿.",
+      "scene": "Mei gestures toward a doorway on the far side of the courtyard: over there."
+    },
+    {
+      "word": "这里",
+      "file": "assets/vocabulary/hsk1-ep07-07.jpg",
+      "alt": "Aquarelle pédagogique pour 这里.",
+      "scene": "Mei points to the ground immediately beside her feet in the foreground: here."
+    },
+    {
+      "word": "这儿",
+      "file": "assets/vocabulary/hsk1-ep07-08.jpg",
+      "alt": "Aquarelle pédagogique pour 这儿.",
+      "scene": "Chen welcomes Mei to a seat right next to him, indicating this very spot: here."
+    },
+    {
+      "word": "那边",
+      "file": "assets/vocabulary/hsk1-ep07-09.jpg",
+      "alt": "Aquarelle pédagogique pour 那边.",
+      "scene": "A hand points toward the far bank of a small stream: that side."
+    },
+    {
+      "word": "这边",
+      "file": "assets/vocabulary/hsk1-ep07-10.jpg",
+      "alt": "Aquarelle pédagogique pour 这边.",
+      "scene": "Mei waves Chen toward the near bank of a small stream where she stands: this side."
+    },
+    {
+      "word": "边",
+      "file": "assets/vocabulary/hsk1-ep07-11.jpg",
+      "alt": "Aquarelle pédagogique pour 边.",
+      "scene": "A teacup placed close to the edge of a wooden table, focus on the edge."
+    },
+    {
+      "word": "外",
+      "file": "assets/vocabulary/hsk1-ep07-12.jpg",
+      "alt": "Aquarelle pédagogique pour 外.",
+      "scene": "Mei stands outside a closed courtyard gate, gate and exterior visible: outside."
+    },
+    {
+      "word": "外边",
+      "file": "assets/vocabulary/hsk1-ep07-13.jpg",
+      "alt": "Aquarelle pédagogique pour 外边.",
+      "scene": "A small plant in a pot just outside an open doorway, interior visible behind: outside area."
+    },
+    {
+      "word": "里",
+      "file": "assets/vocabulary/hsk1-ep07-14.jpg",
+      "alt": "Aquarelle pédagogique pour 里.",
+      "scene": "A small jade pebble visibly inside an open wooden box: inside."
+    },
+    {
+      "word": "前",
+      "file": "assets/vocabulary/hsk1-ep07-15.jpg",
+      "alt": "Aquarelle pédagogique pour 前.",
+      "scene": "Mei stands clearly in front of a wooden chair, viewer sees chair behind her: in front."
+    },
+    {
+      "word": "后",
+      "file": "assets/vocabulary/hsk1-ep07-16.jpg",
+      "alt": "Aquarelle pédagogique pour 后.",
+      "scene": "Mei peeks from behind a wooden chair, chair in front of her: behind."
+    },
+    {
+      "word": "上",
+      "file": "assets/vocabulary/hsk1-ep07-17.jpg",
+      "alt": "Aquarelle pédagogique pour 上.",
+      "scene": "A small jade pebble resting on top of a wooden box: above, on."
+    },
+    {
+      "word": "下",
+      "file": "assets/vocabulary/hsk1-ep07-18.jpg",
+      "alt": "Aquarelle pédagogique pour 下.",
+      "scene": "A small jade pebble clearly beneath a raised wooden bench: under."
+    },
+    {
+      "word": "去",
+      "file": "assets/vocabulary/hsk1-ep07-19.jpg",
+      "alt": "Aquarelle pédagogique pour 去.",
+      "scene": "Mei walks away from Chen toward a distant gateway, back turned and forward-moving step: go."
+    },
+    {
+      "word": "来",
+      "file": "assets/vocabulary/hsk1-ep07-20.jpg",
+      "alt": "Aquarelle pédagogique pour 来.",
+      "scene": "Mei walks toward Chen who welcomes her with open arms, approaching movement: come."
+    },
+    {
+      "word": "回",
+      "file": "assets/vocabulary/hsk1-ep07-21.jpg",
+      "alt": "Aquarelle pédagogique pour 回.",
+      "scene": "Mei returns through the same cozy courtyard gate carrying her travel satchel, family welcoming her: return."
+    },
+    {
+      "word": "到",
+      "file": "assets/vocabulary/hsk1-ep07-22.jpg",
+      "alt": "Aquarelle pédagogique pour 到.",
+      "scene": "Mei has just reached the shop doorstep and touches the doorframe, journey at an end: arrive."
+    },
+    {
+      "word": "车",
+      "file": "assets/vocabulary/hsk1-ep07-23.jpg",
+      "alt": "Aquarelle pédagogique pour 车.",
+      "scene": "A compact everyday passenger car parked beside a curb, no plate text, logo or labels."
+    },
+    {
+      "word": "出租车",
+      "file": "assets/vocabulary/hsk1-ep07-24.jpg",
+      "alt": "Aquarelle pédagogique pour 出租车.",
+      "scene": "A simple city taxi with a small blank roof light and open passenger door, no words, numbers or logos."
+    },
+    {
+      "word": "飞机",
+      "file": "assets/vocabulary/hsk1-ep07-25.jpg",
+      "alt": "Aquarelle pédagogique pour 飞机.",
+      "scene": "A passenger airplane flying above soft clouds, no airline marks or writing."
+    },
+    {
+      "word": "火车",
+      "file": "assets/vocabulary/hsk1-ep07-26.jpg",
+      "alt": "Aquarelle pédagogique pour 火车.",
+      "scene": "A passenger train winding along rails through a green valley, no logos or writing."
+    },
+    {
+      "word": "在",
+      "file": "assets/vocabulary/hsk1-ep07-27.jpg",
+      "alt": "Aquarelle pédagogique pour 在.",
+      "scene": "Mei sits at a courtyard table while Chen indicates her location with an open hand: be at."
+    },
+    {
+      "word": "大学",
+      "file": "assets/vocabulary/hsk1-ep08-01.jpg",
+      "alt": "Aquarelle pédagogique pour 大学.",
+      "scene": "A dignified university campus with a large academic building, mature trees and adult students, no signage."
+    },
+    {
+      "word": "大学生",
+      "file": "assets/vocabulary/hsk1-ep08-02.jpg",
+      "alt": "Aquarelle pédagogique pour 大学生.",
+      "scene": "An ordinary adult university student carrying closed unmarked books and a shoulder bag on campus."
+    },
+    {
+      "word": "学校",
+      "file": "assets/vocabulary/hsk1-ep08-03.jpg",
+      "alt": "Aquarelle pédagogique pour 学校.",
+      "scene": "A welcoming school building with playground and a few students, no signs or writing."
+    },
+    {
+      "word": "小学",
+      "file": "assets/vocabulary/hsk1-ep08-04.jpg",
+      "alt": "Aquarelle pédagogique pour 小学.",
+      "scene": "A cheerful primary school building with a small playground, no signs or written decoration."
+    },
+    {
+      "word": "小学生",
+      "file": "assets/vocabulary/hsk1-ep08-05.jpg",
+      "alt": "Aquarelle pédagogique pour 小学生.",
+      "scene": "An ordinary primary-school child wearing a small schoolbag and carrying a blank notebook."
+    },
+    {
+      "word": "中学",
+      "file": "assets/vocabulary/hsk1-ep08-06.jpg",
+      "alt": "Aquarelle pédagogique pour 中学.",
+      "scene": "A secondary school building with an outdoor sports court and teenage students, no signs."
+    },
+    {
+      "word": "中学生",
+      "file": "assets/vocabulary/hsk1-ep08-07.jpg",
+      "alt": "Aquarelle pédagogique pour 中学生.",
+      "scene": "An ordinary teenage secondary-school student with a schoolbag and closed blank textbook."
+    },
+    {
+      "word": "学生",
+      "file": "assets/vocabulary/hsk1-ep08-08.jpg",
+      "alt": "Aquarelle pédagogique pour 学生.",
+      "scene": "An ordinary student sits at a desk with a blank open notebook, attentively learning."
+    },
+    {
+      "word": "同学",
+      "file": "assets/vocabulary/hsk1-ep08-09.jpg",
+      "alt": "Aquarelle pédagogique pour 同学.",
+      "scene": "Two ordinary teenage classmates sit side by side at school desks, exchanging a friendly look."
+    },
+    {
+      "word": "老师",
+      "file": "assets/vocabulary/hsk1-ep08-10.jpg",
+      "alt": "Aquarelle pédagogique pour 老师.",
+      "scene": "An ordinary adult teacher at the front of a classroom holds a closed plain book, no writing on board."
+    },
+    {
+      "word": "课",
+      "file": "assets/vocabulary/hsk1-ep08-11.jpg",
+      "alt": "Aquarelle pédagogique pour 课.",
+      "scene": "A classroom desk with a blank open workbook and a teacher explaining a lesson to attentive students."
+    },
+    {
+      "word": "上课",
+      "file": "assets/vocabulary/hsk1-ep08-12.jpg",
+      "alt": "Aquarelle pédagogique pour 上课.",
+      "scene": "Students settle into classroom seats as the teacher begins a lesson, no board text."
+    },
+    {
+      "word": "下课",
+      "file": "assets/vocabulary/hsk1-ep08-13.jpg",
+      "alt": "Aquarelle pédagogique pour 下课.",
+      "scene": "Students leave classroom desks after a lesson, teacher waves gently, no board text."
+    },
+    {
+      "word": "上学",
+      "file": "assets/vocabulary/hsk1-ep08-14.jpg",
+      "alt": "Aquarelle pédagogique pour 上学.",
+      "scene": "A child with a schoolbag walks toward the open school gate in morning light."
+    },
+    {
+      "word": "学",
+      "file": "assets/vocabulary/hsk1-ep08-15.jpg",
+      "alt": "Aquarelle pédagogique pour 学.",
+      "scene": "Mei practices a simple new skill by copying Chen's careful tea-pouring gesture: learn."
+    },
+    {
+      "word": "学习",
+      "file": "assets/vocabulary/hsk1-ep08-16.jpg",
+      "alt": "Aquarelle pédagogique pour 学习.",
+      "scene": "Mei studies attentively at a desk with blank books and a brush, quiet concentration."
+    },
+    {
+      "word": "汉语",
+      "file": "assets/vocabulary/hsk1-ep08-17.jpg",
+      "alt": "Aquarelle pédagogique pour 汉语.",
+      "scene": "Chen speaks clearly to listening Mei with a closed Chinese-style stitched book nearby: Chinese language. No visible writing or speech bubble."
+    },
+    {
+      "word": "汉字",
+      "file": "assets/vocabulary/hsk1-ep08-18.jpg",
+      "alt": "Aquarelle pédagogique pour 汉字.",
+      "scene": "A traditional calligraphy brush rests on pristine blank rice paper beside an inkstone, a cue for Chinese characters. Absolutely no glyphs."
+    },
+    {
+      "word": "中文",
+      "file": "assets/vocabulary/hsk1-ep08-19.jpg",
+      "alt": "Aquarelle pédagogique pour 中文.",
+      "scene": "Mei reads a closed Chinese-style stitched book together with Chen, a cue for written Chinese, no visible characters."
+    },
+    {
+      "word": "字",
+      "file": "assets/vocabulary/hsk1-ep08-20.jpg",
+      "alt": "Aquarelle pédagogique pour 字.",
+      "scene": "A calligraphy brush poised above one single blank square of rice paper, a cue for a written character, no glyphs."
+    },
+    {
+      "word": "读",
+      "file": "assets/vocabulary/hsk1-ep08-21.jpg",
+      "alt": "Aquarelle pédagogique pour 读.",
+      "scene": "Mei looks attentively at an open entirely blank book, lips slightly parted as if reading aloud."
+    },
+    {
+      "word": "读书",
+      "file": "assets/vocabulary/hsk1-ep08-22.jpg",
+      "alt": "Aquarelle pédagogique pour 读书.",
+      "scene": "Chen reads an open entirely blank book at a wooden desk, reading is the focus."
+    },
+    {
+      "word": "书",
+      "file": "assets/vocabulary/hsk1-ep08-23.jpg",
+      "alt": "Aquarelle pédagogique pour 书.",
+      "scene": "One closed Chinese-style stitched book with a plain unmarked cover."
+    },
+    {
+      "word": "写",
+      "file": "assets/vocabulary/hsk1-ep08-24.jpg",
+      "alt": "Aquarelle pédagogique pour 写.",
+      "scene": "Mei holds a brush and makes a practice movement above blank paper, writing action without any visible marks."
+    },
+    {
+      "word": "问题",
+      "file": "assets/vocabulary/hsk1-ep08-25.jpg",
+      "alt": "Aquarelle pédagogique pour 问题.",
+      "scene": "A student looks puzzled at a blank workbook and raises a hand toward the teacher: question, problem."
+    },
+    {
+      "word": "起床",
+      "file": "assets/vocabulary/hsk1-ep09-01.jpg",
+      "alt": "Aquarelle pédagogique pour 起床.",
+      "scene": "Mei sits up and swings her feet out of bed as sunrise comes through the window: get up."
+    },
+    {
+      "word": "睡觉",
+      "file": "assets/vocabulary/hsk1-ep09-02.jpg",
+      "alt": "Aquarelle pédagogique pour 睡觉.",
+      "scene": "Mei sleeps peacefully under a quilt in bed, moonlight at the window."
+    },
+    {
+      "word": "睡",
+      "file": "assets/vocabulary/hsk1-ep09-03.jpg",
+      "alt": "Aquarelle pédagogique pour 睡.",
+      "scene": "A peacefully sleeping ordinary adult with head on a pillow, focus on closed eyes: sleep."
+    },
+    {
+      "word": "休息",
+      "file": "assets/vocabulary/hsk1-ep09-04.jpg",
+      "alt": "Aquarelle pédagogique pour 休息.",
+      "scene": "Mei rests on a bench under a tree with a relaxed posture and closed travel satchel."
+    },
+    {
+      "word": "上班",
+      "file": "assets/vocabulary/hsk1-ep09-05.jpg",
+      "alt": "Aquarelle pédagogique pour 上班.",
+      "scene": "An ordinary adult carrying a work satchel enters an office doorway in the morning: go to work."
+    },
+    {
+      "word": "下班",
+      "file": "assets/vocabulary/hsk1-ep09-06.jpg",
+      "alt": "Aquarelle pédagogique pour 下班.",
+      "scene": "An ordinary adult leaves an office at sunset, work satchel in hand, relaxed expression: finish work."
+    },
+    {
+      "word": "工作",
+      "file": "assets/vocabulary/hsk1-ep09-07.jpg",
+      "alt": "Aquarelle pédagogique pour 工作.",
+      "scene": "An ordinary adult works attentively at a desk with blank documents and simple tools."
+    },
+    {
+      "word": "公司",
+      "file": "assets/vocabulary/hsk1-ep09-08.jpg",
+      "alt": "Aquarelle pédagogique pour 公司.",
+      "scene": "A modest modern office building with workers visible through windows, no company signs."
+    },
+    {
+      "word": "电脑",
+      "file": "assets/vocabulary/hsk1-ep09-09.jpg",
+      "alt": "Aquarelle pédagogique pour 电脑.",
+      "scene": "A desktop computer with keyboard and mouse, screen blank with a soft abstract color wash, no text or icons."
+    },
+    {
+      "word": "手机",
+      "file": "assets/vocabulary/hsk1-ep09-10.jpg",
+      "alt": "Aquarelle pédagogique pour 手机.",
+      "scene": "A smartphone resting on a wooden table, screen blank, no labels or icons."
+    },
+    {
+      "word": "电话",
+      "file": "assets/vocabulary/hsk1-ep09-11.jpg",
+      "alt": "Aquarelle pédagogique pour 电话.",
+      "scene": "A simple landline telephone with handset and curled cord, no numbers on buttons."
+    },
+    {
+      "word": "打电话",
+      "file": "assets/vocabulary/hsk1-ep09-12.jpg",
+      "alt": "Aquarelle pédagogique pour 打电话.",
+      "scene": "Mei holds a telephone handset to her ear while speaking: make a phone call."
+    },
+    {
+      "word": "电视",
+      "file": "assets/vocabulary/hsk1-ep09-13.jpg",
+      "alt": "Aquarelle pédagogique pour 电视.",
+      "scene": "A television on a low cabinet displaying a simple landscape, no text or controls labels."
+    },
+    {
+      "word": "电影",
+      "file": "assets/vocabulary/hsk1-ep09-14.jpg",
+      "alt": "Aquarelle pédagogique pour 电影.",
+      "scene": "A classic film reel and a projection of a quiet landscape onto an unmarked screen: movie."
+    },
+    {
+      "word": "电影院",
+      "file": "assets/vocabulary/hsk1-ep09-15.jpg",
+      "alt": "Aquarelle pédagogique pour 电影院.",
+      "scene": "A small cinema interior with rows of seats facing a blank screen, no signs or writing."
+    },
+    {
+      "word": "看",
+      "file": "assets/vocabulary/hsk1-ep09-16.jpg",
+      "alt": "Aquarelle pédagogique pour 看.",
+      "scene": "Mei looks intently at a butterfly resting on a flower: look, watch."
+    },
+    {
+      "word": "听",
+      "file": "assets/vocabulary/hsk1-ep09-17.jpg",
+      "alt": "Aquarelle pédagogique pour 听.",
+      "scene": "Mei cups one hand behind her ear, listening attentively to Chen."
+    },
+    {
+      "word": "说",
+      "file": "assets/vocabulary/hsk1-ep09-18.jpg",
+      "alt": "Aquarelle pédagogique pour 说.",
+      "scene": "Mei speaks naturally to listening Chen, subtle open-hand gesture, no speech bubbles."
+    },
+    {
+      "word": "说话",
+      "file": "assets/vocabulary/hsk1-ep09-19.jpg",
+      "alt": "Aquarelle pédagogique pour 说话.",
+      "scene": "Mei and Chen have a friendly face-to-face conversation, natural speaking gestures, no speech bubbles."
+    },
+    {
+      "word": "唱",
+      "file": "assets/vocabulary/hsk1-ep09-20.jpg",
+      "alt": "Aquarelle pédagogique pour 唱.",
+      "scene": "Mei sings with an open mouth and joyful expression while Chen listens, no musical notes or text."
+    },
+    {
+      "word": "歌",
+      "file": "assets/vocabulary/hsk1-ep09-21.jpg",
+      "alt": "Aquarelle pédagogique pour 歌.",
+      "scene": "A singer holding a plain microphone accompanied by a simple lute, song as a musical performance, no notes or text."
+    },
+    {
+      "word": "玩",
+      "file": "assets/vocabulary/hsk1-ep09-22.jpg",
+      "alt": "Aquarelle pédagogique pour 玩.",
+      "scene": "Mei and Long playfully chase a falling leaf in a courtyard, cheerful movement."
+    },
+    {
+      "word": "大",
+      "file": "assets/vocabulary/hsk1-ep10-01.jpg",
+      "alt": "Aquarelle pédagogique pour 大.",
+      "scene": "A very large ceramic teapot next to a much smaller matching cup, large teapot emphasized."
+    },
+    {
+      "word": "小",
+      "file": "assets/vocabulary/hsk1-ep10-02.jpg",
+      "alt": "Aquarelle pédagogique pour 小.",
+      "scene": "A tiny ceramic teapot next to a large matching cup, small teapot emphasized."
+    },
+    {
+      "word": "漂亮",
+      "file": "assets/vocabulary/hsk1-ep10-03.jpg",
+      "alt": "Aquarelle pédagogique pour 漂亮.",
+      "scene": "A beautiful blooming peony in a simple porcelain vase, gentle elegant composition."
+    },
+    {
+      "word": "好看",
+      "file": "assets/vocabulary/hsk1-ep10-04.jpg",
+      "alt": "Aquarelle pédagogique pour 好看.",
+      "scene": "Mei admires a lovely flowering tree with an appreciative smile: good-looking, pleasant to see."
+    },
+    {
+      "word": "好听",
+      "file": "assets/vocabulary/hsk1-ep10-05.jpg",
+      "alt": "Aquarelle pédagogique pour 好听.",
+      "scene": "Mei listens with a delighted smile while Chen plays a small flute: pleasant to hear."
+    },
+    {
+      "word": "好玩儿",
+      "file": "assets/vocabulary/hsk1-ep10-06.jpg",
+      "alt": "Aquarelle pédagogique pour 好玩儿.",
+      "scene": "Mei and Long enjoy a playful wooden ball game, laughter and happy activity: fun."
+    },
+    {
+      "word": "高兴",
+      "file": "assets/vocabulary/hsk1-ep10-07.jpg",
+      "alt": "Aquarelle pédagogique pour 高兴.",
+      "scene": "Mei beams with happiness, open joyful posture and smiling eyes."
+    },
+    {
+      "word": "忙",
+      "file": "assets/vocabulary/hsk1-ep10-08.jpg",
+      "alt": "Aquarelle pédagogique pour 忙.",
+      "scene": "Mei is busy at a table arranging cups, opening a parcel and preparing tea, focused expression."
+    },
+    {
+      "word": "很",
+      "file": "assets/vocabulary/hsk1-ep10-09.jpg",
+      "alt": "Aquarelle pédagogique pour 很.",
+      "scene": "A healthy lush plant with noticeably abundant blossoms beside a simple single-flower plant, a cue for very."
+    },
+    {
+      "word": "非常",
+      "file": "assets/vocabulary/hsk1-ep10-10.jpg",
+      "alt": "Aquarelle pédagogique pour 非常.",
+      "scene": "A large radiant bouquet with many bright blossoms, Mei visibly delighted: extremely, very."
+    },
+    {
+      "word": "太",
+      "file": "assets/vocabulary/hsk1-ep10-11.jpg",
+      "alt": "Aquarelle pédagogique pour 太.",
+      "scene": "An overloaded bowl with fruit nearly tumbling out, Mei surprised: too much, excessively."
+    },
+    {
+      "word": "真",
+      "file": "assets/vocabulary/hsk1-ep10-12.jpg",
+      "alt": "Aquarelle pédagogique pour 真.",
+      "scene": "Mei touches a real fresh flower and smiles with sincere surprise: really, truly."
+    },
+    {
+      "word": "冷",
+      "file": "assets/vocabulary/hsk1-ep10-13.jpg",
+      "alt": "Aquarelle pédagogique pour 冷.",
+      "scene": "Mei wraps herself tightly in a scarf, shivering beside a frosty branch: cold."
+    },
+    {
+      "word": "热",
+      "file": "assets/vocabulary/hsk1-ep10-14.jpg",
+      "alt": "Aquarelle pédagogique pour 热.",
+      "scene": "Mei fans herself with a plain fan in summer heat, a small bead of sweat: hot."
+    },
+    {
+      "word": "天气",
+      "file": "assets/vocabulary/hsk1-ep10-15.jpg",
+      "alt": "Aquarelle pédagogique pour 天气.",
+      "scene": "A single sky scene blending sunshine and drifting clouds over a hill, weather as focus."
+    },
+    {
+      "word": "下雨",
+      "file": "assets/vocabulary/hsk1-ep10-16.jpg",
+      "alt": "Aquarelle pédagogique pour 下雨.",
+      "scene": "Mei walks under an umbrella as rain visibly falls around her."
+    },
+    {
+      "word": "雨",
+      "file": "assets/vocabulary/hsk1-ep10-17.jpg",
+      "alt": "Aquarelle pédagogique pour 雨.",
+      "scene": "Clear raindrops fall from a cloud into a small puddle with ripples, no people."
+    },
+    {
+      "word": "雪",
+      "file": "assets/vocabulary/hsk1-ep10-18.jpg",
+      "alt": "Aquarelle pédagogique pour 雪.",
+      "scene": "Snow falls gently over bamboo and a small courtyard roof, soft white blanket."
+    },
+    {
+      "word": "爱",
+      "file": "assets/vocabulary/hsk1-ep10-19.jpg",
+      "alt": "Aquarelle pédagogique pour 爱.",
+      "scene": "An ordinary loving family embraces warmly, gentle tenderness: love."
+    },
+    {
+      "word": "觉得",
+      "file": "assets/vocabulary/hsk1-ep10-20.jpg",
+      "alt": "Aquarelle pédagogique pour 觉得.",
+      "scene": "Mei considers a warm teacup with a thoughtful expression, hand near chin: feel, think."
+    },
+    {
+      "word": "想",
+      "file": "assets/vocabulary/hsk1-ep10-21.jpg",
+      "alt": "Aquarelle pédagogique pour 想.",
+      "scene": "Mei thoughtfully gazes at a distant mountain path, holding her travel satchel: want, think of."
+    },
+    {
+      "word": "可以",
+      "file": "assets/vocabulary/hsk1-ep10-22.jpg",
+      "alt": "Aquarelle pédagogique pour 可以.",
+      "scene": "Chen grants permission to Mei by warmly opening the garden gate for her: may, can."
+    },
+    {
+      "word": "会",
+      "file": "assets/vocabulary/hsk1-ep10-23.jpg",
+      "alt": "Aquarelle pédagogique pour 会.",
+      "scene": "Mei confidently plays a short melody on a flute while Chen smiles approvingly: know how to, acquired ability."
+    },
+    {
+      "word": "病",
+      "file": "assets/vocabulary/hsk1-ep11-01.jpg",
+      "alt": "Aquarelle pédagogique pour 病.",
+      "scene": "A bedside table with a thermometer, folded cloth and cup of warm water, a cue for illness."
+    },
+    {
+      "word": "生病",
+      "file": "assets/vocabulary/hsk1-ep11-02.jpg",
+      "alt": "Aquarelle pédagogique pour 生病.",
+      "scene": "Mei lies in bed feeling unwell, quilt pulled up, warm cloth on forehead."
+    },
+    {
+      "word": "看病",
+      "file": "assets/vocabulary/hsk1-ep11-03.jpg",
+      "alt": "Aquarelle pédagogique pour 看病.",
+      "scene": "Mei visits an ordinary doctor who gently checks her pulse at a desk: seek medical care."
+    },
+    {
+      "word": "医生",
+      "file": "assets/vocabulary/hsk1-ep11-04.jpg",
+      "alt": "Aquarelle pédagogique pour 医生.",
+      "scene": "An ordinary kind adult doctor in a white coat with a stethoscope, plain uncluttered setting, no logos."
+    },
+    {
+      "word": "医院",
+      "file": "assets/vocabulary/hsk1-ep11-05.jpg",
+      "alt": "Aquarelle pédagogique pour 医院.",
+      "scene": "A small welcoming hospital building with entrance and a white ambulance outside, no lettering or emblems."
+    },
+    {
+      "word": "没事",
+      "file": "assets/vocabulary/hsk1-ep11-06.jpg",
+      "alt": "Aquarelle pédagogique pour 没事.",
+      "scene": "Mei smiles reassuringly after a minor stumble, standing safely, Chen relieved: nothing wrong."
+    },
+    {
+      "word": "不要",
+      "file": "assets/vocabulary/hsk1-ep11-07.jpg",
+      "alt": "Aquarelle pédagogique pour 不要.",
+      "scene": "Mei gently pushes away an offered cup with an open palm and shakes her head politely: do not want."
+    },
+    {
+      "word": "不",
+      "file": "assets/vocabulary/hsk1-ep11-08.jpg",
+      "alt": "Aquarelle pédagogique pour 不.",
+      "scene": "Mei shakes her head clearly with a gentle raised open palm: no, not."
+    },
+    {
+      "word": "能",
+      "file": "assets/vocabulary/hsk1-ep11-09.jpg",
+      "alt": "Aquarelle pédagogique pour 能.",
+      "scene": "Mei successfully lifts a small basket onto a table, confident posture, ability to do something."
+    },
+    {
+      "word": "知道",
+      "file": "assets/vocabulary/hsk1-ep11-10.jpg",
+      "alt": "Aquarelle pédagogique pour 知道.",
+      "scene": "Mei has recognized the right path and points confidently while Chen listens: know."
+    },
+    {
+      "word": "怎么",
+      "file": "assets/vocabulary/hsk1-ep11-11.jpg",
+      "alt": "Aquarelle pédagogique pour 怎么.",
+      "scene": "Mei studies a simple wooden puzzle with an enquiring look, asking how it works."
+    },
+    {
+      "word": "怎么样",
+      "file": "assets/vocabulary/hsk1-ep11-12.jpg",
+      "alt": "Aquarelle pédagogique pour 怎么样.",
+      "scene": "Chen asks Mei about a cup of tea she has tasted; Mei considers her answer: how is it."
+    },
+    {
+      "word": "问",
+      "file": "assets/vocabulary/hsk1-ep11-13.jpg",
+      "alt": "Aquarelle pédagogique pour 问.",
+      "scene": "Mei asks Chen a question with a polite open palm, Chen attentive."
+    },
+    {
+      "word": "喂",
+      "file": "assets/vocabulary/hsk1-ep11-14.jpg",
+      "alt": "Aquarelle pédagogique pour 喂.",
+      "scene": "Mei answers a ringing landline telephone, handset at her ear and friendly greeting, no text."
+    },
+    {
+      "word": "对",
+      "file": "assets/vocabulary/hsk1-ep11-15.jpg",
+      "alt": "Aquarelle pédagogique pour 对.",
+      "scene": "Mei confirms the correct matching lid on a teapot with a satisfied nod: correct."
+    },
+    {
+      "word": "也",
+      "file": "assets/vocabulary/hsk1-ep11-16.jpg",
+      "alt": "Aquarelle pédagogique pour 也.",
+      "scene": "Mei joins Chen doing the same tea-pouring activity beside him: also, too."
+    },
+    {
+      "word": "都",
+      "file": "assets/vocabulary/hsk1-ep11-17.jpg",
+      "alt": "Aquarelle pédagogique pour 都.",
+      "scene": "Mei, Chen and Long each hold an apple, everyone included in the same activity: all."
+    },
+    {
+      "word": "还",
+      "file": "assets/vocabulary/hsk1-ep11-18.jpg",
+      "alt": "Aquarelle pédagogique pour 还.",
+      "scene": "Chen refills Mei's not-yet-empty teacup, continuing tea time: still, also."
+    },
+    {
+      "word": "和",
+      "file": "assets/vocabulary/hsk1-ep11-19.jpg",
+      "alt": "Aquarelle pédagogique pour 和.",
+      "scene": "One apple and one pear together in a simple bowl: and."
+    },
+    {
+      "word": "吧",
+      "file": "assets/vocabulary/hsk1-ep11-20.jpg",
+      "alt": "Aquarelle pédagogique pour 吧.",
+      "scene": "Chen suggests a garden walk to Mei with a gentle inviting gesture toward the open gate: suggestion particle."
+    },
+    {
+      "word": "呢",
+      "file": "assets/vocabulary/hsk1-ep11-21.jpg",
+      "alt": "Aquarelle pédagogique pour 呢.",
+      "scene": "Mei gestures toward Chen after introducing herself, an enquiring reciprocal gesture: and you? No punctuation."
+    },
+    {
+      "word": "了",
+      "file": "assets/vocabulary/hsk1-ep11-22.jpg",
+      "alt": "Aquarelle pédagogique pour 了.",
+      "scene": "Mei has just finished an empty bowl of rice and puts down her chopsticks, completed action cue."
+    },
+    {
+      "word": "的",
+      "file": "assets/vocabulary/hsk1-ep11-23.jpg",
+      "alt": "Aquarelle pédagogique pour 的.",
+      "scene": "A blue travel satchel clearly belongs to Mei, she holds its strap against her chest: possessive particle."
+    },
+    {
+      "word": "事",
+      "file": "assets/vocabulary/hsk1-ep11-24.jpg",
+      "alt": "Aquarelle pédagogique pour 事.",
+      "scene": "Mei and Chen discuss a small task involving a broken teacup and a cloth, everyday matter, affair."
+    },
+    {
+      "word": "开",
+      "file": "assets/vocabulary/hsk1-ep12-01.jpg",
+      "alt": "Aquarelle pédagogique pour 开.",
+      "scene": "Mei opens a wooden courtyard door, one hand on the handle and doorway clearly widening."
+    },
+    {
+      "word": "开车",
+      "file": "assets/vocabulary/hsk1-ep12-02.jpg",
+      "alt": "Aquarelle pédagogique pour 开车.",
+      "scene": "An ordinary adult drives a small car, hands properly on the steering wheel, no logos or text."
+    },
+    {
+      "word": "见",
+      "file": "assets/vocabulary/hsk1-ep12-03.jpg",
+      "alt": "Aquarelle pédagogique pour 见.",
+      "scene": "Mei and Chen meet face-to-face at the courtyard entrance with friendly recognition."
+    },
+    {
+      "word": "看见",
+      "file": "assets/vocabulary/hsk1-ep12-04.jpg",
+      "alt": "Aquarelle pédagogique pour 看见.",
+      "scene": "Mei spots Long partly visible behind a tree, her eyes and open hand clearly directed toward him."
+    },
+    {
+      "word": "听见",
+      "file": "assets/vocabulary/hsk1-ep12-05.jpg",
+      "alt": "Aquarelle pédagogique pour 听见.",
+      "scene": "Mei notices a bird calling and turns her head toward it with one hand near her ear: hear."
+    },
+    {
+      "word": "坐",
+      "file": "assets/vocabulary/hsk1-ep12-06.jpg",
+      "alt": "Aquarelle pédagogique pour 坐.",
+      "scene": "Mei sits comfortably on a wooden chair, full seated posture visible."
+    },
+    {
+      "word": "住",
+      "file": "assets/vocabulary/hsk1-ep12-07.jpg",
+      "alt": "Aquarelle pédagogique pour 住.",
+      "scene": "A cozy lived-in room with slippers, teacup and a bed, Mei at ease inside: live, reside."
+    },
+    {
+      "word": "椅子",
+      "file": "assets/vocabulary/hsk1-ep12-08.jpg",
+      "alt": "Aquarelle pédagogique pour 椅子.",
+      "scene": "One simple wooden chair centered on ivory paper."
+    },
+    {
+      "word": "桌子",
+      "file": "assets/vocabulary/hsk1-ep12-09.jpg",
+      "alt": "Aquarelle pédagogique pour 桌子.",
+      "scene": "One simple low wooden table centered on ivory paper."
+    },
+    {
+      "word": "狗",
+      "file": "assets/vocabulary/hsk1-ep12-10.jpg",
+      "alt": "Aquarelle pédagogique pour 狗.",
+      "scene": "A friendly small brown dog sitting calmly, full body."
+    },
+    {
+      "word": "猫",
+      "file": "assets/vocabulary/hsk1-ep12-11.jpg",
+      "alt": "Aquarelle pédagogique pour 猫.",
+      "scene": "A friendly small tabby cat sitting calmly with curled tail, full body."
+    },
+    {
+      "word": "它",
+      "file": "assets/vocabulary/hsk1-ep12-12.jpg",
+      "alt": "Aquarelle pédagogique pour 它.",
+      "scene": "Mei gestures toward one small brown dog sitting a little distance away: it."
+    },
+    {
+      "word": "它们",
+      "file": "assets/vocabulary/hsk1-ep12-13.jpg",
+      "alt": "Aquarelle pédagogique pour 它们.",
+      "scene": "Mei gestures toward two cats and one small dog grouped together: they, animals."
+    },
+    {
+      "word": "小朋友",
+      "file": "assets/vocabulary/hsk1-ep12-14.jpg",
+      "alt": "Aquarelle pédagogique pour 小朋友.",
+      "scene": "An ordinary cheerful young child waves warmly to another child in a park: little friend, child."
+    },
+    {
+      "word": "有的",
+      "file": "assets/vocabulary/hsk1-ep12-15.jpg",
+      "alt": "Aquarelle pédagogique pour 有的.",
+      "scene": "A group of apples, some red and some green, only the red subset gently foregrounded: some of them."
+    },
+    {
+      "word": "有些",
+      "file": "assets/vocabulary/hsk1-ep12-16.jpg",
+      "alt": "Aquarelle pédagogique pour 有些.",
+      "scene": "A small subset of three pebbles separate from a larger group, a cue for some."
+    },
+    {
+      "word": "有点儿",
+      "file": "assets/vocabulary/hsk1-ep12-17.jpg",
+      "alt": "Aquarelle pédagogique pour 有点儿.",
+      "scene": "Mei tastes tea with a slightly dissatisfied face as a tiny wisp of steam rises, a little too hot: a little, somewhat."
+    },
+    {
+      "word": "一下",
+      "file": "assets/vocabulary/hsk1-ep12-18.jpg",
+      "alt": "Aquarelle pédagogique pour 一下.",
+      "scene": "Mei briefly taps lightly on a door once with her fingers, short limited action."
+    },
+    {
+      "word": "正在",
+      "file": "assets/vocabulary/hsk1-ep12-19.jpg",
+      "alt": "Aquarelle pédagogique pour 正在.",
+      "scene": "Mei is actively in the middle of pouring tea, visible stream from pot to cup: currently doing."
+    },
+    {
+      "word": "做",
+      "file": "assets/vocabulary/hsk1-ep12-20.jpg",
+      "alt": "Aquarelle pédagogique pour 做.",
+      "scene": "Mei carefully makes a small clay cup with her hands at a craft table: do, make."
+    },
+    {
+      "word": "穿",
+      "file": "assets/vocabulary/hsk1-ep12-21.jpg",
+      "alt": "Aquarelle pédagogique pour 穿.",
+      "scene": "Mei puts on a simple outer jacket over her usual clothing, clear dressing action."
+    },
+    {
+      "word": "只",
+      "file": "assets/vocabulary/hsk1-ep12-22.jpg",
+      "alt": "Aquarelle pédagogique pour 只.",
+      "scene": "One small bird alone on a slender branch: animal measure word."
+    },
+    {
+      "word": "第",
+      "file": "assets/vocabulary/hsk1-ep12-23.jpg",
+      "alt": "Aquarelle pédagogique pour 第.",
+      "scene": "Three ceramic cups in a row, the first closest to Mei is gently spotlighted while she indicates it: ordinal order."
+    },
+    {
+      "word": "房间",
+      "file": "assets/vocabulary/hsk1-ep12-24.jpg",
+      "alt": "Aquarelle pédagogique pour 房间.",
+      "scene": "A cozy simple room with a bed, small table, chair and window, no people needed."
+    },
+    {
+      "word": "再",
+      "file": "assets/vocabulary/hsk1-ep12-25.jpg",
+      "alt": "Aquarelle pédagogique pour 再.",
+      "scene": "Mei repeats a tea-pouring gesture into a second cup after filling the first: again."
+    }
+  ],
+  "commonPromptLot2": "Use case: illustration-story. Generate ONE square watercolor vocabulary illustration. Gentle hand-painted watercolor on warm ivory paper, soft jade and coral accents, airy edges fading into empty ivory, spare centered composition readable as a small notebook vignette. No text whatsoever: no letters, Chinese characters, digits, words, labels, punctuation, speech bubbles, logos or watermarks. No borders, comic panels, collages or multiple scenes. Never depict the customizable player hero. Show ONLY subjects explicitly requested in the scene; no decorative faces or extra reference characters. If present Mei is the supporting young Chinese messenger with dark messy bun, red ribbons and coral cloak; Chen is the elderly Chinese man with white bun and beard and ochre gold robe; Long is the friendly jade green Chinese dragon with gold mane and horns. Keep people anatomically natural. Scene: ",
+  "corrections": [
+    {
+      "file": "hsk1-ep08-25.jpg",
+      "word": "问题",
+      "change": "Suppression du point d’interrogation et des petits traits rouges ; reste de l’aquarelle conservé.",
+      "prompt": "Remove the red question mark and the small red emphasis strokes floating above the student's head. Fill with the existing soft ivory and pale sage watercolor background. Preserve student, teacher, expressions, poses, desk, blank book, colors, texture and composition. No punctuation, text, letters, numbers, symbols or writing."
     }
   ]
 }

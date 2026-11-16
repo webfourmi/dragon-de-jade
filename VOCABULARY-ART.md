@@ -63,6 +63,11 @@ Le registre `VOCAB_WATERCOLORS` associe explicitement un mot à un fichier réel
 
 Ajouter chaque fichier de diffusion à la liste du service worker, mettre à jour la version et les notes seulement pour un lot prêt à publier. Contrôler le chargement normal, le repli après erreur d'image, le carnet sur écran étroit et le cache hors connexion. La calligraphie tactile doit toujours être vérifiée sur l'appareil Android.
 
-## Épisodes 3 à 6 : 106 mots sans aquarelle
+## Lot 2 : 252 aquarelles (épisodes 3 à 12)
 
-Les mots des épisodes 3 (nombres, quantités, argent : 26), 4 (jours, dates, heure : 29), 5 (thé, nourriture, repas : 25) et 6 (achats, démonstratifs : 26) utilisent pour l'instant leur pictogramme. Aucune aquarelle n'a été produite pour eux. Les 48 images existantes ne sont pas concernées. Pour en ajouter : suivre `vocabulary-art.json`, ajouter l'entrée dans `VOCAB_WATERCOLORS` et les fichiers dans le cache de `sw.js`, puis adapter les compteurs de `tests/vocabulary-art.cjs` (48 → nouveau total).
+Les mots du plan HSK 1 non illustrés dans le lot 1 ont chacun leur aquarelle : 640 × 640 JPEG, noms `hsk1-epNN-XX.jpg` (NN = épisode du plan, XX = rang dans l'épisode). Le jeu compte maintenant 300 aquarelles pour 300 mots.
+
+- `VOCAB_WATERCOLORS` (dans `app.js`) associe chaque mot à son image. Les suffixes du référentiel (`两1`, `点1`, `本1`, `会1`, `喂1`, `和1`) sont retirés : la clé est le mot tel que le jeu le nomme.
+- `vocabulary-art.json` garde pour chaque entrée le mot, le fichier, la légende et la scène demandée. La consigne commune du lot 2 est dans `commonPromptLot2`. `corrections` note la retouche de `hsk1-ep08-25.jpg` (問題 : point d'interrogation retiré).
+- Hors ligne : les 154 aquarelles des mots déjà présents dans le jeu (épisodes 1 à 6, 16 Mo) sont préchargées par `sw.js`. Les 146 autres, prêtes pour les épisodes 7 à 12, se mettent en cache à la première vue. Quand un épisode est ajouté, ajouter ses images à la liste `OPTIONAL` de `sw.js` pour les précharger.
+- Les tests vérifient que chaque mot du jeu a son aquarelle, que chaque fichier du dossier est référencé et inversement, et que les 300 fichiers sont de vrais JPEG.
