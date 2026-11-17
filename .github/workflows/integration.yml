@@ -22,4 +22,5 @@ jobs:
           node tests/episodes.cjs
           node tests/speech.cjs
           node tests/runtime.cjs
+          node tests/dialogue-labels.cjs
           node tests/service-worker.cjs
