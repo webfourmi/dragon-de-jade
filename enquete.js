@@ -44,25 +44,41 @@ const EQ_CLUES=[
  {id:'wu',scene:34,title:'Monsieur Wu',text:'Un homme mince tout de noir, gants de cuir, salue Chen comme une vieille connaissance. C’est Monsieur Wu : il offre 八百块 du galet sans marchander, puis lance un regard à ton jade.'},
  {id:'veste',scene:35,title:'La veste d’enfant',text:'Sous la table, une petite veste d’enfant dont un bouton de jade vert brille comme l’écaille de Lóng. Le vendeur la cède pour 十块 : c’est la deuxième écaille.'},
  {id:'neuf',scene:35,title:'Un galet neuf',text:'Chen juge le galet de Wu 新 (neuf) : poli à la machine, c’est un leurre. Wu a payé cher une fausse écaille.'},
+ {id:'plan_carnet',scene:36,title:'Le plan au crayon',text:'Dans l’un des deux carnets achetés au marché, un plan au crayon porte une croix qui brille d’un vert que Lóng reconnaît. Ni nom de rue, ni nom de ville.'},
+ {id:'ville',scene:37,title:'Un nom de ville au dos du plan',text:'Au dos du plan, quelqu’un a noté en hâte un nom de ville, Tianjin, et un horaire de train.'},
+ {id:'horaire',scene:38,title:'Un train qui arrive à trois heures',text:'Le train de Tianjin arrive à 三点 : c’est l’horaire noté au dos du plan.'},
+ {id:'pilier',scene:39,title:'Quelqu’un derrière un pilier',text:'À la gare, quelqu’un en manteau sombre a refermé son journal quand Mei l’a regardé, derrière un pilier de la salle d’attente.'},
+ {id:'quai',scene:40,title:'Le quai extérieur',text:'Le train de Tianjin part d’un quai extérieur, de l’autre côté du hall : il fallait traverser avant l’heure.'},
+ {id:'wu_gare',scene:41,title:'Wu dans le train',text:'Sur le quai, Monsieur Wu, tout de noir, monte lui aussi dans le train de Tianjin.'},
+ {id:'ecole',scene:42,title:'Une école fermée à Tianjin',text:'La croix du plan correspond à une vieille école de brique grise, fermée depuis des années. Le gardien ne connaît pas le nom du maître dont vous parlez.'},
+ {id:'instituteur',scene:43,title:'Le visage sur la photographie',text:'Sur une photographie de classe, Chen reconnaît l’instituteur, qu’il a connu enfant chez son grand-père : un homme au sourire timide.'},
+ {id:'pupitre',scene:44,title:'Le pupitre fleuri',text:'Le maître avait étudié dans cette école avant d’y enseigner. Trois anciens camarades (同学) viennent encore fleurir son pupitre chaque année.'},
+ {id:'cloche',scene:45,title:'Pas de cours l’après-midi',text:'Le maître donnait ses cours le matin (八点上课, 十二点下课) et n’avait pas cours l’après-midi : il avait le temps de prendre le train pour Pékin et d’être à trois heures à la maison de thé.'},
+ {id:'tableau',scene:46,title:'Le tableau noir',text:'Sur le tableau noir, une phrase à moitié effacée, en écriture appliquée, est la même que celle de la boîte de laque : seuls 这是 et 家 sont lisibles.'},
+ {id:'cahier',scene:47,title:'Le cahier du maître',text:'Dans le tiroir du pupitre, un cahier relié est rempli, page après page, de la même ligne : 她在哪儿 ? Le maître cherchait la petite fille et ne l’a jamais retrouvée.'},
  {id:'d1',scene:null,ded:1,title:'Conclusion : un expéditeur inconnu',text:'Quelqu’un d’extérieur a glissé ton nom dans le registre et envoyé l’enveloppe. Son message, 请认识我, demande simplement qu’on fasse sa connaissance.'},
  {id:'d2',scene:null,ded:2,title:'Conclusion : l’ami était le petit ami',text:'L’« ami » de la liste de départs était le petit ami de la jeune femme, et c’est sans doute lui qui a envoyé le sceau jusqu’à toi.'},
  {id:'d3',scene:null,ded:3,title:'Conclusion : une enfant bien réelle',text:'L’enfant oubliée avait trois ans, elle ne figure sur aucune photographie du registre, et Lóng la reconnaît un peu : elle a bien existé, et quelqu’un tient à ce qu’on retrouve sa trace.'},
  {id:'d4',scene:null,ded:4,title:'Conclusion : quelqu’un vous observe',text:'L’expéditeur connaît la boutique, tes horaires et la maison 三十六 : il vous observe avant de se dévoiler.'},
  {id:'d5',scene:null,ded:5,title:'Conclusion : un ami qui attendait quelqu’un',text:'L’ami venait chaque après-midi nourrir une petite fille qui l’attendait, et gardait une tasse pour son retour. Un homme tout de noir cherche, lui aussi, ses traces.'},
- {id:'d6',scene:null,ded:6,title:'Conclusion : Wu a été trompé',text:'Monsieur Wu, un collectionneur que Chen connaît, a payé 八百块 un leurre neuf : la vraie écaille est le bouton de la veste d’enfant. Mais il cherche une écaille et vous a vus : il reviendra.'}
+ {id:'d6',scene:null,ded:6,title:'Conclusion : Wu a été trompé',text:'Monsieur Wu, un collectionneur que Chen connaît, a payé 八百块 un leurre neuf : la vraie écaille est le bouton de la veste d’enfant. Mais il cherche une écaille et vous a vus : il reviendra.'},
+ {id:'d7',scene:null,ded:7,title:'Conclusion : la piste mène à Tianjin',text:'Le plan au crayon, le nom de ville et l’horaire désignent Tianjin, où une croix brille d’un vert que Lóng reconnaît. Monsieur Wu a compris la même chose que vous : il a pris le même train.'},
+ {id:'d8',scene:null,ded:8,title:'Conclusion : l’ami était l’instituteur',text:'L’ami de la famille était l’instituteur de cette école : c’est lui qui a écrit la phrase de la boîte, recopié des pages du registre et cherché la petite fille toute sa vie. Il ne savait pas où elle était.'}
 ];
-const EQ_LINKS=[['enveloppe','sceau'],['nom','enveloppe'],['nom','ajout'],['effaces','verte'],['verte','dragon'],['effaces','main'],['ami','amoureux'],['sceau','amoureux'],['boite','inscription'],['age','ajout'],['photo','effaces'],['trois','age'],['trois','ajout'],['tiroir','effaces'],['tiroir','calendrier'],['compte','ajout'],['moitie','nom'],['moitie','trois'],['adresse','plan'],['plan','lanterne'],['adresse','lanterne'],['rdv','sceau'],['rdv','lanterne'],['date','rdv'],['jour','rdv'],['encre','nom'],['attendus','tasse'],['tasse','sceau'],['table','commande'],['commande','pommes'],['pommes','moitie'],['pommes','trois'],['noir','wu'],['noir','lanterne'],['marche','noir'],['caillou','neuf'],['caillou','prix'],['veste','pommes'],['veste','panier'],['wu','prix'],['panier','marche'],['attendus','rdv']];
+const EQ_LINKS=[['enveloppe','sceau'],['nom','enveloppe'],['nom','ajout'],['effaces','verte'],['verte','dragon'],['effaces','main'],['ami','amoureux'],['sceau','amoureux'],['boite','inscription'],['age','ajout'],['photo','effaces'],['trois','age'],['trois','ajout'],['tiroir','effaces'],['tiroir','calendrier'],['compte','ajout'],['moitie','nom'],['moitie','trois'],['adresse','plan'],['plan','lanterne'],['adresse','lanterne'],['rdv','sceau'],['rdv','lanterne'],['date','rdv'],['jour','rdv'],['encre','nom'],['attendus','tasse'],['tasse','sceau'],['table','commande'],['commande','pommes'],['pommes','moitie'],['pommes','trois'],['noir','wu'],['noir','lanterne'],['marche','noir'],['caillou','neuf'],['caillou','prix'],['veste','pommes'],['veste','panier'],['wu','prix'],['panier','marche'],['attendus','rdv'],['plan_carnet','ville'],['ville','horaire'],['horaire','quai'],['pilier','wu_gare'],['wu_gare','noir'],['wu_gare','wu'],['ecole','plan_carnet'],['instituteur','ami'],['cloche','table'],['tableau','boite'],['tableau','inscription'],['cahier','pommes'],['cahier','instituteur'],['pupitre','instituteur'],['cloche','instituteur']];
 const EQ_QUESTIONS=[
  {id:'venue',title:'Qui a préparé ta venue ?',evidence:['nom','enveloppe','sceau','rdv','encre'],conclusion:'d1'},
- {id:'noms',title:'Qui a effacé les noms de la famille ?',evidence:['photo','effaces','carte','verte','main','tiroir','calendrier']},
- {id:'enfant',title:'Qui est l’enfant ajoutée aux archives ?',evidence:['ajout','age','trois','compte','moitie','pommes','veste'],conclusion:'d3'},
- {id:'ami',title:'Qui est l’ami de la famille ?',evidence:['ami','amoureux','sceau','lanterne','table','commande'],conclusion:'d2'},
- {id:'boite',title:'Que dit la phrase grattée sur la boîte ?',evidence:['boite','inscription','dragon']},
+ {id:'noms',title:'Qui a effacé les noms de la famille ?',evidence:['photo','effaces','carte','verte','main','tiroir','calendrier','tableau']},
+ {id:'enfant',title:'Qui est l’enfant ajoutée aux archives ?',evidence:['ajout','age','trois','compte','moitie','pommes','veste','cahier'],conclusion:'d3'},
+ {id:'ami',title:'Qui est l’ami de la famille ?',evidence:['ami','amoureux','sceau','lanterne','table','commande','instituteur','cloche'],conclusion:'d2'},
+ {id:'boite',title:'Que dit la phrase grattée sur la boîte ?',evidence:['boite','inscription','dragon','tableau']},
  {id:'maison',title:'Que cache la maison 三十六 ?',evidence:['adresse','plan','lanterne','tasse']},
- {id:'observe',title:'Qui vous observe ?',evidence:['rdv','calendrier','jour','lanterne','attendus','noir'],conclusion:'d4'},
+ {id:'observe',title:'Qui vous observe ?',evidence:['rdv','calendrier','jour','lanterne','attendus','noir','pilier'],conclusion:'d4'},
  {id:'attente',title:'Qui l’ami attendait-il à la maison de thé ?',evidence:['attendus','tasse','table','commande','pommes'],conclusion:'d5'},
- {id:'noir',title:'Qui est l’homme tout de noir ?',evidence:['noir','wu','caillou','prix','neuf'],conclusion:'d6'},
- {id:'ecaille',title:'Où est la deuxième écaille ?',evidence:['marche','panier','caillou','veste']}
+ {id:'noir',title:'Qui est l’homme tout de noir ?',evidence:['noir','wu','caillou','prix','neuf','wu_gare'],conclusion:'d6'},
+ {id:'ecaille',title:'Où est la deuxième écaille ?',evidence:['marche','panier','caillou','veste']},
+ {id:'tianjin',title:'Où mène la croix du plan ?',evidence:['plan_carnet','ville','horaire','quai','ecole'],conclusion:'d7'},
+ {id:'maitre',title:'Qui était le maître de l’école ?',evidence:['ecole','instituteur','pupitre','cloche','tableau','cahier'],conclusion:'d8'}
 ];
 const EQ_INSCRIPTION=['这','是','你','的','家'];
 
@@ -115,7 +131,22 @@ const EQ_REACTIONS={
   {t:'Tu proposes d’observer l’étal avant de t’approcher.',fx:{chen:1},res:'Chen hoche la tête : sur un marché, on regarde d’abord, on parle ensuite.'}]},
  34:{prompt:'Monsieur Wu salue Chen comme une vieille connaissance. Que fais-tu ?',options:[
   {t:'Tu interroges Chen du regard.',fx:{chen:1},res:'Chen détourne les yeux : « Plus tard. Pas ici. »'},
-  {t:'Tu observes Wu sans rien dire.',fx:{long:1},res:'Lóng fronce le nez : cet homme sent le jade neuf et le parfum cher.'}]}
+  {t:'Tu observes Wu sans rien dire.',fx:{long:1},res:'Lóng fronce le nez : cet homme sent le jade neuf et le parfum cher.'}]},
+ 37:{prompt:'Chen hésite à quitter la boutique. Que fais-tu ?',options:[
+  {t:'Tu lui dis que sa place est avec vous.',fx:{chen:1},res:'Chen te regarde longuement, puis acquiesce : la boutique attendra.'},
+  {t:'Tu proposes de confier la boutique au libraire.',fx:{mei:1},res:'Mei approuve : le libraire a déjà prouvé qu’il savait se taire.'}]},
+ 39:{prompt:'Quelqu’un vous épie derrière un pilier. Que fais-tu ?',options:[
+  {t:'Tu fais mine de ne rien voir.',fx:{chen:1},res:'Chen te serre le bras : mieux vaut qu’il se croie invisible.'},
+  {t:'Tu t’approches pour voir son visage.',fx:{long:1},res:'Lóng s’élance devant toi, mais la foule se referme : l’homme a disparu.'}]},
+ 41:{prompt:'Monsieur Wu monte dans le train. Que fais-tu ?',options:[
+  {t:'Tu changes de wagon.',fx:{mei:1},res:'Mei te suit sans un mot : elle déteste être suivie, elle aussi.'},
+  {t:'Tu restes assis, le dos droit.',fx:{chen:1},res:'Chen approuve : se cacher, c’est avouer qu’on a peur.'}]},
+ 43:{prompt:'Chen s’arrête devant une photographie de classe. Que fais-tu ?',options:[
+  {t:'Tu lui demandes qui il reconnaît.',fx:{chen:1},res:'Chen répond d’une voix presque inaudible : un visage de son enfance.'},
+  {t:'Tu le laisses à son silence.',fx:{mei:1},res:'Mei te remercie du regard : certains silences se respectent.'}]},
+ 47:{prompt:'Le cahier ne contient qu’une seule phrase, répétée. Que fais-tu ?',options:[
+  {t:'Tu lis la dernière page à voix haute.',fx:{long:1},res:'Lóng retient son souffle : la dernière ligne est incomplète, comme si le maître avait été interrompu.'},
+  {t:'Tu laisses Chen lire en premier.',fx:{chen:1},res:'Chen serre le cahier contre lui : c’est l’écriture d’un homme qu’il a connu.'}]}
 };
 
 /* Variantes de scène : une ligne en plus (ou en moins) selon la confiance accordée. */
@@ -131,7 +162,11 @@ const EQ_VARIANTS={
  26:t=>t.mei>=3?'Mei s’assoit près de la fenêtre, sans un mot, comme pour essayer la place de l’ami.':'',
  28:t=>t.chen>=3?'Chen sort son carnet et note chaque mot de la patronne, comme il le fait pour un registre.':'',
  31:t=>t.mei>=3?'Mei glisse la main dans sa cape : elle a déjà préparé quelques billets pour l’occasion.':'',
- 33:t=>t.chen>=3?'Chen te souffle une règle de marchand : quand le prix paraît trop haut, il suffit de regarder ailleurs.':''
+ 33:t=>t.chen>=3?'Chen te souffle une règle de marchand : quand le prix paraît trop haut, il suffit de regarder ailleurs.':'',
+ 38:t=>t.mei>=3?'Mei compte les minutes sur sa montre : elle a déjà vérifié trois fois l’horaire.':'',
+ 40:t=>t.long>=3?'Lóng s’est déjà installé sur le dossier du siège, comme s’il connaissait le trajet.':'',
+ 44:t=>t.mei>=3?'Mei passe la main sur le pupitre du fond : elle sent encore la cire des fleurs de l’an dernier.':'',
+ 46:t=>t.long>=3?'Lóng pose la patte sur le tableau : la craie effacée laisse une lueur verte, le temps d’un battement.':''
 };
 
 /* Scènes de déduction : un petit problème de vocabulaire, puis un raisonnement à partir de tes indices. */
@@ -171,7 +206,19 @@ const EQ_DEDUCTIONS={
   zh:'那个新。',
   vocab:{q:'Que dit Chen du galet ?',options:[['Il est neuf.',true],['Il est cher.',false],['Il est ancien.',false]]},
   pick:{prompt:'Quels trois indices montrent que Monsieur Wu a été trompé et que la vraie écaille est ailleurs ?',need:['caillou','neuf','veste'],pool:['caillou','neuf','veste','wu','prix','panier'],hint:'Pense à ce qui brille trop, à ce qui est trop récent, et à ce qui brille au fond d’un panier.'},
-  conclusion:'d6',reward:30,trust:{chen:1}}
+  conclusion:'d6',reward:30,trust:{chen:1}},
+ 7:{title:'Où mène la croix du plan ?',
+  intro:'Avant de partir, Mei a tout résumé en trois mots :',
+  zh:'我去。',
+  vocab:{q:'Que dit Mei ?',options:[['J’y vais.',true],['Je viens.',false],['Je suis là.',false]]},
+  pick:{prompt:'Quels trois indices désignent Tianjin comme destination ?',need:['plan_carnet','ville','horaire'],pool:['plan_carnet','ville','horaire','quai','pilier','wu_gare'],hint:'Cherche le plan, le nom de ville noté au dos et l’heure du train.'},
+  conclusion:'d7',reward:25,trust:{mei:1}},
+ 8:{title:'Qui était le maître ?',
+  intro:'Dans le cahier, Mei lit la phrase répétée, qui résume tout :',
+  zh:'她在哪儿？',
+  vocab:{q:'Que demande le maître dans son cahier ?',options:[['Où est-elle ?',true],['Qui est-elle ?',false],['Quel âge a-t-elle ?',false]]},
+  pick:{prompt:'Quels trois indices montrent que le maître était l’ami de la famille et qu’il cherchait la petite fille ?',need:['instituteur','tableau','cahier'],pool:['instituteur','tableau','cahier','cloche','pupitre','ecole'],hint:'Pense à celui que Chen reconnaît, à la phrase du tableau et à la question du cahier.'},
+  conclusion:'d8',reward:30,trust:{chen:1}}
 };
 
 let eqDedForce=0,eqDed=null;

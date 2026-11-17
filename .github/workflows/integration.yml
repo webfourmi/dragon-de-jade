@@ -1,7 +1,7 @@
 name: Dragon de Jade - tests integration
 on:
   push:
-    branches: [main, integration-v0.8.1]
+    branches: [main, integration-v0.8.1, integration-v0.12.0, publication-v0.12.0]
   pull_request:
     branches: [main]
   workflow_dispatch:
