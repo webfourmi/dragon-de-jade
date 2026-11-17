@@ -1,4 +1,4 @@
-# Les Chroniques du Dragon de Jade · V0.12
+# Les Chroniques du Dragon de Jade · V0.13
 
 PWA statique, sans backend, pour apprendre le chinois en jouant. Le Livre I contient huit épisodes de 6 scènes (salutations, famille, nombres, temps, thé et repas, marché, gare et train, école), des dialogues en mandarin avec synthèse vocale du navigateur, un carnet de vocabulaire illustré à l'aquarelle, un quiz à quatre exercices, une calligraphie validée trait par trait et une enquête (indices, écailles de Lóng, déductions).
 
@@ -9,7 +9,7 @@ Depuis ce dossier : `python -m http.server 8000`, puis ouvrir http://localhost:8
 ## Limites explicites
 
 - La voix est générée par le navigateur et dépend des voix installées ; l'exercice d'écoute du quiz exige une voix mandarin.
-- La reconnaissance vocale du navigateur n'est pas disponible partout. Elle compare des chaînes simples, sans évaluer les tons.
+- La reconnaissance vocale du navigateur n'est pas disponible partout. Elle renvoie des caractères, jamais des tons : le jeu ne peut donc pas évaluer ta mélodie. Il détecte seulement qu'un ton diffère quand le navigateur a compris un autre mot de même syllabe (买 / 卖).
 - Calligraphie : Hanzi Writer 3.7.2 (MIT) et les données hanzi-writer-data 2.0.1 sont chargés depuis jsDelivr, sans contrôle d'intégrité. Sans connexion à la toute première visite, l'atelier retombe sur le dessin libre non validé. Le bouton « Télécharger les caractères » les met en cache pour le hors-ligne.
 - Les 300 mots du plan HSK 1 ont une aquarelle (voir `VOCABULARY-ART.md`). Le pictogramme sert de repli si une image ne se charge pas.
 - Les listes de vocabulaire suivent le plan HSK 1 de `hsk1-plan.js`, qui n'est pas un référentiel officiel versionné.
@@ -24,6 +24,7 @@ Depuis ce dossier : `python -m http.server 8000`, puis ouvrir http://localhost:8
 - `episodes.js` : démarrage d'un épisode et écran de fin d'épisode
 - `enquete.js` : écailles, phrase de la boîte, indices, réactions, déductions
 - `quiz.js`, `writing.js` : quiz et calligraphie
+- `speech.js` : comparaison tolérante du texte reconnu avec la réponse attendue
 - `hsk1-plan.js`, `hsk1-reference.js` : plan HSK 1
 - `tests/` et `.github/workflows/integration.yml` : contrôles automatiques
 
@@ -42,6 +43,7 @@ python bump-version.py --check
 node tests/integration.cjs
 node tests/vocabulary-art.cjs
 node tests/episodes.cjs
+node tests/speech.cjs
 ```
 
 `integration.cjs` vérifie aussi que chaque image référencée par le code, le CSS ou le service worker existe dans le dépôt. `episodes.cjs` vérifie que le vocabulaire de chaque épisode correspond au plan HSK 1 et que les phrases chinoises n'emploient que des caractères déjà appris.
@@ -66,3 +68,15 @@ node tests/episodes.cjs
 ## Quiz
 
 L'exercice d'écoute exige une voix mandarin ; sans elle, le mode « Varié » l'écarte. Les pièges sont choisis parmi les mots déjà appris (même thème, même épisode ou caractère commun) ; pour les tons, ils ne diffèrent de la bonne réponse que par un seul ton.
+
+## Reconnaissance vocale (speech.js)
+
+Le navigateur propose jusqu'à cinq lectures de ce qu'il a entendu ; le jeu les essaie toutes (`speechMatchAny`). Une lecture est acceptée si, après normalisation, elle correspond à la réponse attendue :
+
+- **exact** : les chiffres deviennent des caractères (`3点` = `三点`, `36` = `三十六`), la ponctuation et les espaces disparaissent, 儿 est facultatif (`一点` = `一点儿`, `哪里` = `哪儿`) et quelques homophones sans enjeu sont unifiés (他 / 她, 两 / 二, 在 / 再).
+- **variant** : une particule d'appui diffère (`你好吗` pour `你好`).
+- **contains** : la bonne réponse est dans une courte phrase d'appui (`我说你好`).
+- **homophone** : caractères différents, même prononciation tons compris. Le pinyin vient des données du jeu (les 300 mots HSK 1 sont lus par `pySplit`).
+- **tone** : mêmes syllabes mais un ton diffère (买 / 卖) : réponse refusée, avec un conseil.
+
+Limites : les caractères traditionnels ne sont pas convertis, et deux mots de même prononciation exacte (钱 / 前) sont indiscernables à l'oreille du navigateur. `tests/speech.cjs` fige la liste des équivalences acceptées entre les mots du vocabulaire.
