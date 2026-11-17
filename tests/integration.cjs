@@ -1,7 +1,7 @@
 const fs = require('node:fs');
 const vm = require('node:vm');
 const assert = require('node:assert/strict');
-const files = ['hsk1-reference.js','hsk1-plan.js','episode2.js','episode3.js','episode4.js','episode5.js','episode6.js','episode7.js','episode8.js','writing.js','quiz.js','episodes.js','enquete.js','app.js','sw.js'];
+const files = ['hsk1-reference.js','hsk1-plan.js','episode2.js','episode3.js','episode4.js','episode5.js','episode6.js','episode7.js','episode8.js','writing.js','quiz.js','episodes.js','speech.js','enquete.js','app.js','sw.js'];
 for (const file of files) new vm.Script(fs.readFileSync(file,'utf8'),{filename:file});
 const version=JSON.parse(fs.readFileSync('version.json','utf8')).version;
 const html=fs.readFileSync('index.html','utf8');
@@ -17,11 +17,12 @@ assert(app.includes('writingTestResults.filter'),'calligraphy scoring retained')
 assert(fs.readFileSync('writing.js','utf8').includes('mastered:total===0'),'calligraphy test records mastered characters');
 assert(app.includes('eqSceneDone(sceneIndex)'),'investigation scene progression');
 assert(app.includes('episodeBoundaryPage()'),'generic end-of-episode screens');
+assert(fs.readFileSync('speech.js','utf8').includes('function speechMatchAny('),'tolerant speech matching');
 assert(quiz.includes('function startQuiz(')&&quiz.includes('function answerQuiz('),'quiz functions');
 assert(enquiry.includes('function eqInit(')&&enquiry.includes('function deductionPage('),'investigation functions');
 assert(sw.includes("const VERSION='"+version+"'"),'service worker version');
 assert(app.includes("const APP_VERSION='"+version+"'"),'app version');
-for(const file of ['quiz.js','enquete.js','episodes.js','episode3.js','episode4.js','episode5.js','episode6.js','episode7.js','episode8.js']) assert(sw.includes(file+'?v='+version),file+' offline core');
+for(const file of ['quiz.js','enquete.js','episodes.js','episode3.js','episode4.js','episode5.js','episode6.js','episode7.js','episode8.js','speech.js']) assert(sw.includes(file+'?v='+version),file+' offline core');
 // Toute image référencée par le code, le CSS ou le service worker doit exister dans le dépôt.
 const missing=[];
 for(const file of ['app.js','style.css','sw.js','index.html','manifest.webmanifest','enquete.js','writing.js','quiz.js','episodes.js'])
