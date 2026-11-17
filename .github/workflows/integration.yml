@@ -1,7 +1,7 @@
 name: Dragon de Jade - tests integration
 on:
   push:
-    branches: [integration-v0.8.1]
+    branches: [main, integration-v0.8.1]
   pull_request:
     branches: [main]
   workflow_dispatch:
@@ -21,3 +21,5 @@ jobs:
           node tests/vocabulary-art.cjs
           node tests/episodes.cjs
           node tests/speech.cjs
+          node tests/runtime.cjs
+          node tests/service-worker.cjs
