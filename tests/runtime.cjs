@@ -53,6 +53,41 @@ assert.equal(played.run('eqDed.step'),'done');const awarded=played.run('state.xp
 played.run('eqDedCheck()');assert.equal(played.run('state.xp'),awarded);
 const restored=boot(JSON.parse(played.saved.get('dragonjade-v02')));
 assert.equal(restored.run('state.xp'),awarded);assert.equal(restored.run('state.words.length'),wordCount);
+// Exercise the real recognition callback, rendered input and Validate button together.
+function recognizedGame(alternatives){
+ const spoken=boot({introSeen:true});
+ spoken.run('window.isSecureContext=true;window.SpeechRecognition=class{start(){}stop(){}};recognize()');
+ spoken.run(`activeRecognition.onresult({resultIndex:0,results:[Object.assign(${JSON.stringify(alternatives.map(transcript=>({transcript})))},{isFinal:true})]});activeRecognition.onend()`);
+ const field=spoken.nodes.get('#app').innerHTML.match(/id="answer"[^>]*value="([^"]*)"/);
+ assert(field,'recognized text is rendered in the answer field');
+ // Mirror the value that the browser obtains from the rendered input element.
+ spoken.run(`document.querySelector('#answer').value=${JSON.stringify(field[1])}`);
+ return spoken;
+}
+function editAnswer(spoken,value){
+ const handler=spoken.nodes.get('#app').innerHTML.match(/id="answer"[^>]*oninput="([^"]*)"/)[1];
+ spoken.run(`document.querySelector('#answer').value=${JSON.stringify(value)};(function(){${handler}}).call(document.querySelector('#answer'))`);
+}
+for(const alternatives of [['再见','你好'],['再见','谢谢','谁','我','你好']]){
+ const spoken=recognizedGame(alternatives);
+ spoken.run("switchTab('carnet');switchTab('aventure');validate()");
+ assert(spoken.run('state.completed.includes(0)'),'accept a correct second or fifth alternative, even after a rerender');
+ assert.equal(spoken.run('state.xp'),10);
+ assert.equal(spoken.run('state.attempts[0]||0'),0);
+ spoken.run('nextScene()');assert.equal(spoken.run('speechAlternatives.length'),0);
+}
+const edited=recognizedGame(['再见','你好']);
+editAnswer(edited,'谢谢');editAnswer(edited,'再见');edited.run('validate()');
+assert(!edited.run('state.completed.includes(0)'),'an explicit edit overrides old recognition alternatives, even when changed back');
+assert.equal(edited.run('state.xp'),0);assert.equal(edited.run('state.attempts[0]'),1);
+const corrected=recognizedGame(['再见','谢谢']);editAnswer(corrected,'你好');corrected.run('validate()');
+assert(corrected.run('state.completed.includes(0)'),'a correct keyboard correction is accepted');
+const cleared=recognizedGame(['你好','再见']);editAnswer(cleared,'');cleared.run('validate()');
+assert(!cleared.run('state.completed.includes(0)'),'clearing the field must not reuse a recognized answer');
+const wrong=recognizedGame(['再见','谢谢']);wrong.run('validate();validate();validate()');
+assert(wrong.run('state.skipped.includes(0)'),'three incorrect attempts still allow continuing');
+assert.equal(wrong.run('state.xp'),0);
+console.log('PASS: real recognition callback and validation, second/fifth alternatives, rerender, keyboard edits, cleared input and three-attempt fallback');
 // Fixture for browser testing, confined to localhost test origin.
 if(process.env.WRITE_BROWSER_FIXTURE==='1'){
 fs.mkdirSync('../release-test-data',{recursive:true});
