@@ -1,1 +1,1 @@
-{"version":"0.13.0","notes":"Reconnaissance vocale : comparaison tolérante (chiffres, particules, 儿, homophones), cinq lectures essayées dans les scènes comme dans l'exercice de prononciation, conseil quand un ton diffère, transcription en direct et arrêt à la fin de la parole."}
+{"version":"0.13.1","notes":"Validation vocale dans l’aventure : toutes les propositions du navigateur sont prises en compte ; une correction au clavier remplace les propositions précédentes. Progression et XP conservés."}
