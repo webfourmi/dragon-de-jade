@@ -223,8 +223,24 @@
 .book-cover span, .book-episode small, .book-scenes small, .jade-game-card small { display: block; font: 650 .75rem/1.45 system-ui, sans-serif; }
 .book-cover span { color: #f8e3af; letter-spacing: .07em; text-transform: uppercase; }
 .book-sections { display: flex; gap: 5px; padding: 4px; margin: 14px 0 20px; background: #e7deca; border-radius: 12px; }
-.book-sections button { flex: 1; min-height: 44px; background: transparent; border: 0; font-weight: bold; }
+.book-sections button { flex: 1; min-width: 0; min-height: 44px; background: transparent; border: 0; font-weight: bold; }
 .book-sections button[aria-pressed=true] { color: #fffaf0; background: #275647; }
+.book-characters h2 { margin: 0 0 8px; }
+.book-characters h3, .scene-npc-portraits h3 { margin: 16px 0 8px; color: #265849; }
+.npc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 154px), 1fr)); gap: 10px; margin: 0; padding: 0; list-style: none; }
+.npc-card { overflow: hidden; background: #fffaf0; border: 1px solid #c9b797; border-radius: 8px 14px; }
+.npc-card a { display: block; color: #245449; text-decoration: none; }
+.npc-card a:hover strong { text-decoration: underline; }
+.npc-card a:focus-visible { outline: 3px solid #935523; outline-offset: -3px; }
+.npc-card img { display: block; width: 100%; height: auto; aspect-ratio: 1; background: #fff; object-fit: contain; }
+.npc-card strong { display: block; padding: 8px 10px; line-height: 1.25; }
+.npc-card-details { padding: 0 10px 10px; }
+.npc-card-details small { color: #76552e; font-size: .8rem; }
+.npc-card-details p { margin: 4px 0 0; font-size: .96rem; line-height: 1.4; }
+.scene-npc-portraits { margin: 0 0 18px; }
+.scene-npc-portraits h3 { font-size: 1.05rem; }
+.scene-npc-portraits .npc-grid { grid-template-columns: repeat(auto-fill, minmax(min(100%, 100px), 1fr)); max-width: 450px; }
+.scene-npc-portraits .npc-card strong { font-size: .9rem; }
 .book-journey h2, .jade-lobby h2 { margin: 0 0 4px; }
 .book-journey > p, .jade-lobby > p { margin: .35em 0 .8em; }
 .book-episode { margin: 8px 0; background: #fffaf0; border: 1px solid #cfc0a1; border-radius: 8px; }

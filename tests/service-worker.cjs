@@ -20,13 +20,19 @@ function setup(fail=''){
  await sw.event('activate');assert(sw.claimed);assert(!sw.stores.has('dragonjade-old'));assert(sw.stores.has('unrelated-cache'));assert(sw.stores.has('hanzi-assets-v1'));
  sw.setOffline(true);
  assert((await (await sw.request('lieux.js?v='+version)).text()).includes('SCENE_PLACES'));
- for(const file of ['livres.js','jeux.js','radicaux-data.js','radicaux.js']) assert.equal(await (await sw.request(file+'?v='+version)).text(),fs.readFileSync(file,'utf8'));
+ for(const file of ['livres.js','jeux.js','radicaux-data.js','radicaux.js','personnages.js']) assert.equal(await (await sw.request(file+'?v='+version)).text(),fs.readFileSync(file,'utf8'));
  assert.equal(await (await sw.request('assets/radicaux/empreintes.svg')).text(),fs.readFileSync('assets/radicaux/empreintes.svg','utf8'));
  for(const file of fs.readdirSync('assets/lieux')){
   const path='assets/lieux/'+file;
   const bytes=Buffer.from(await (await sw.request(path)).arrayBuffer());
   assert.equal(bytes.toString('ascii',8,12),'WEBP',file);
   assert.deepEqual(bytes,fs.readFileSync(path),'offline place: '+file);
+ }
+ const portraits=vm.runInNewContext(fs.readFileSync('personnages.js','utf8')+'\nNPCS.map(npcImage)');
+ for(const path of portraits){
+  const bytes=Buffer.from(await (await sw.request(path)).arrayBuffer());
+  assert.equal(bytes.toString('ascii',8,12),'WEBP',path);
+  assert.deepEqual(bytes,fs.readFileSync(path),'offline portrait: '+path);
  }
  const fullImage=await sw.request('assets/lieux/rue-des-lanternes.webp','navigate');
  assert.equal(Buffer.from(await fullImage.arrayBuffer()).toString('ascii',8,12),'WEBP');

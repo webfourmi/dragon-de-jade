@@ -95,17 +95,22 @@ function visitedPlaceGallery(visitedScenes, episode, search) {
 }
 
 function openPlaceArt(event, id) {
-  if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return true;
   const place = PLACE_ART[id];
+  if (!place) return true;
+  return openWatercolor(event, { source: placeImagePath(id), name: place.name, caption: placeCaption(place), alt: place.alt });
+}
+
+function openWatercolor(event, { source, name, caption, alt }) {
+  if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return true;
   const dialog = document.createElement('dialog');
-  if (!place || typeof dialog.showModal !== 'function') return true;
+  if (typeof dialog.showModal !== 'function') return true;
   const trigger = event.currentTarget;
   dialog.className = 'place-viewer';
   dialog.setAttribute('aria-labelledby', 'place-viewer-title');
   dialog.innerHTML = `<figure>
-    <div class="place-viewer-bar"><figcaption id="place-viewer-title"><small>${esc(placeCaption(place))}</small><strong>${esc(place.name)}</strong></figcaption>
+    <div class="place-viewer-bar"><figcaption id="place-viewer-title"><small>${esc(caption)}</small><strong>${esc(name)}</strong></figcaption>
     <button type="button" autofocus>Fermer</button></div>
-    <img src="${placeImagePath(id)}" alt="${esc(place.alt)}">
+    <img src="${esc(source)}" alt="${esc(alt)}">
   </figure>`;
   dialog.querySelector('button').addEventListener('click', () => dialog.close());
   dialog.addEventListener('click', e => { if (e.target === dialog) dialog.close(); });

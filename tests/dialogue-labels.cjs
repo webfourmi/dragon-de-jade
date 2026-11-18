@@ -27,15 +27,46 @@ for(const name of ['Léo', 'Mei', 'Lóng', '王明', 'A & B <img src=x> "ami"'])
 }
 assert.equal(game.run('JSON.stringify(SCENE_DIALOGUE_TURNS)'),before);
 let count=0;
-for(const turn of game.run('SCENE_DIALOGUE_TURNS.flat()')){
+const characters=game.run('NPCS.map(npc=>({...npc, source:npcImage(npc)}))');
+const speakingPortraits=new Map(characters.filter(npc=>npc.avatar).map(npc=>[npc.name,npc.source]));
+const illustrated=new Set();
+for(const turn of game.run('scenes.flatMap((scene,i)=>sceneTurns(i,scene))')){
  const html=game.run('renderDialogueTurn('+JSON.stringify(turn)+',0)');
  const name=turn.speaker==='Vous'?game.run('state.name'):turn.speaker;
  const escaped=game.run('esc('+JSON.stringify(name)+')');
  assert(html.includes(escaped+' parle <button'));
  assert(html.includes('onclick="speakSceneTurn(0)"'));
- if(turn.speaker==='Vous')count++;
+ if(turn.speaker==='Vous'){
+  count++;
+  assert(html.includes('src="assets/heros.webp"'));
+ }else{
+  const source=speakingPortraits.get(turn.speaker);
+  assert(source && html.includes('src="'+source+'"'),turn.speaker);
+  illustrated.add(turn.speaker);
+ }
 }
 assert(count>0);
-console.log('PASS: '+count+' hero turns; rename through profile; persisted reload; HTML escaping; NPC labels; portraits; audio buttons; unchanged dialogue data and XP.');
+assert.equal(illustrated.size,speakingPortraits.size);
+assert.equal(new Set(characters.map(npc=>npc.source)).size,characters.length);
+
+function gallery(progress){
+ const book=boot(progress);
+ book.run("switchTab('campagne');selectBookSection('personnages')");
+ return book.nodes.get('#app').innerHTML;
+}
+assert(!gallery({}).includes('class="npc-card"'));
+const early=gallery({introSeen:true,scene:2,completed:[0],skipped:[1],xp:10});
+assert(early.includes('maitre-chen.webp') && early.includes('expediteur-anonyme.webp'));
+assert(!early.includes('grand-pere-chen.webp') && !early.includes('monsieur-wu.webp'));
+const all=gallery({introSeen:true,scene:sceneCount,completed:Array.from({length:sceneCount},(_,i)=>i),deduced:allDeductions});
+for(const npc of characters){
+ assert(npc.scene>=0 && npc.scene<sceneCount,npc.name);
+ assert(all.includes('src="'+npc.source+'"'),npc.name);
+}
+assert(game.run('sceneNpcPortraits(16)').includes('fillette-du-portrait.webp'));
+assert(!game.run('sceneNpcPortraits(43)').includes('instituteur.webp'));
+game.run('eqSceneDone(43)');
+assert(game.run('sceneNpcPortraits(43)').includes('instituteur.webp'));
+console.log('PASS: '+count+' hero turns; rename, reload and escaping; every NPC dialogue portrait and audio button; scene portraits and progressive gallery.');
 `;
 vm.runInNewContext(helper+checks,{require,console,URL,Blob,setTimeout,clearTimeout,process});

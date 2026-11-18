@@ -68,7 +68,7 @@ node tests/service-worker.cjs
 1. Créer `episodeN.js` sur le modèle de `episode9.js` : `EPISODEN_SCENES`, `EPISODEN_VOCAB`, `EPISODEN_TURNS`, `EPISODEN_THEMES`.
 2. Le charger dans `index.html` (avant `app.js`) et l'ajouter à la liste `CORE` de `sw.js`.
 3. Dans `app.js`, ajouter ses données aux trois `push` et à l'`Object.assign` des thèmes (chercher `EPISODE10`).
-4. Dans `episodes.js`, ajouter `EP_END[N-1]` et `EP_NEXT[N]` (et `EXTRA_SPEAKERS` pour un nouveau personnage secondaire, sans portrait).
+4. Dans `episodes.js`, ajouter `EP_END[N-1]` et `EP_NEXT[N]`. Pour un nouveau personnage, renseigner sa première scène dans `personnages.js` et son aquarelle dans `assets/personnages` et `sw.js`. Pour les dialogues, reprendre son nom à l’identique et prévoir un `avatar` de secours.
 5. Dans `enquete.js`, ajouter ses indices (`scene` = numéro de scène à partir de 0), ses questions, ses réactions et une entrée dans `EQ_DEDUCTIONS`.
 6. Mettre à jour les listes de fichiers de `tests/integration.cjs` et `tests/episodes.cjs`, puis lancer `bump-version.py`.
 

@@ -23,9 +23,6 @@ const EP_NEXT={
  10:{title:'La boîte à musique',text:'Une chambre sous les combles et 23 nouveaux mots : le temps qu’il fait, les sentiments et les descriptions.'}
 };
 
-/* Personnages secondaires qui parlent dans certains dialogues : pas de portrait, un avatar. */
-const EXTRA_SPEAKERS={'La patronne':{avatar:'👵🏻'},'Le vendeur':{avatar:'🧔🏻'},'Monsieur Wu':{avatar:'🧐'},'La guichetière':{avatar:'👩🏻‍💼'},'Le gardien':{avatar:'👴🏽'},'La voisine':{avatar:'👵🏽'}};
-
 function epStarted(ep){
   if(ep<=1)return true;
   if(ep===2)return !!state.episode2Started;
