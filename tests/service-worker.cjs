@@ -20,6 +20,7 @@ function setup(fail=''){
  await sw.event('activate');assert(sw.claimed);assert(!sw.stores.has('dragonjade-old'));assert(sw.stores.has('unrelated-cache'));assert(sw.stores.has('hanzi-assets-v1'));
  sw.setOffline(true);
  assert((await (await sw.request('lieux.js?v='+version)).text()).includes('SCENE_PLACES'));
+ for(const file of ['livres.js','jeux.js']) assert.equal(await (await sw.request(file+'?v='+version)).text(),fs.readFileSync(file,'utf8'));
  for(const file of fs.readdirSync('assets/lieux')){
   const path='assets/lieux/'+file;
   const bytes=Buffer.from(await (await sw.request(path)).arrayBuffer());

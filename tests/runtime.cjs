@@ -83,13 +83,17 @@ for(let ep=1;ep<=episodeCount;ep++){
 }
 assert.equal(played.run('state.words.length'),wordCount);
 const xp=played.run('state.xp');
-played.run("replayEpisode(7);selected='0';validate()");assert.equal(played.run('state.xp'),xp);
+played.run("replayEpisode(7);selected='0';validate();validate()");
+assert.equal(played.run('state.xp'),xp+2);
+assert.equal(played.run('state.scene'),sceneCount);
+played.run('leaveSceneReplay()');
+const afterReplay=xp+2;
 // Actual final deduction: an incorrect answer never rewards; a correct one rewards only once.
 played.run(`state.scene=${sceneCount};state.deduced=state.deduced.filter(e=>e!==${episodeCount});eqDed=null;deductionPage()`);
 played.run(`eqDedVocab(EQ_DEDUCTIONS[${episodeCount}].vocab.options.findIndex(o=>!o[1]))`);
-assert.equal(played.run('eqDed.step'),'vocab');assert.equal(played.run('state.xp'),xp);
+assert.equal(played.run('eqDed.step'),'vocab');assert.equal(played.run('state.xp'),afterReplay);
 played.run(`eqDedVocab(EQ_DEDUCTIONS[${episodeCount}].vocab.options.findIndex(o=>o[1]));eqDed.picked=[...EQ_DEDUCTIONS[${episodeCount}].pick.need];eqDedCheck()`);
-assert.equal(played.run('eqDed.step'),'done');const awarded=played.run('state.xp');assert(awarded>xp);
+assert.equal(played.run('eqDed.step'),'done');const awarded=played.run('state.xp');assert(awarded>afterReplay);
 played.run('eqDedCheck()');assert.equal(played.run('state.xp'),awarded);
 const restored=boot(JSON.parse(played.saved.get('dragonjade-v02')));
 assert.equal(restored.run('state.xp'),awarded);assert.equal(restored.run('state.words.length'),wordCount);
@@ -154,3 +158,5 @@ fixture.words=played.run('[...new Set(scenes.slice(0,24).flatMap(s=>s.words))]')
 fs.writeFileSync('../release-test-data/episode5.json',JSON.stringify({format:'dragon-de-jade-save',version:1,progress:fixture}));
 }
 console.log('PASS: full app initialization, V0.11/V0.13 save upgrades, new deductions, 60 scene renders, 10 episodes, 251 words, boundaries, replay XP and final deduction');
+
+require('./livres-jeux.cjs')(boot);

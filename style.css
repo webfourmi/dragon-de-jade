@@ -216,3 +216,64 @@
 .place-viewer-bar button { flex-shrink: 0; }
 .place-viewer img { display: block; width: auto; max-width: min(100%, 1536px); height: auto; max-height: calc(100dvh - 105px); margin: auto; object-fit: contain; }
 @media (max-width: 360px) { .place-gallery { gap: 8px; grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* Livre I, sommaire et jeux de révision */
+.book-cover { display: flex; flex-direction: column; justify-content: end; min-height: clamp(136px, 31vw, 192px); padding: clamp(16px, 4vw, 30px); border-radius: 6px 18px; color: #fffaed; background: linear-gradient(0deg, #152f28f2, #172d2452 75%), url('assets/lieux/archives-de-chen.webp') center 58% / cover; }
+.book-cover h1 { margin: .2em 0 0; font-size: clamp(1.6rem, 6vw, 2.4rem); line-height: 1.1; }
+.book-cover span, .book-episode small, .book-scenes small, .jade-game-card small { display: block; font: 650 .75rem/1.45 system-ui, sans-serif; }
+.book-cover span { color: #f8e3af; letter-spacing: .07em; text-transform: uppercase; }
+.book-sections { display: flex; gap: 5px; padding: 4px; margin: 14px 0 20px; background: #e7deca; border-radius: 12px; }
+.book-sections button { flex: 1; min-height: 44px; background: transparent; border: 0; font-weight: bold; }
+.book-sections button[aria-pressed=true] { color: #fffaf0; background: #275647; }
+.book-journey h2, .jade-lobby h2 { margin: 0 0 4px; }
+.book-journey > p, .jade-lobby > p { margin: .35em 0 .8em; }
+.book-episode { margin: 8px 0; background: #fffaf0; border: 1px solid #cfc0a1; border-radius: 8px; }
+.book-episode summary { display: flex; align-items: center; gap: 10px; padding: 13px 12px; cursor: pointer; list-style: none; }
+.book-episode summary::-webkit-details-marker { display: none; }
+.book-episode summary::after { content: '⌄'; font: bold 1.1rem system-ui, sans-serif; color: #28553f; }
+.book-episode[open] summary::after { transform: rotate(180deg); }
+.book-episode summary > span:first-child, .book-scenes li > span:first-child { min-width: 0; flex: 1; }
+.book-episode small, .jade-game-card small { color: #76552e; }
+.book-episode summary strong, .book-scenes strong { display: block; line-height: 1.25; }
+.book-episode summary:focus-visible, .book-reference summary:focus-visible { outline: 3px solid #935523; outline-offset: 1px; }
+.episode-count { color: #315749; text-align: right; font: .75rem/1.3 system-ui, sans-serif; }
+.book-chapter-body { padding: 0 12px 8px; }
+.chapter-replay { margin: 2px 0 8px; font-size: .9rem; }
+.book-scenes { margin: 0; padding: 0; list-style: none; }
+.book-scenes li { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 54px; padding: 6px 0; border-top: 1px solid #e5d9c2; }
+.book-scenes small { color: #6d644f; }
+.book-scenes button { min-height: 40px; padding: 7px 11px; }
+.book-lock { font-size: .85rem; opacity: .68; margin-right: 10px; }
+.book-reference summary { color: #285446; font-weight: bold; cursor: pointer; }
+.replay-strip { display: flex; gap: 10px; justify-content: space-between; align-items: center; flex-wrap: wrap; margin: 8px 0 12px; padding: 9px 12px; background: #e7efde; border-left: 3px solid #44725c; }
+.replay-strip button { padding: 7px 11px; }
+.game-xp { padding: 10px 12px; border-left: 3px solid #aa8147; background: #efe5d0; }
+.jade-game-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; }
+.jade-game-card { display: flex; align-items: start; gap: 12px; padding: 14px; background: #fffaf0; border: 1px solid #c9b797; border-radius: 7px 15px; }
+.jade-game-card img { width: 50px; height: 60px; flex-shrink: 0; object-fit: contain; }
+.jade-game-card small { color: #755329; }
+.jade-game-card h3 { color: #265849; margin: 3px 0; line-height: 1.25; }
+.jade-game-card p { margin: .3em 0 .75em; line-height: 1.4; }
+.jade-game-card button { min-height: 40px; }
+.jade-play h1 { margin: .5em 0; color: #234e41; line-height: 1.18; }
+.jade-play .paper { padding: clamp(14px,3vw,24px); }
+.jade-play .paper > :first-child { margin-top: 0; }
+.game-exit { padding: 8px 12px; }
+.memory-board { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 8px; }
+.memory-card { min-height: clamp(72px,16vw,97px); padding: 5px; border: 1px solid #aa9162; overflow-wrap: anywhere; line-height: 1.2; }
+.memory-card.back { color: #f2d696; background: repeating-linear-gradient(45deg,#285345 0 9px,#2d594b 9px 10px); font-size: 1.8rem; box-shadow: inset 0 0 0 4px #325c49, inset 0 0 0 5px #aa986f; }
+.memory-card.turned { background: #fff6df; }
+.memory-card.matched { background: #e4eddb; color: #2b5140; border-color: #76977a; }
+.memory-card:disabled { opacity: 1; }
+.han-card, .brush-tiles button, .brush-answer, .game-hanzi { font-family: 'Noto Sans CJK SC','Microsoft YaHei',sans-serif; font-size: clamp(1.3rem,5vw,2rem); }
+.brush-answer { display: flex; align-items: center; min-height: 58px; padding: 4px 14px; border-bottom: 2px solid #a58c5f; background: #f1e9d6; color: #285342; }
+.brush-answer small { font: .9rem system-ui, sans-serif; }
+.brush-tiles { display: flex; gap: 7px; flex-wrap: wrap; margin: 12px 0; }
+.brush-tiles button { padding: 5px 10px; min-width: 44px; min-height: 44px; }
+.game-word, .game-score { margin: .5em 0; color: #215747; font-size: 1.45rem; font-weight: bold; }
+.game-model { display: flex; gap: 12px; align-items: center; padding: 6px 0; }
+.game-model strong { font: bold 1.65rem/1.3 'Noto Sans CJK SC',sans-serif; }
+.jade-play .audio-status:empty { display: none; }
+.jade-play button:focus-visible, .book-page button:focus-visible { outline: 3px solid #935523; outline-offset: 2px; }
+@media (max-width: 600px) { .jade-game-grid { grid-template-columns: 1fr; } }
+@media (max-width: 440px) { .memory-board { grid-template-columns: repeat(2,minmax(0,1fr)); } .memory-card { min-height: 63px; } .book-sections button { padding: 7px 5px; } }
