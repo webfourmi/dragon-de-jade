@@ -69,5 +69,5 @@ Les mots du plan HSK 1 non illustrés dans le lot 1 ont chacun leur aquarelle : 
 
 - `VOCAB_WATERCOLORS` (dans `app.js`) associe chaque mot à son image. Les suffixes du référentiel (`两1`, `点1`, `本1`, `会1`, `喂1`, `和1`) sont retirés : la clé est le mot tel que le jeu le nomme.
 - `vocabulary-art.json` garde pour chaque entrée le mot, le fichier, la légende et la scène demandée. La consigne commune du lot 2 est dans `commonPromptLot2`. `corrections` note la retouche de `hsk1-ep08-25.jpg` (問題 : point d'interrogation retiré).
-- Hors ligne : les 206 aquarelles des mots déjà présents dans le jeu (épisodes 1 à 8, 21 Mo) sont préchargées par `sw.js`. Les 94 autres, prêtes pour les épisodes 9 à 12, se mettent en cache à la première vue. Quand un épisode est ajouté, ajouter ses images à la liste `OPTIONAL` de `sw.js` pour les précharger.
+- Hors ligne : les 251 aquarelles des mots déjà présents dans le jeu (épisodes 1 à 10, 26,7 Mo) sont préchargées par `sw.js`. Les 49 autres, prêtes pour les épisodes 11 et 12, se mettent en cache à la première vue. Quand un épisode est ajouté, ajouter ses images à la liste `OPTIONAL` de `sw.js` pour les précharger.
 - Les tests vérifient que chaque mot du jeu a son aquarelle, que chaque fichier du dossier est référencé et inversement, et que les 300 fichiers sont de vrais JPEG.

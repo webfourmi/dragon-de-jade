@@ -15,13 +15,14 @@ function setup(fail=''){
  await sw.caches.open('dragonjade-old');await sw.caches.open('unrelated-cache');
  await sw.event('install');assert(sw.skipped);
  const current=sw.stores.get('dragonjade-'+version);assert(current.size>60);
- for(const f of ['index.html','episode5.js','episode6.js','episode7.js','episode8.js','enquete.js'])assert([...current.keys()].some(k=>new URL(k).pathname.endsWith('/'+f)),f);
+ for(const f of ['index.html','episode5.js','episode6.js','episode7.js','episode8.js','episode9.js','episode10.js','enquete.js'])assert([...current.keys()].some(k=>new URL(k).pathname.endsWith('/'+f)),f);
  let release;sw.listeners.message({data:{type:'GET_VERSION'},ports:[{postMessage:r=>release=r}]});assert.equal(release.version,version);assert(release.notes);
  await sw.event('activate');assert(sw.claimed);assert(!sw.stores.has('dragonjade-old'));assert(sw.stores.has('unrelated-cache'));assert(sw.stores.has('hanzi-assets-v1'));
  sw.setOffline(true);
  assert((await (await sw.request('episode6.js?v='+version)).text()).includes('EPISODE6_SCENES'));
  assert((await (await sw.request('episode7.js?v='+version)).text()).includes('EPISODE7_SCENES'));
  assert((await (await sw.request('episode8.js?v='+version)).text()).includes('EPISODE8_SCENES'));
+ for(const ep of [9,10])assert((await (await sw.request('episode'+ep+'.js?v='+version)).text()).includes('EPISODE'+ep+'_SCENES'));
  assert((await (await sw.request('', 'navigate')).text()).includes('app.js?v='+version));
  assert.equal(await (await sw.request('https://cdn.jsdelivr.net/npm/hanzi-writer@3.7.2/dist/hanzi-writer.min.js')).text(),'test library');
  sw.setOffline(false);await sw.request('version.json');assert.equal(sw.network.at(-1).options.cache,'no-store');

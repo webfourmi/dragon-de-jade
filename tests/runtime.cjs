@@ -1,5 +1,5 @@
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
-const episodeCount=8,sceneCount=48,wordCount=206;
+const episodeCount=10,sceneCount=60,wordCount=251;
 const allDeductions=Array.from({length:episodeCount},(_,i)=>i+1);
 const order=[...fs.readFileSync('index.html','utf8').matchAll(/<script src="([^"?]+)\?/g)].map(m=>m[1]);
 function boot(progress={}){
@@ -19,9 +19,9 @@ for(let i=0;i<sceneCount;i++){
  assert(game.nodes.get('#app').innerHTML.includes('Scène '+(i%6+1)+'/6'));
 }
 for(const tab of ['enquete','carnet','atlas','campagne'])game.run(`tab='${tab}';render()`);
-// Complete all eight episodes. Check boundaries, clue recovery, and absence of duplicate XP on replay.
+// Complete all ten episodes. Check boundaries, clue recovery, and absence of duplicate XP on replay.
 const played=boot({introSeen:true});
-let v11Save;
+let v11Save,v13Save;
 for(let ep=1;ep<=episodeCount;ep++){
  played.run(`epMarkStarted(${ep});state.deduced=${JSON.stringify(allDeductions.slice(0,ep))};eqDed=null`);
  for(let n=(ep-1)*6;n<ep*6;n++){
@@ -40,6 +40,17 @@ for(let ep=1;ep<=episodeCount;ep++){
   upgraded.run('epMarkStarted(7);render()');
   assert(upgraded.nodes.get('#app').innerHTML.includes('Le plan du carnet'));
  }
+ if(ep===8){
+  v13Save=JSON.parse(played.saved.get('dragonjade-v02'));
+  const upgraded=boot({...v13Save,name:'Léo',inventory:['jade','veste'],reviewSelected:['你好'],trust:{chen:4,mei:3,long:2}});
+  const before=upgraded.run('JSON.stringify(state)');
+  assert(upgraded.nodes.get('#app').innerHTML.includes('Commencer l’épisode 9'));
+  upgraded.run('startEpisode(9)');
+  assert(upgraded.nodes.get('#app').innerHTML.includes('Écoutez-moi'));
+  const retained=JSON.parse(before);
+  for(const key of ['xp','completed','words','chars','scalesLit','deduced','inventory','reviewSelected','trust','name'])
+   assert.deepEqual(JSON.parse(upgraded.run('JSON.stringify(state['+JSON.stringify(key)+'])')),retained[key],'V0.13 save preserved: '+key);
+ }
 }
 assert.equal(played.run('state.words.length'),wordCount);
 const xp=played.run('state.xp');
@@ -53,6 +64,20 @@ assert.equal(played.run('eqDed.step'),'done');const awarded=played.run('state.xp
 played.run('eqDedCheck()');assert.equal(played.run('state.xp'),awarded);
 const restored=boot(JSON.parse(played.saved.get('dragonjade-v02')));
 assert.equal(restored.run('state.xp'),awarded);assert.equal(restored.run('state.words.length'),wordCount);
+// Both new deductions: a wrong clue set cannot reward, a correct set rewards once and survives reload.
+for(const ep of [9,10]){
+ const deduction=boot(JSON.parse(played.saved.get('dragonjade-v02')));
+ deduction.run(`state.deduced=state.deduced.filter(e=>e!==${ep});eqStartDeduction(${ep});eqDedVocab(EQ_DEDUCTIONS[${ep}].vocab.options.findIndex(o=>o[1]))`);
+ const before=deduction.run('state.xp');
+ deduction.run(`eqDed.picked=EQ_DEDUCTIONS[${ep}].pick.pool.filter(id=>!EQ_DEDUCTIONS[${ep}].pick.need.includes(id));eqDedCheck()`);
+ assert.equal(deduction.run('eqDed.step'),'pick');assert.equal(deduction.run('state.xp'),before);
+ deduction.run(`state.dedRewarded=state.dedRewarded.filter(e=>e!==${ep});eqDed.picked=[...EQ_DEDUCTIONS[${ep}].pick.need];eqDedCheck()`);
+ assert.equal(deduction.run('eqDed.step'),'done');
+ const after=deduction.run('state.xp');assert.equal(after,before+deduction.run(`EQ_DEDUCTIONS[${ep}].reward`));
+ deduction.run('eqDedCheck()');assert.equal(deduction.run('state.xp'),after);
+ const reloaded=boot(JSON.parse(deduction.saved.get('dragonjade-v02')));
+ assert(reloaded.run(`eqUnlocked().some(c=>c.id==='d${ep}')`));
+}
 // Exercise the real recognition callback, rendered input and Validate button together.
 function recognizedGame(alternatives){
  const spoken=boot({introSeen:true});
@@ -92,10 +117,11 @@ console.log('PASS: real recognition callback and validation, second/fifth altern
 if(process.env.WRITE_BROWSER_FIXTURE==='1'){
 fs.mkdirSync('../release-test-data',{recursive:true});
 fs.writeFileSync('../release-test-data/v11-completed.json',JSON.stringify(v11Save));
+fs.writeFileSync('../release-test-data/v13-completed.json',JSON.stringify(v13Save));
 const fixture=JSON.parse(played.saved.get('dragonjade-v02'));
 fixture.scene=24;fixture.epStarted=[3,4];fixture.deduced=[1,2,3,4];fixture.dedSkipped=[];fixture.dedRewarded=[1,2,3,4];
 fixture.completed=fixture.completed.filter(i=>i<24);fixture.skipped=[];fixture.clueScenes=fixture.clueScenes.filter(i=>i<24);fixture.scalesLit=fixture.scalesLit.filter(ep=>ep<=4);
 fixture.words=played.run('[...new Set(scenes.slice(0,24).flatMap(s=>s.words))]');
 fs.writeFileSync('../release-test-data/episode5.json',JSON.stringify({format:'dragon-de-jade-save',version:1,progress:fixture}));
 }
-console.log('PASS: full app initialization, V0.11 save upgrade, 48 scene renders, 8 episodes, 206 words, boundaries, replay XP and final deduction');
+console.log('PASS: full app initialization, V0.11/V0.13 save upgrades, new deductions, 60 scene renders, 10 episodes, 251 words, boundaries, replay XP and final deduction');

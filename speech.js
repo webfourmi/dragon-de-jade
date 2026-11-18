@@ -88,6 +88,8 @@ function speechPinyinMap(){
     }
   }
   add('儿','er2');
+  /* Un ton neutre n'est conservé que si le caractère n'a aucune lecture accentuée : sinon 个 (gè) passerait pour 歌 (gē). */
+  for(const c in map)if([...map[c]].some(r=>!r.endsWith('0')))for(const r of [...map[c]])if(r.endsWith('0'))map[c].delete(r);
   speechPyCache=map;speechPyKey=key;return map;
 }
 /* 'homophone' : toutes les syllabes concordent, tons compris (ton neutre compatible avec tous) ; 'tone' : syllabes sans les tons ; null sinon. */

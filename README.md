@@ -1,6 +1,6 @@
-# Les Chroniques du Dragon de Jade · V0.13
+# Les Chroniques du Dragon de Jade · V0.14
 
-PWA statique, sans backend, pour apprendre le chinois en jouant. Le Livre I contient huit épisodes de 6 scènes (salutations, famille, nombres, temps, thé et repas, marché, gare et train, école), des dialogues en mandarin avec synthèse vocale du navigateur, un carnet de vocabulaire illustré à l'aquarelle, un quiz à quatre exercices, une calligraphie validée trait par trait et une enquête (indices, écailles de Lóng, déductions).
+PWA statique, sans backend, pour apprendre le chinois en jouant. Le Livre I contient dix épisodes de 6 scènes (salutations, famille, nombres, temps, thé et repas, marché, gare et train, école, vie quotidienne, météo et descriptions), des dialogues en mandarin avec synthèse vocale du navigateur, un carnet de vocabulaire illustré à l'aquarelle, un quiz à quatre exercices, une calligraphie validée trait par trait et une enquête (indices, écailles de Lóng, déductions).
 
 ## Lancer localement
 
@@ -14,13 +14,13 @@ Depuis ce dossier : `python -m http.server 8000`, puis ouvrir http://localhost:8
 - Les 300 mots du plan HSK 1 ont une aquarelle (voir `VOCABULARY-ART.md`). Le pictogramme sert de repli si une image ne se charge pas.
 - Les listes de vocabulaire suivent le plan HSK 1 de `hsk1-plan.js`, qui n'est pas un référentiel officiel versionné.
 - La sauvegarde locale stocke la progression, pas les tracés complets.
-- Les épisodes 9 à 12 du Livre I et les livres suivants sont des plans.
+- Les épisodes 11 et 12 du Livre I et les livres suivants sont des plans.
 
 ## Fichiers
 
 - `index.html`, `style.css`, `manifest.webmanifest`, `sw.js`, `assets/`
 - `app.js` : interface et logique générale
-- `episode2.js` à `episode8.js` : scènes, vocabulaire, dialogues et thèmes de chaque épisode
+- `episode2.js` à `episode10.js` : scènes, vocabulaire, dialogues et thèmes de chaque épisode
 - `episodes.js` : démarrage d'un épisode et écran de fin d'épisode
 - `enquete.js` : écailles, phrase de la boîte, indices, réactions, déductions
 - `quiz.js`, `writing.js` : quiz et calligraphie
@@ -44,15 +44,18 @@ node tests/integration.cjs
 node tests/vocabulary-art.cjs
 node tests/episodes.cjs
 node tests/speech.cjs
+node tests/runtime.cjs
+node tests/dialogue-labels.cjs
+node tests/service-worker.cjs
 ```
 
 `integration.cjs` vérifie aussi que chaque image référencée par le code, le CSS ou le service worker existe dans le dépôt. `episodes.cjs` vérifie que le vocabulaire de chaque épisode correspond au plan HSK 1 et que les phrases chinoises n'emploient que des caractères déjà appris.
 
 ## Ajouter un épisode
 
-1. Créer `episodeN.js` sur le modèle de `episode7.js` : `EPISODEN_SCENES`, `EPISODEN_VOCAB`, `EPISODEN_TURNS`, `EPISODEN_THEMES`.
+1. Créer `episodeN.js` sur le modèle de `episode9.js` : `EPISODEN_SCENES`, `EPISODEN_VOCAB`, `EPISODEN_TURNS`, `EPISODEN_THEMES`.
 2. Le charger dans `index.html` (avant `app.js`) et l'ajouter à la liste `CORE` de `sw.js`.
-3. Dans `app.js`, ajouter ses données aux trois `push` et à l'`Object.assign` des thèmes (chercher `EPISODE8`).
+3. Dans `app.js`, ajouter ses données aux trois `push` et à l'`Object.assign` des thèmes (chercher `EPISODE10`).
 4. Dans `episodes.js`, ajouter `EP_END[N-1]` et `EP_NEXT[N]` (et `EXTRA_SPEAKERS` pour un nouveau personnage secondaire, sans portrait).
 5. Dans `enquete.js`, ajouter ses indices (`scene` = numéro de scène à partir de 0), ses questions, ses réactions et une entrée dans `EQ_DEDUCTIONS`.
 6. Mettre à jour les listes de fichiers de `tests/integration.cjs` et `tests/episodes.cjs`, puis lancer `bump-version.py`.

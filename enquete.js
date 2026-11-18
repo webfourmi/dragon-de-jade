@@ -56,6 +56,20 @@ const EQ_CLUES=[
  {id:'cloche',scene:45,title:'Pas de cours l’après-midi',text:'Le maître donnait ses cours le matin (八点上课, 十二点下课) et n’avait pas cours l’après-midi : il avait le temps de prendre le train pour Pékin et d’être à trois heures à la maison de thé.'},
  {id:'tableau',scene:46,title:'Le tableau noir',text:'Sur le tableau noir, une phrase à moitié effacée, en écriture appliquée, est la même que celle de la boîte de laque : seuls 这是 et 家 sont lisibles.'},
  {id:'cahier',scene:47,title:'Le cahier du maître',text:'Dans le tiroir du pupitre, un cahier relié est rempli, page après page, de la même ligne : 她在哪儿 ? Le maître cherchait la petite fille et ne l’a jamais retrouvée.'},
+ {id:'wu_ecoute',scene:48,title:'Wu demande à être écouté',text:'Monsieur Wu vous a suivis jusqu’à l’école, calme et poli. Il demande qu’on l’écoute (请听我说) et affirme que cette histoire est un problème pour lui comme pour vous.'},
+ {id:'numero',scene:49,title:'Un numéro collé dans le cahier',text:'À l’intérieur de la couverture du cahier, un numéro de téléphone fixe, ancien. Le gardien prête son portable : une voisine du maître décroche.'},
+ {id:'carte_wu',scene:49,title:'La carte de Wu',text:'Wu a laissé une carte avec un numéro de portable et trois mots : 请打电话. Mei l’a déchirée en deux.'},
+ {id:'routine',scene:50,title:'Une vie réglée',text:'Selon sa voisine, le maître se levait à six heures (六点起床), se couchait à dix et ne se reposait que le dimanche.'},
+ {id:'travail',scene:51,title:'Copiste le soir, enseigne effacée',text:'Le soir, le maître copiait des documents à la main dans une petite imprimerie du quartier. Sur l’enseigne effacée, un seul caractère reste lisible : 吴.'},
+ {id:'film',scene:52,title:'Le dimanche au cinéma',text:'Chaque dimanche, le maître emmenait la petite fille au cinéma du quartier (电影院) : elle y regardait les films perchée sur deux coussins.'},
+ {id:'berceuse',scene:53,title:'La berceuse',text:'Le maître chantait chaque soir la même chanson (唱歌) à la petite fille. Lóng en connaît la mélodie sans savoir pourquoi.'},
+ {id:'pluie',scene:54,title:'La chambre sous les combles',text:'Il pleut à verse sur Tianjin quand la voisine ouvre la chambre du maître, inoccupée sous les combles depuis des années.'},
+ {id:'neige',scene:55,title:'La première neige',text:'Les enfants sont partis un soir de première neige de l’hiver, se souvient la voisine.'},
+ {id:'wu_avant',scene:56,title:'Wu est monté avant vous',text:'Un homme tout de noir est monté dans la chambre du maître il y a deux jours, sans retirer son manteau : la voisine l’a vu entrer, mais ignore ce qu’il cherchait.'},
+ {id:'lettre',scene:57,title:'La lettre jamais envoyée',text:'Dans un tiroir, une lettre du maître, jamais envoyée : « 我觉得她很高兴 » (je crois qu’elle est heureuse), « 我非常想她 » (elle me manque énormément).'},
+ {id:'veste_taille',scene:58,title:'Une veste de trois ans',text:'La veste d’enfant du marché est bien trop petite (太小) pour un adulte : elle rappelle la fillette de trois ans des archives. Mei reconnaît le point de couture de sa mère.'},
+ {id:'boite_musique',scene:59,title:'La boîte à musique',text:'Au fond du dernier tiroir, une boîte à musique joue la berceuse du maître. Sous le socle, le sceau du dragon. Vous la retrouvez malgré la visite de l’homme tout de noir.'},
+ {id:'hopital',scene:59,title:'Un bulletin d’hôpital',text:'Sous la boîte à musique, un bulletin d’hôpital au nom du maître, daté de la semaine dernière : il était encore en vie récemment ; il faut le retrouver pour en savoir plus.'},
  {id:'d1',scene:null,ded:1,title:'Conclusion : un expéditeur inconnu',text:'Quelqu’un d’extérieur a glissé ton nom dans le registre et envoyé l’enveloppe. Son message, 请认识我, demande simplement qu’on fasse sa connaissance.'},
  {id:'d2',scene:null,ded:2,title:'Conclusion : l’ami était le petit ami',text:'L’« ami » de la liste de départs était le petit ami de la jeune femme, et c’est sans doute lui qui a envoyé le sceau jusqu’à toi.'},
  {id:'d3',scene:null,ded:3,title:'Conclusion : une enfant bien réelle',text:'L’enfant oubliée avait trois ans, elle ne figure sur aucune photographie du registre, et Lóng la reconnaît un peu : elle a bien existé, et quelqu’un tient à ce qu’on retrouve sa trace.'},
@@ -63,22 +77,27 @@ const EQ_CLUES=[
  {id:'d5',scene:null,ded:5,title:'Conclusion : un ami qui attendait quelqu’un',text:'L’ami venait chaque après-midi nourrir une petite fille qui l’attendait, et gardait une tasse pour son retour. Un homme tout de noir cherche, lui aussi, ses traces.'},
  {id:'d6',scene:null,ded:6,title:'Conclusion : Wu a été trompé',text:'Monsieur Wu, un collectionneur que Chen connaît, a payé 八百块 un leurre neuf : la vraie écaille est le bouton de la veste d’enfant. Mais il cherche une écaille et vous a vus : il reviendra.'},
  {id:'d7',scene:null,ded:7,title:'Conclusion : la piste mène à Tianjin',text:'Le plan au crayon, le nom de ville et l’horaire désignent Tianjin, où une croix brille d’un vert que Lóng reconnaît. Monsieur Wu a compris la même chose que vous : il a pris le même train.'},
- {id:'d8',scene:null,ded:8,title:'Conclusion : l’ami était l’instituteur',text:'L’ami de la famille était l’instituteur de cette école : c’est lui qui a écrit la phrase de la boîte, recopié des pages du registre et cherché la petite fille toute sa vie. Il ne savait pas où elle était.'}
+ {id:'d8',scene:null,ded:8,title:'Conclusion : l’ami était l’instituteur',text:'L’ami de la famille était l’instituteur de cette école : c’est lui qui a écrit la phrase de la boîte, recopié des pages du registre et cherché la petite fille toute sa vie. Il ne savait pas où elle était.'},
+ {id:'d9',scene:null,ded:9,title:'Conclusion : un lien possible avec Wu',text:'Plusieurs indices suggèrent un lien ancien entre Monsieur Wu et le maître : il vous a suivis jusqu’à l’école, a laissé son numéro, et son nom (吴) figure sur l’enseigne de l’imprimerie où le maître copiait des documents. Il en sait plus qu’il ne le dit.'},
+ {id:'d10',scene:null,ded:10,title:'Conclusion : une piste récente vers le maître',text:'Le maître n’a jamais cessé de penser à la petite fille : lettre jamais envoyée, boîte à musique gardée, berceuse chantée. Un bulletin d’hôpital daté de la semaine dernière montre qu’il était encore en vie récemment ; il faut le retrouver pour en savoir plus.'}
 ];
-const EQ_LINKS=[['enveloppe','sceau'],['nom','enveloppe'],['nom','ajout'],['effaces','verte'],['verte','dragon'],['effaces','main'],['ami','amoureux'],['sceau','amoureux'],['boite','inscription'],['age','ajout'],['photo','effaces'],['trois','age'],['trois','ajout'],['tiroir','effaces'],['tiroir','calendrier'],['compte','ajout'],['moitie','nom'],['moitie','trois'],['adresse','plan'],['plan','lanterne'],['adresse','lanterne'],['rdv','sceau'],['rdv','lanterne'],['date','rdv'],['jour','rdv'],['encre','nom'],['attendus','tasse'],['tasse','sceau'],['table','commande'],['commande','pommes'],['pommes','moitie'],['pommes','trois'],['noir','wu'],['noir','lanterne'],['marche','noir'],['caillou','neuf'],['caillou','prix'],['veste','pommes'],['veste','panier'],['wu','prix'],['panier','marche'],['attendus','rdv'],['plan_carnet','ville'],['ville','horaire'],['horaire','quai'],['pilier','wu_gare'],['wu_gare','noir'],['wu_gare','wu'],['ecole','plan_carnet'],['instituteur','ami'],['cloche','table'],['tableau','boite'],['tableau','inscription'],['cahier','pommes'],['cahier','instituteur'],['pupitre','instituteur'],['cloche','instituteur']];
+const EQ_LINKS=[['enveloppe','sceau'],['nom','enveloppe'],['nom','ajout'],['effaces','verte'],['verte','dragon'],['effaces','main'],['ami','amoureux'],['sceau','amoureux'],['boite','inscription'],['age','ajout'],['photo','effaces'],['trois','age'],['trois','ajout'],['tiroir','effaces'],['tiroir','calendrier'],['compte','ajout'],['moitie','nom'],['moitie','trois'],['adresse','plan'],['plan','lanterne'],['adresse','lanterne'],['rdv','sceau'],['rdv','lanterne'],['date','rdv'],['jour','rdv'],['encre','nom'],['attendus','tasse'],['tasse','sceau'],['table','commande'],['commande','pommes'],['pommes','moitie'],['pommes','trois'],['noir','wu'],['noir','lanterne'],['marche','noir'],['caillou','neuf'],['caillou','prix'],['veste','pommes'],['veste','panier'],['wu','prix'],['panier','marche'],['attendus','rdv'],['plan_carnet','ville'],['ville','horaire'],['horaire','quai'],['pilier','wu_gare'],['wu_gare','noir'],['wu_gare','wu'],['ecole','plan_carnet'],['instituteur','ami'],['cloche','table'],['tableau','boite'],['tableau','inscription'],['cahier','pommes'],['cahier','instituteur'],['pupitre','instituteur'],['cloche','instituteur'],['wu_ecoute','carte_wu'],['carte_wu','wu'],['travail','instituteur'],['travail','main'],['travail','wu_ecoute'],['film','berceuse'],['berceuse','boite_musique'],['neige','lettre'],['wu_avant','noir'],['wu_avant','boite_musique'],['lettre','cahier'],['veste_taille','veste'],['hopital','lettre'],['numero','cahier'],['routine','cloche']];
 const EQ_QUESTIONS=[
  {id:'venue',title:'Qui a préparé ta venue ?',evidence:['nom','enveloppe','sceau','rdv','encre'],conclusion:'d1'},
  {id:'noms',title:'Qui a effacé les noms de la famille ?',evidence:['photo','effaces','carte','verte','main','tiroir','calendrier','tableau']},
- {id:'enfant',title:'Qui est l’enfant ajoutée aux archives ?',evidence:['ajout','age','trois','compte','moitie','pommes','veste','cahier'],conclusion:'d3'},
- {id:'ami',title:'Qui est l’ami de la famille ?',evidence:['ami','amoureux','sceau','lanterne','table','commande','instituteur','cloche'],conclusion:'d2'},
+ {id:'enfant',title:'Qui est l’enfant ajoutée aux archives ?',evidence:['ajout','age','trois','compte','moitie','pommes','veste','cahier','film','berceuse','veste_taille'],conclusion:'d3'},
+ {id:'ami',title:'Qui est l’ami de la famille ?',evidence:['ami','amoureux','sceau','lanterne','table','commande','instituteur','cloche','routine'],conclusion:'d2'},
  {id:'boite',title:'Que dit la phrase grattée sur la boîte ?',evidence:['boite','inscription','dragon','tableau']},
  {id:'maison',title:'Que cache la maison 三十六 ?',evidence:['adresse','plan','lanterne','tasse']},
  {id:'observe',title:'Qui vous observe ?',evidence:['rdv','calendrier','jour','lanterne','attendus','noir','pilier'],conclusion:'d4'},
  {id:'attente',title:'Qui l’ami attendait-il à la maison de thé ?',evidence:['attendus','tasse','table','commande','pommes'],conclusion:'d5'},
- {id:'noir',title:'Qui est l’homme tout de noir ?',evidence:['noir','wu','caillou','prix','neuf','wu_gare'],conclusion:'d6'},
+ {id:'noir',title:'Qui est l’homme tout de noir ?',evidence:['noir','wu','caillou','prix','neuf','wu_gare','wu_avant'],conclusion:'d6'},
  {id:'ecaille',title:'Où est la deuxième écaille ?',evidence:['marche','panier','caillou','veste']},
  {id:'tianjin',title:'Où mène la croix du plan ?',evidence:['plan_carnet','ville','horaire','quai','ecole'],conclusion:'d7'},
- {id:'maitre',title:'Qui était le maître de l’école ?',evidence:['ecole','instituteur','pupitre','cloche','tableau','cahier'],conclusion:'d8'}
+ {id:'maitre',title:'Qui était le maître de l’école ?',evidence:['ecole','instituteur','pupitre','cloche','tableau','cahier','routine','travail','lettre'],conclusion:'d8'},
+ {id:'wu_lien',title:'Quel lien unit Monsieur Wu et le maître ?',evidence:['wu_ecoute','carte_wu','travail','wu_avant'],conclusion:'d9'},
+ {id:'depart',title:'Que s’est-il passé la nuit du départ ?',evidence:['neige','berceuse','film','lettre']},
+ {id:'ou_maitre',title:'Où est le maître aujourd’hui ?',evidence:['numero','routine','hopital','boite_musique','lettre'],conclusion:'d10'}
 ];
 const EQ_INSCRIPTION=['这','是','你','的','家'];
 
@@ -146,7 +165,22 @@ const EQ_REACTIONS={
   {t:'Tu le laisses à son silence.',fx:{mei:1},res:'Mei te remercie du regard : certains silences se respectent.'}]},
  47:{prompt:'Le cahier ne contient qu’une seule phrase, répétée. Que fais-tu ?',options:[
   {t:'Tu lis la dernière page à voix haute.',fx:{long:1},res:'Lóng retient son souffle : la dernière ligne est incomplète, comme si le maître avait été interrompu.'},
-  {t:'Tu laisses Chen lire en premier.',fx:{chen:1},res:'Chen serre le cahier contre lui : c’est l’écriture d’un homme qu’il a connu.'}]}
+  {t:'Tu laisses Chen lire en premier.',fx:{chen:1},res:'Chen serre le cahier contre lui : c’est l’écriture d’un homme qu’il a connu.'}]},
+ 48:{prompt:'Monsieur Wu demande à être écouté. Que fais-tu ?',options:[
+  {t:'Tu acceptes de l’écouter.',fx:{chen:1},res:'Chen te remercie du regard : il voulait entendre ce que Wu avait à dire.'},
+  {t:'Tu te places devant Mei.',fx:{mei:1},res:'Mei serre ton bras : elle n’oubliera pas ce geste.'}]},
+ 51:{prompt:'Sur l’enseigne effacée, un seul caractère reste lisible : 吴. Que fais-tu ?',options:[
+  {t:'Tu en parles à Chen tout de suite.',fx:{chen:1},res:'Chen reste silencieux un long moment : « Je m’en doutais. Je n’osais pas le dire. »'},
+  {t:'Tu gardes l’indice pour toi, pour l’instant.',fx:{mei:1},res:'Mei hoche la tête : elle préfère comprendre avant d’accuser.'}]},
+ 53:{prompt:'Lóng a repris la chanson sans l’avoir apprise. Comment réagis-tu ?',options:[
+  {t:'Tu lui demandes de la chanter encore.',fx:{long:1},res:'Lóng la chante encore, plus bas, les yeux fermés : on dirait qu’il parle à quelqu’un.'},
+  {t:'Tu le laisses se reposer.',fx:{chen:1},res:'Chen approuve : un souvenir trop sollicité s’enfuit.'}]},
+ 57:{prompt:'Tu tiens la lettre jamais envoyée du maître. Que fais-tu ?',options:[
+  {t:'Tu la gardes précieusement dans ton sac.',fx:{chen:1},res:'Chen approuve : cette lettre est peut-être la clé pour retrouver la petite fille.'},
+  {t:'Tu la relis une dernière fois à voix haute.',fx:{mei:1},res:'Mei écoute sans bouger, les yeux brillants.'}]},
+ 59:{prompt:'La boîte à musique joue encore. Que fais-tu ?',options:[
+  {t:'Tu laisses Lóng finir la chanson.',fx:{long:1},res:'Lóng chante jusqu’au bout et, pour la première fois, ses écailles luisent d’un vert profond.'},
+  {t:'Tu glisses la boîte dans ton manteau.',fx:{chen:1},res:'Chen approuve : un objet que Wu a dédaigné, c’est un objet qu’il ne cherchera pas.'}]}
 };
 
 /* Variantes de scène : une ligne en plus (ou en moins) selon la confiance accordée. */
@@ -166,7 +200,11 @@ const EQ_VARIANTS={
  38:t=>t.mei>=3?'Mei compte les minutes sur sa montre : elle a déjà vérifié trois fois l’horaire.':'',
  40:t=>t.long>=3?'Lóng s’est déjà installé sur le dossier du siège, comme s’il connaissait le trajet.':'',
  44:t=>t.mei>=3?'Mei passe la main sur le pupitre du fond : elle sent encore la cire des fleurs de l’an dernier.':'',
- 46:t=>t.long>=3?'Lóng pose la patte sur le tableau : la craie effacée laisse une lueur verte, le temps d’un battement.':''
+ 46:t=>t.long>=3?'Lóng pose la patte sur le tableau : la craie effacée laisse une lueur verte, le temps d’un battement.':'',
+ 49:t=>t.mei>=3?'Mei garde en secret la moitié de la carte de Wu : on ne sait jamais.':'',
+ 52:t=>t.chen>=3?'Chen reconnaît le nom du cinéma : le maître en parlait à voix basse, lors de ses rares visites chez son grand-père.':'',
+ 55:t=>t.long>=3?'Lóng pose la patte sur la vitre : un flocon s’y dessine, et un souvenir remonte, la main d’un homme qui lui tend un mouchoir.':'',
+ 58:t=>t.mei>=3?'Mei sourit tristement : sa mère disait que chaque point de couture était une promesse.':''
 };
 
 /* Scènes de déduction : un petit problème de vocabulaire, puis un raisonnement à partir de tes indices. */
@@ -218,7 +256,19 @@ const EQ_DEDUCTIONS={
   zh:'她在哪儿？',
   vocab:{q:'Que demande le maître dans son cahier ?',options:[['Où est-elle ?',true],['Qui est-elle ?',false],['Quel âge a-t-elle ?',false]]},
   pick:{prompt:'Quels trois indices montrent que le maître était l’ami de la famille et qu’il cherchait la petite fille ?',need:['instituteur','tableau','cahier'],pool:['instituteur','tableau','cahier','cloche','pupitre','ecole'],hint:'Pense à celui que Chen reconnaît, à la phrase du tableau et à la question du cahier.'},
-  conclusion:'d8',reward:30,trust:{chen:1}}
+  conclusion:'d8',reward:30,trust:{chen:1}},
+ 9:{title:'Quel lien unit Wu et le maître ?',
+  intro:'Wu a ouvert la conversation par une phrase que tu connais maintenant :',
+  zh:'请听我说。',
+  vocab:{q:'Que dit Monsieur Wu ?',options:[['Écoutez-moi, je vous prie.',true],['Regardez-moi bien.',false],['Appelez-moi plus tard.',false]]},
+  pick:{prompt:'Quels trois indices suggèrent que Monsieur Wu connaissait le maître depuis longtemps ?',need:['wu_ecoute','carte_wu','travail'],pool:['wu_ecoute','carte_wu','travail','routine','film','numero'],hint:'Pense à ce qu’il demande, à ce qu’il laisse sur le pupitre et à l’enseigne qui reste lisible.'},
+  conclusion:'d9',reward:25,trust:{mei:1}},
+ 10:{title:'Où est le maître aujourd’hui ?',
+  intro:'Chen a eu ce mot pour la musique :',
+  zh:'好听！',
+  vocab:{q:'Que dit Chen de la musique ?',options:[['Que c’est agréable à écouter !',true],['Que c’est amusant !',false],['Que c’est grand !',false]]},
+  pick:{prompt:'Quels trois indices montrent que le maître n’a jamais cessé de penser à la petite fille, et donnent une piste récente pour le retrouver ?',need:['lettre','boite_musique','hopital'],pool:['lettre','boite_musique','hopital','veste_taille','pluie','wu_avant'],hint:'Cherche la lettre qu’il n’a pas envoyée, la musique qu’il gardait et le papier daté de la semaine dernière.'},
+  conclusion:'d10',reward:30,trust:{long:1}}
 };
 
 let eqDedForce=0,eqDed=null;

@@ -3,10 +3,10 @@ const vm=require('node:vm');
 const assert=require('node:assert/strict');
 const read=f=>fs.readFileSync(f,'utf8');
 const ctx=vm.createContext({esc:s=>s});
-for(const f of ['hsk1-reference.js','hsk1-plan.js','episode2.js','episode3.js','episode4.js','episode5.js','episode6.js','episode7.js','episode8.js'])vm.runInContext(read(f),ctx,{filename:f});
+for(const f of ['hsk1-reference.js','hsk1-plan.js','episode2.js','episode3.js','episode4.js','episode5.js','episode6.js','episode7.js','episode8.js','episode9.js','episode10.js'])vm.runInContext(read(f),ctx,{filename:f});
 const app=read('app.js');
 const first=JSON.parse(app.match(/const vocab=(\[.*?\]);/)[1]);
-ctx.vocab=[...first,...[2,3,4,5,6,7,8].flatMap(n=>vm.runInContext('EPISODE'+n+'_VOCAB',ctx))];
+ctx.vocab=[...first,...[2,3,4,5,6,7,8,9,10].flatMap(n=>vm.runInContext('EPISODE'+n+'_VOCAB',ctx))];
 vm.runInContext(read('speech.js'),ctx,{filename:'speech.js'});
 const call=(fn,...a)=>vm.runInContext(fn+'('+a.map(x=>JSON.stringify(x)).join(',')+')',ctx);
 const match=(h,t)=>call('speechMatch',h,t);
@@ -44,7 +44,7 @@ for(const c of chars)assert(map[c],'caractère sans lecture : '+c);
 
 // Chaque phrase du jeu se reconnaît elle-même, même sans ponctuation
 const turnsAndLines=[];
-for(const n of [3,4,5,6,7,8]){vm.runInContext('EPISODE'+n+'_SCENES',ctx).forEach(s=>turnsAndLines.push(s.zh));vm.runInContext('EPISODE'+n+'_TURNS',ctx).flat().forEach(t=>turnsAndLines.push(t.zh))}
+for(const n of [3,4,5,6,7,8,9,10]){vm.runInContext('EPISODE'+n+'_SCENES',ctx).forEach(s=>turnsAndLines.push(s.zh));vm.runInContext('EPISODE'+n+'_TURNS',ctx).flat().forEach(t=>turnsAndLines.push(t.zh))}
 for(const line of turnsAndLines){assert.equal(level(line,line),'exact',line);assert.equal(level(line.replace(/[，。？！]/g,''),line),'exact',line)}
 
 // Mots différents du vocabulaire : seules les équivalences voulues sont acceptées
