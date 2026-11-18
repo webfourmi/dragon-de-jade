@@ -45,7 +45,7 @@ function episodeBoundaryPage(){
   const ep=sc/6,next=EP_NEXT[ep+1],end=EP_END[ep];
   if(epStarted(ep+1)||!next||!end)return '';
   const seal=ep<=2?'<div class="paper"><button class="primary" onclick="sealStart()">Passer l’épreuve du premier sceau</button><p class="small muted">12 questions, résultats enregistrés sans XP.</p></div>':'';
-  return '<div class="hero location-banner"><h1>Les Chroniques du Dragon de Jade</h1></div><main class="page"><div class="label">Livre I · Épisode '+ep+' terminé</div>'+episodeReplayMenu()
+  return scenePlaceBanner(sc-1)+'<main class="page"><div class="label">Livre I · Épisode '+ep+' terminé</div>'+episodeReplayMenu()
     +'<h2>🐉 '+esc(end.title)+'</h2><p>'+esc(end.text)+'</p>'+seal
     +'<div class="paper"><h3>Épisode '+(ep+1)+' · '+esc(next.title)+'</h3><p>'+esc(next.text)+'</p><button class="primary" onclick="startEpisode('+(ep+1)+')">Commencer l’épisode '+(ep+1)+' →</button></div></main>';
 }

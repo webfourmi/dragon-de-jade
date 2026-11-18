@@ -1,6 +1,8 @@
-# Les Chroniques du Dragon de Jade · V0.14
+# Les Chroniques du Dragon de Jade · V0.15
 
 PWA statique, sans backend, pour apprendre le chinois en jouant. Le Livre I contient dix épisodes de 6 scènes (salutations, famille, nombres, temps, thé et repas, marché, gare et train, école, vie quotidienne, météo et descriptions), des dialogues en mandarin avec synthèse vocale du navigateur, un carnet de vocabulaire illustré à l'aquarelle, un quiz à quatre exercices, une calligraphie validée trait par trait et une enquête (indices, écailles de Lóng, déductions).
+
+Les 60 scènes du Livre I se partagent 19 aquarelles de Pékin et de Tianjin. Touche un décor pour l’agrandir. L’Atlas rassemble les lieux rencontrés, avec une recherche et un filtre par épisode. Les associations entre scènes et images figurent dans `lieux.js`, et les illustrations dans `assets/lieux/`.
 
 ## Lancer localement
 

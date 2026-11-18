@@ -1,4 +1,5 @@
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
+const {createHash}=require('node:crypto');
 const episodeCount=10,sceneCount=60,wordCount=251;
 const allDeductions=Array.from({length:episodeCount},(_,i)=>i+1);
 const order=[...fs.readFileSync('index.html','utf8').matchAll(/<script src="([^"?]+)\?/g)].map(m=>m[1]);
@@ -13,10 +14,38 @@ const game=boot({name:'Test sauvegarde',xp:37,scene:1,completed:[0],words:['你�
 assert.equal(game.run('state.xp'),37);assert.equal(game.run('state.name'),'Test sauvegarde');
 assert.equal(game.run('scenes.length'),sceneCount);assert.equal(game.run('vocab.length'),wordCount);
 game.run('eqState()');assert(game.run('state.clueScenes.includes(0)'));
+const mappings=JSON.parse(game.run('JSON.stringify(SCENE_PLACES)'));
+const places=JSON.parse(game.run('JSON.stringify(PLACE_ART)'));
+assert.equal(mappings.length,sceneCount);
+assert.deepEqual([...new Set(mappings.flat())].sort(),Object.keys(places).sort());
+assert.deepEqual(fs.readdirSync('assets/lieux').sort(),Object.keys(places).map(id=>id+'.webp').sort());
+const imageHashes=Object.keys(places).map(id=>createHash('sha256').update(fs.readFileSync('assets/lieux/'+id+'.webp')).digest('hex'));
+assert.equal(new Set(imageHashes).size,19);
+const earlyAtlas=game.run('atlas()');
+assert(earlyAtlas.includes('rue-des-lanternes.webp') && earlyAtlas.includes('boutique-de-chen.webp'));
+assert(!earlyAtlas.includes('maison-de-the.webp') && !earlyAtlas.includes('cinema-du-quartier.webp'));
+const skippedPlace=boot({introSeen:true,skipped:[17]});
+assert(skippedPlace.run('atlas()').includes('etal-des-cartes.webp'));
+const beforeCinema=Array.from({length:52},(_,i)=>i);
+const oldSave=boot({introSeen:true,scene:1,completed:[0],clueScenes:beforeCinema});
+assert(!oldSave.run('atlas()').includes('cinema-du-quartier.webp'));
+oldSave.run('eqSceneDone(52);atlasEpisode="9";atlasSearch="cinema";renderAtlasDiscoveries()');
+const memory=oldSave.nodes.get('atlas-places').innerHTML;
+assert(memory.includes('cinema-du-quartier.webp') && memory.includes('Souvenir de la voisine'));
+assert(!memory.includes('salon-de-la-voisine.webp'));
+oldSave.run('atlasEpisode="8";atlasSearch="";renderAtlasDiscoveries()');
+const school=oldSave.nodes.get('atlas-places').innerHTML;
+assert.equal((school.match(/class="place-card"/g)||[]).length,2);
+assert(school.includes('cour-de-lecole.webp') && school.includes('salle-de-classe.webp'));
 // Render every new scene and tab using real app code, not extracted functions.
 for(let i=0;i<sceneCount;i++){
  game.run(`state.scene=${i};state.introSeen=true;epMarkStarted(${Math.floor(i/6)+1});state.deduced=${JSON.stringify(allDeductions)};eqDed=null;tab='aventure';render()`);
- assert(game.nodes.get('#app').innerHTML.includes('Scène '+(i%6+1)+'/6'));
+ const markup=game.nodes.get('#app').innerHTML;
+ assert(markup.includes('Scène '+(i%6+1)+'/6'));
+ assert(mappings[i].length>0 && markup.includes('<header class="scene-place">'));
+ for(const id of mappings[i]){
+  assert(places[id].alt && markup.includes('src="assets/lieux/'+id+'.webp"'),'visible place in scene '+i+': '+id);
+ }
 }
 for(const tab of ['enquete','carnet','atlas','campagne'])game.run(`tab='${tab}';render()`);
 // Complete all ten episodes. Check boundaries, clue recovery, and absence of duplicate XP on replay.

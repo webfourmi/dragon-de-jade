@@ -358,7 +358,7 @@ function deductionPage(){
   const ep=eqPendingDeduction();if(!ep)return '';
   const d=EQ_DEDUCTIONS[ep];
   if(!eqDed||eqDed.ep!==ep)eqDed={ep,step:'vocab',picked:[],msg:'',order:shuffleWords(d.pick.pool)};
-  const head='<div class="hero location-banner"><h1>Les Chroniques du Dragon de Jade</h1></div><main class="page"><div class="label">Scène de déduction · Épisode '+ep+'</div><h2>'+esc(d.title)+'</h2>';
+  const head=scenePlaceBanner(ep*6-1)+'<main class="page"><div class="label">Scène de déduction · Épisode '+ep+'</div><h2>'+esc(d.title)+'</h2>';
   const skip='<button onclick="eqDedSkip()">Passer (0 XP)</button>';
   let body;
   if(eqDed.step==='vocab'){

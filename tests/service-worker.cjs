@@ -19,6 +19,15 @@ function setup(fail=''){
  let release;sw.listeners.message({data:{type:'GET_VERSION'},ports:[{postMessage:r=>release=r}]});assert.equal(release.version,version);assert(release.notes);
  await sw.event('activate');assert(sw.claimed);assert(!sw.stores.has('dragonjade-old'));assert(sw.stores.has('unrelated-cache'));assert(sw.stores.has('hanzi-assets-v1'));
  sw.setOffline(true);
+ assert((await (await sw.request('lieux.js?v='+version)).text()).includes('SCENE_PLACES'));
+ for(const file of fs.readdirSync('assets/lieux')){
+  const path='assets/lieux/'+file;
+  const bytes=Buffer.from(await (await sw.request(path)).arrayBuffer());
+  assert.equal(bytes.toString('ascii',8,12),'WEBP',file);
+  assert.deepEqual(bytes,fs.readFileSync(path),'offline place: '+file);
+ }
+ const fullImage=await sw.request('assets/lieux/rue-des-lanternes.webp','navigate');
+ assert.equal(Buffer.from(await fullImage.arrayBuffer()).toString('ascii',8,12),'WEBP');
  assert((await (await sw.request('episode6.js?v='+version)).text()).includes('EPISODE6_SCENES'));
  assert((await (await sw.request('episode7.js?v='+version)).text()).includes('EPISODE7_SCENES'));
  assert((await (await sw.request('episode8.js?v='+version)).text()).includes('EPISODE8_SCENES'));
