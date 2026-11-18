@@ -6,7 +6,6 @@ const JADE_GAMES = {
   envoy:  {title:'Le messager de Chen', xp:120, min:1, art:'assets/maitre-chen.webp', description:'Pars d’un indice en français et prononce le mot chinois.'}
 };
 let jadeGame = null;
-let gameMic = null;
 
 function gameVocabulary() {
   const known = new Set(state.words);
@@ -50,14 +49,6 @@ function stopJadeAudio() {
   activeUtterance = null;
   try { window.speechSynthesis?.cancel(); } catch {}
 }
-function stopGameMic() {
-  const r = gameMic;
-  if (!r) return;
-  gameMic = null;
-  r.onstart = r.onspeechend = r.onresult = r.onerror = r.onend = null;
-  try { r.abort(); } catch {}
-}
-
 function gameMenu() {
   const pool = gameVocabulary();
   const games = Object.entries(JADE_GAMES);
@@ -105,7 +96,7 @@ function startJadeGame(kind, missedOnly = false) {
     if (notice) notice.textContent = 'Ce jeu attend deux mots aux indices bien distincts. Apprends encore un mot dans l’aventure.';
     return;
   }
-  stopGameMic();
+  cancelMandarinMic('messager');
   stopJadeAudio();
   jadeGame = game;
   bookSection = 'jeux';
@@ -115,7 +106,7 @@ function startJadeGame(kind, missedOnly = false) {
   window.scrollTo(0,0);
 }
 function leaveJadeGame() {
-  stopGameMic();
+  cancelMandarinMic('messager');
   stopJadeAudio();
   jadeGame = null;
   bookSection = 'jeux';
@@ -180,7 +171,6 @@ function memoryBoard() {
 }
 
 function gameSpeak(text) {
-  stopGameMic();
   speak(text);
 }
 function listenGameWord() {
@@ -189,7 +179,7 @@ function listenGameWord() {
 function finishGameAnswer(ok, selfRated=false, detail='') {
   const g = jadeGame;
   if (!g || g.kind==='pairs' || g.feedback || !g.rounds[g.index]) return;
-  stopGameMic();
+  cancelMandarinMic('messager');
   const word = g.rounds[g.index].word;
   g.feedback = {word,ok,selfRated,detail};
   g.answers.push(g.feedback);
@@ -199,7 +189,7 @@ function finishGameAnswer(ok, selfRated=false, detail='') {
 function nextGameRound() {
   const g = jadeGame;
   if (!g || !g.feedback || g.index >= g.rounds.length) return;
-  stopGameMic();
+  cancelMandarinMic('messager');
   stopJadeAudio();
   g.index++;
   prepareGameRound();
@@ -277,59 +267,31 @@ function brushQuestion(word) {
 
 function revealEnvoy() {
   if (jadeGame?.kind!=='envoy' || jadeGame.feedback) return;
-  stopGameMic();
+  cancelMandarinMic('messager');
   jadeGame.revealed=true;
   jadeGame.message='';
   render();
 }
 function startEnvoyMic() {
   const g = jadeGame;
-  if (tab!=='campagne' || bookSection!=='jeux' || g?.kind!=='envoy' || g.feedback || g.revealed || gameMic || !hasGameMic()) return;
-  stopJadeAudio();
+  if (tab!=='campagne' || bookSection!=='jeux' || g?.kind!=='envoy' || g.feedback || g.revealed || mandarinListening('messager') || !hasGameMic()) return;
   const round = g.rounds[g.index];
-  const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  let r;
-  try {
-    r = new Recognition();
-    gameMic = r;
-    r.lang='zh-CN'; r.maxAlternatives=5; r.interimResults=false;
-    const current = () => gameMic===r && jadeGame===g && g.rounds[g.index]===round;
-    r.onspeechend=()=>{ if (current()) {try {r.stop();} catch {}} };
-    r.onresult=e=>{
-      if (!current()) return;
-      const result=e.results[e.resultIndex ?? 0];
-      if (!result || result.isFinal===false) return;
-      const alts=Array.from(result).map(item=>item.transcript.trim()).filter(Boolean);
-      if (!alts.length) return;
-      const acceptable=g.pool.filter(v=>sameGameClue(v,round.word)).map(v=>v[0]);
-      const match=speechMatchAny(alts,acceptable);
-      stopGameMic();
-      if (match.ok) { finishGameAnswer(true,false,'Entendu · '+match.heard); return; }
-      g.tries++;
-      if (g.tries>=3) { finishGameAnswer(false,false,'Entendu · '+alts[0]); return; }
-      g.message='Entendu · '+alts[0]+'. Essaie à nouveau ('+g.tries+'/3).';
-      render();
-    };
-    r.onerror=e=>{
-      if (!current()) return;
-      stopGameMic();
-      const reason=e.error==='not-allowed'?'Microphone refusé.':e.error==='no-speech'?'Aucune voix entendue.':'Reconnaissance vocale indisponible.';
-      g.message=reason+' Tu peux réessayer ou t’autoévaluer.';
-      render();
-    };
-    r.onend=()=>{
-      if (!current()) return;
-      gameMic=null;
-      g.message='Aucune réponse enregistrée. Réessaie ou révèle le modèle.';
-      render();
-    };
-    g.message='Le microphone écoute. Prononce le mot en mandarin.';
-    r.start();
-  } catch {
-    stopGameMic();
-    g.message='Le microphone ne démarre pas. Tu peux t’autoévaluer.';
+  function status(message, redraw) {
+    g.message=message;
+    if (redraw) { render(); return; }
+    const el=document.getElementById('envoy-mic-status');
+    if (el) el.textContent=message;
   }
-  render();
+  listenInMandarin('messager', status, phrases => {
+    const acceptable=g.pool.filter(v=>sameGameClue(v,round.word)).map(v=>v[0]);
+    const match=speechMatchAny(phrases,acceptable);
+    if (match.ok) { finishGameAnswer(true,false,'Entendu · '+match.heard); return; }
+    g.tries++;
+    const hint=speechToneHint(match);
+    const detail='Entendu · '+phrases[0]+(hint?' · '+hint:'');
+    if (g.tries>=3) { finishGameAnswer(false,false,detail); return; }
+    status(detail+' · Essaie à nouveau ('+g.tries+'/3).',true);
+  });
 }
 function envoyQuestion(word) {
   const g=jadeGame;
@@ -338,9 +300,9 @@ function envoyQuestion(word) {
     ${hasMandarinPlayback()?'<button onclick="listenGameWord()">🔊 Écouter le modèle</button>':''}
     <p>Compare avec le mot que tu as prononcé.</p><div class="controls"><button onclick="finishGameAnswer(false,true)">À retravailler</button><button class="primary" onclick="finishGameAnswer(true,true)">Je l’ai dit</button></div>`;
   return prompt + (hasGameMic()
-    ? `<button class="primary" onclick="${gameMic?'stopGameMic();jadeGame.message=\'Écoute arrêtée.\';render()':'startEnvoyMic()'}">${gameMic?'Arrêter le micro':'🎤 Parler en mandarin'}</button>`
+    ? `<button class="primary" onclick="${mandarinListening('messager')?"finishMandarinMic('messager')":"startEnvoyMic()"}">${mandarinListening('messager')?'⏹ Terminer l’écoute':'🎤 Parler en mandarin'}</button>`
     : '<p class="muted">Le micro est indisponible ici. Prononce le mot à voix haute, puis révèle le modèle.</p>')
-    + '<p role="status">'+esc(g.message)+'</p><button onclick="revealEnvoy()">Révéler le modèle et m’autoévaluer</button>';
+    + '<p id="envoy-mic-status" role="status">'+esc(g.message)+'</p><button onclick="revealEnvoy()">Révéler le modèle et m’autoévaluer</button>';
 }
 
 function gameWordModel(word) {

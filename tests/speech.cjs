@@ -20,6 +20,9 @@ assert.equal(level('你好啊','你好'),'variant');
 assert.equal(level('你好吗','你好'),'variant');
 assert.equal(level('你认识她','你认识她吗'),'variant');
 assert.equal(level('我说你好','你好'),'contains');
+for(const [traditional,simplified] of [['謝謝','谢谢'],['請問，現在幾點？','请问，现在几点？'],['媽媽買東西','妈妈买东西'],['火車站','火车站']]){
+  assert.equal(level(traditional,simplified),'exact');
+}
 // Homophones à même ton : acceptés ; ton différent : refusé avec conseil
 assert.equal(level('五','午'),'homophone');
 for(const [h,t] of [['买','卖'],['卖东西','买东西'],['是','十']]){assert.equal(level(h,t),'tone');assert.equal(match(h,t).ok,false)}
@@ -30,6 +33,22 @@ for(const [h,t] of [['大学生','大学'],['谢谢你','谢谢'],['你好','再
 let best=call('speechMatchAny',['三十八','36','三十六点'],['三十六']);
 assert.equal(best.ok,true);assert.equal(best.heard,'36');
 best=call('speechMatchAny',['买'],['卖']);assert.equal(best.level,'tone');assert.equal(best.ok,false);assert.equal(best.target,'卖');
+assert.equal(level('買','賣'),'tone');
+const hint=call('speechToneHint',best);
+assert(hint.includes('mǎi') && hint.includes('mài'));
+
+const part=(...choices)=>({final:true,choices});
+const phrases=parts=>Array.from(call('mandarinPhrases',parts));
+assert.deepEqual(phrases([part('你','泥'),part('好','号')]),['你好','你号','泥好','泥号']);
+assert.deepEqual(phrases([part('我叫'),part('Anne'),part('Marie')]),['我叫Anne Marie']);
+assert.deepEqual(phrases([part('我'),{final:false,choices:['好']}]),[]);
+assert.deepEqual(phrases([part('我'),part()]),[]);
+assert.deepEqual(phrases([]),[]);
+const five=part('一','二','三','四','五');
+assert(phrases([five,five,five]).includes('五五五'));
+assert.equal(phrases([five,five,five,five,five]).length,125);
+assert.deepEqual(phrases([part('我'),part('不'),part('喝茶')]),['我不喝茶']);
+assert(!call('speechMatchAny',phrases([part('我'),part('不'),part('喝茶')]),['我喝茶','喝茶']).ok);
 
 // Pinyin : les 300 entrées HSK 1 sont lues, et tous les caractères ont une lecture
 const R=vm.runInContext('HSK1_REFERENCE',ctx);
@@ -54,10 +73,4 @@ for(const a of words)for(const b of words)if(a<b&&(match(a,b).ok||match(b,a).ok)
 const expectedPairs=[['二','两'],['他们','她们'],['他','她'],['哪儿','哪里'],['那儿','那里'],['钱','前'],['这儿','这里']].map(p=>[...p].sort().join('~'));
 assert.deepEqual(accepted.sort(),expectedPairs.sort(),'équivalences acceptées entre mots du vocabulaire');
 
-// Le jeu utilise bien cette comparaison
-assert(app.includes('speechMatchAny(alts,speechSceneTargets(scene))'),'speechAccepted utilise la comparaison tolérante');
-assert(app.includes('speechAccepted(alts,sceneIndex)'),'validate envoie toutes les alternatives');
-assert.equal(app.split('r.maxAlternatives=5').length-1,2,'cinq alternatives dans les deux exercices');
-assert.equal(app.split('r.onspeechend=()=>{try{r.stop()}catch{}}').length-1,2,'arrêt à la fin de la parole');
-assert(!app.includes("normalize(t)===normalize(target)"),'plus de comparaison stricte dans l’exercice de prononciation');
-console.log('PASS: comparaison vocale tolérante (chiffres, particules, homophones, tons, alternatives, pinyin des 300 mots HSK 1)');
+console.log('PASS: utterance reconstruction, ranked alternatives, traditional forms, tones, pinyin of 300 HSK 1 words and vocabulary distinctions');

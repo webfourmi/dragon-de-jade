@@ -10,6 +10,15 @@ function boot(progress={}){
  for(const file of order)vm.runInContext(fs.readFileSync(file,'utf8'),ctx,{filename:file});
  return {run:s=>vm.runInContext(s,ctx),saved,nodes};
 }
+function mockMicrophone(game){
+ game.run(`window.isSecureContext=true;
+ const voicePart=(isFinal,...phrases)=>Object.assign(phrases.map(transcript=>({transcript})),{isFinal});
+ window.SpeechRecognition=class{
+  start(){window.lastMic=this}
+  stop(){this.stopRequested=true}
+  abort(){this.aborted=true}
+ };`);
+}
 const game=boot({name:'Test sauvegarde',xp:37,scene:1,completed:[0],words:['你好'],introSeen:true,chars:[],reviewSelected:[]});
 assert.equal(game.run('state.xp'),37);assert.equal(game.run('state.name'),'Test sauvegarde');
 assert.equal(game.run('scenes.length'),sceneCount);assert.equal(game.run('vocab.length'),wordCount);
@@ -112,14 +121,18 @@ for(const ep of [9,10]){
  assert(reloaded.run(`eqUnlocked().some(c=>c.id==='d${ep}')`));
 }
 // Exercise the real recognition callback, rendered input and Validate button together.
-function recognizedGame(alternatives){
- const spoken=boot({introSeen:true});
- spoken.run('window.isSecureContext=true;window.SpeechRecognition=class{start(){}stop(){}};recognize()');
- spoken.run(`activeRecognition.onresult({resultIndex:0,results:[Object.assign(${JSON.stringify(alternatives.map(transcript=>({transcript})))},{isFinal:true})]});activeRecognition.onend()`);
+function recordScene(spoken,alternatives){
+ spoken.run('recognize()');
+ spoken.run(`window.lastMic.onresult({resultIndex:0,results:[voicePart(true,...${JSON.stringify(alternatives)})]});window.lastMic.onend()`);
  const field=spoken.nodes.get('#app').innerHTML.match(/id="answer"[^>]*value="([^"]*)"/);
  assert(field,'recognized text is rendered in the answer field');
- // Mirror the value that the browser obtains from the rendered input element.
+ // Mirror the input value from the actual rendered markup.
  spoken.run(`document.querySelector('#answer').value=${JSON.stringify(field[1])}`);
+}
+function recognizedGame(alternatives){
+ const spoken=boot({introSeen:true});
+ mockMicrophone(spoken);
+ recordScene(spoken,alternatives);
  return spoken;
 }
 function editAnswer(spoken,value){
@@ -128,6 +141,8 @@ function editAnswer(spoken,value){
 }
 for(const alternatives of [['再见','你好'],['再见','谢谢','谁','我','你好']]){
  const spoken=recognizedGame(alternatives);
+ assert.equal(spoken.run('speechText'),'你好');
+ assert.match(spoken.run('micStatus'),/你好.*bonjour/i);
  spoken.run("switchTab('carnet');switchTab('aventure');validate()");
  assert(spoken.run('state.completed.includes(0)'),'accept a correct second or fifth alternative, even after a rerender');
  assert.equal(spoken.run('state.xp'),10);
@@ -135,6 +150,9 @@ for(const alternatives of [['再见','你好'],['再见','谢谢','谁','我','�
  spoken.run('nextScene()');assert.equal(spoken.run('speechAlternatives.length'),0);
 }
 const edited=recognizedGame(['再见','你好']);
+const polite=recognizedGame(['您好']);polite.run('validate()');
+assert(polite.run('state.completed.includes(0) && state.speechSuccess===1'));
+assert.match(polite.run("recognizedFrench('您好')"),/bonjour/i);
 editAnswer(edited,'谢谢');editAnswer(edited,'再见');edited.run('validate()');
 assert(!edited.run('state.completed.includes(0)'),'an explicit edit overrides old recognition alternatives, even when changed back');
 assert.equal(edited.run('state.xp'),0);assert.equal(edited.run('state.attempts[0]'),1);
@@ -142,10 +160,58 @@ const corrected=recognizedGame(['再见','谢谢']);editAnswer(corrected,'你好
 assert(corrected.run('state.completed.includes(0)'),'a correct keyboard correction is accepted');
 const cleared=recognizedGame(['你好','再见']);editAnswer(cleared,'');cleared.run('validate()');
 assert(!cleared.run('state.completed.includes(0)'),'clearing the field must not reuse a recognized answer');
+assert.equal(cleared.run('state.attempts[0]||0'),0);
 const wrong=recognizedGame(['再见','谢谢']);wrong.run('validate();validate();validate()');
+assert.equal(wrong.run('state.attempts[0]'),1,'one recording cannot count three times');
+assert.match(wrong.nodes.get('#scene-attempts').textContent,/1\/3/);
+for(let i=0;i<2;i++){recordScene(wrong,['再见','谢谢']);wrong.run('validate()')}
 assert(wrong.run('state.skipped.includes(0)'),'three incorrect attempts still allow continuing');
 assert.equal(wrong.run('state.xp'),0);
 console.log('PASS: real recognition callback and validation, second/fifth alternatives, rerender, keyboard edits, cleared input and three-attempt fallback');
+// Each native event is a complete snapshot. A final segment can be followed by a revised interim segment.
+const fragmented=boot({introSeen:true});mockMicrophone(fragmented);
+fragmented.run("validate();recognize();var mic=window.lastMic;validate()");
+assert.equal(fragmented.run('state.attempts[0]||0'),0);
+assert(fragmented.run("mic.lang==='zh-CN' && mic.interimResults && !mic.continuous && mic.maxAlternatives===5"));
+fragmented.run("mic.onresult({resultIndex:0,results:[voicePart(true,'泥','你'),voicePart(false,'坏')]})");
+assert.match(fragmented.run('micStatus'),/泥坏/);
+fragmented.run("mic.onresult({resultIndex:1,results:[voicePart(true,'泥','你'),voicePart(false,'好')]})");
+assert.match(fragmented.run('micStatus'),/泥好/);
+fragmented.run("finishMandarinMic('aventure');validate()");
+assert(fragmented.run('mic.stopRequested'));assert.equal(fragmented.run('speechText'),'');
+fragmented.run("mic.onresult({resultIndex:1,results:[voicePart(true,'泥','你'),voicePart(true,'号','好')]});mic.onend();mic.onend()");
+assert.equal(fragmented.run('speechText'),'你好');
+fragmented.run("document.querySelector('#answer').value=speechText;validate()");
+assert.equal(fragmented.run('state.xp'),10);
+const incomplete=recognizedGame(['你好']);
+incomplete.run("recognize();var mic=window.lastMic;mic.onresult({results:[voicePart(true,'你'),voicePart(false,'好')]});mic.onend()");
+assert.equal(incomplete.run('speechText'),'');
+assert.match(incomplete.run('micStatus'),/incomplète/);
+incomplete.run("document.querySelector('#answer').value='';validate();recognize();mic=window.lastMic;mic.onerror({error:'no-speech'});mic.onend();validate()");
+assert.equal(incomplete.run('state.attempts[0]||0'),0);
+assert(!incomplete.run('state.completed.includes(0)'));
+incomplete.run("recognize();mic=window.lastMic;selectAnswer('2');mic.onresult({results:[voicePart(true,'你好')]});mic.onend()");
+assert.equal(incomplete.run('selected'),'2');assert.equal(incomplete.run('speechText'),'');
+incomplete.run("recognize();mic=window.lastMic;window.speechSynthesis={getVoices:()=>[],cancel(){},speak(){},resume(){}};window.SpeechSynthesisUtterance=class{};var SpeechSynthesisUtterance=window.SpeechSynthesisUtterance;speakScene(true);mic.onresult({results:[voicePart(true,'你好')]});mic.onend()");
+assert(incomplete.run('mic.aborted'));assert.equal(incomplete.run('speechText'),'');
+const practice=boot({introSeen:true,words:['谢谢']});mockMicrophone(practice);
+practice.run("switchTab('carnet');startSpeakingPractice();listenSpeakingPractice();var mic=window.lastMic;mic.onresult({results:[voicePart(true,'謝')]});mic.onresult({resultIndex:1,results:[voicePart(true,'謝'),voicePart(false,'寫')]})");
+assert.equal(practice.run('speakingAttempts'),0);
+practice.run("mic.onresult({resultIndex:1,results:[voicePart(true,'謝'),voicePart(true,'寫','謝')]});mic.onend();mic.onend()");
+assert.equal(practice.run('speakingScore'),1);assert.equal(practice.run('speakingAttempts'),1);
+assert(practice.nodes.get('speaking-overlay').innerHTML.includes('Entendu · 謝謝'));
+practice.run("nextSpeakingPractice();listenSpeakingPractice();mic=window.lastMic;mic.onresult({results:[voicePart(false,'謝謝')]});mic.onend()");
+assert.equal(practice.run('speakingAttempts'),0);
+for(let i=0;i<3;i++)practice.run("listenSpeakingPractice();mic=window.lastMic;mic.onresult({results:[voicePart(true,'外星')]});mic.onend();mic.onend()");
+assert(practice.run('speakingFinished && speakingAttempts===3 && speakingScore===1'));
+practice.run("nextSpeakingPractice();listenSpeakingPractice();mic=window.lastMic;nextSpeakingPractice();mic.onresult({results:[voicePart(true,'谢谢')]});mic.onend()");
+assert(practice.run('mic.aborted && !speakingFinished && speakingAttempts===0'));
+const replayVoice=boot({introSeen:true,scene:2,completed:[0],xp:10});mockMicrophone(replayVoice);
+replayVoice.run("replayScene(0);validate();recognize();window.lastMic.onerror({error:'network'});validate()");
+assert.equal(replayVoice.run('state.sceneReplay.attempts'),0);
+recordScene(replayVoice,['再见','你好']);replayVoice.run('validate();validate()');
+assert.equal(replayVoice.run('state.xp'),12);
+console.log('PASS: complete and interim transcripts, correct displayed translation, one attempt per recording, practice, replay, audio and navigation cancellation');
 // Fixture for browser testing, confined to localhost test origin.
 if(process.env.WRITE_BROWSER_FIXTURE==='1'){
 fs.mkdirSync('../release-test-data',{recursive:true});
@@ -159,4 +225,4 @@ fs.writeFileSync('../release-test-data/episode5.json',JSON.stringify({format:'dr
 }
 console.log('PASS: full app initialization, V0.11/V0.13 save upgrades, new deductions, 60 scene renders, 10 episodes, 251 words, boundaries, replay XP and final deduction');
 
-require('./livres-jeux.cjs')(boot);
+require('./livres-jeux.cjs')(boot,mockMicrophone);

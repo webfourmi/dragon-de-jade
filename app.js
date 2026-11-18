@@ -1,4 +1,4 @@
-const APP_VERSION='0.16.0';
+const APP_VERSION='0.17.0';
 const KEY='dragonjade-v02';const base={scene:0,xp:0,choice:{},completed:[],words:[],chars:[],discoveries:[],name:'Esmée',class:'Exploratrice',attempts:{},skipped:[],activity:{},speechSuccess:0,writingSessions:0,wordDates:{},reviewSelected:[],reviewSchedule:{},introSeen:false,heroPortrait:'heros'};let state;try{state={...base,...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch{state={...base}}state.attempts=state.attempts||{};state.skipped=state.skipped||[];state.activity=state.activity||{};state.speechSuccess=state.speechSuccess||0;state.writingSessions=state.writingSessions||0;state.wordDates=state.wordDates||{};state.reviewSelected=state.reviewSelected||[];state.reviewSchedule=state.reviewSchedule||{};state.heroPortrait=['heros','heros-garcon'].includes(state.heroPortrait)?state.heroPortrait:'heros';let tab='aventure',speechText='',micStatus='',selected='',showPinyin=true,showTranslation=true,drawChar='你',guide=true,strokes=[],currentStroke=null,strokeStep=0,canvasMode='trace';
 const scenes=[
   {
@@ -206,7 +206,7 @@ const books=[['I','L’Éveil du Dragon de Jade','Pékin, Tianjin, Xi’an','HSK
 const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));function save(){try{state.savedAt=new Date().toISOString();localStorage.setItem(KEY,JSON.stringify(state));return true}catch(e){console.warn('Sauvegarde impossible',e);return false}}
 function saveStatus(){if(!state.savedAt)return 'Aucune sauvegarde automatique encore créée';const d=new Date(state.savedAt);return 'Sauvegarde locale : '+(Number.isNaN(d.getTime())?'disponible':d.toLocaleString('fr-FR'))}
 function exportSave(){save();const blob=new Blob([JSON.stringify({format:'dragon-de-jade-save',version:1,progress:state},null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='dragon-de-jade-sauvegarde.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
-function importSave(input){const file=input.files?.[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const data=JSON.parse(reader.result);if(data.format!=='dragon-de-jade-save'||!data.progress||!Array.isArray(data.progress.completed)||typeof data.progress.xp!=='number')throw Error('Format invalide');if(!confirm('Remplacer la progression actuelle par cette sauvegarde ?'))return;stopGameMic();resetSceneInput();jadeGame=null;openBookEpisode=0;bookSection='parcours';state={...base,...data.progress};restoreBookProgress();save();tab='aventure';selected='';speechText='';speechAlternatives=[];render();alert('Sauvegarde restaurée.')}catch(e){alert('Ce fichier ne contient pas une sauvegarde Dragon de Jade valide.')}};reader.readAsText(file)}
+function importSave(input){const file=input.files?.[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const data=JSON.parse(reader.result);if(data.format!=='dragon-de-jade-save'||!data.progress||!Array.isArray(data.progress.completed)||typeof data.progress.xp!=='number')throw Error('Format invalide');if(!confirm('Remplacer la progression actuelle par cette sauvegarde ?'))return;stopSpeakingPractice();cancelMandarinMic();resetSceneInput();jadeGame=null;openBookEpisode=0;bookSection='parcours';state={...base,...data.progress};restoreBookProgress();save();tab='aventure';selected='';speechText='';speechAlternatives=[];render();alert('Sauvegarde restaurée.')}catch(e){alert('Ce fichier ne contient pas une sauvegarde Dragon de Jade valide.')}};reader.readAsText(file)}
 let audioRequest=0,audioTimer=null,activeUtterance=null;
 function audioMessage(message){document.querySelectorAll('.audio-status').forEach(el=>{el.textContent=message})}
 function mandarinVoice(){
@@ -228,6 +228,7 @@ function speak(s){playMandarinTurns([{speaker:'Vous',zh:String(s)}])}
 function playMandarinTurns(turns){
  const synth=window.speechSynthesis;
  if(!synth||!window.SpeechSynthesisUtterance){audioMessage('Synthèse vocale indisponible dans ce navigateur.');return}
+ cancelMandarinMic(null,'Écoute interrompue pour écouter le modèle.');
  const request=++audioRequest;clearTimeout(audioTimer);
  try{synth.cancel()}catch(e){}
  const styles={'Maître Chen':{rate:.82,pitch:.9},'Mei':{rate:.87,pitch:1.08},'Lóng':{rate:.9,pitch:1.12},'Vous':{rate:.85,pitch:1},'La patronne':{rate:.85,pitch:1.05},'Le vendeur':{rate:.95,pitch:.95},'Monsieur Wu':{rate:.8,pitch:.85},'La guichetière':{rate:.9,pitch:1.1},'Le gardien':{rate:.8,pitch:.9},'La voisine':{rate:.85,pitch:1.05}};
@@ -247,45 +248,58 @@ function playMandarinTurns(turns){
  }
  audioMessage('Préparation de la lecture…');playNext();
 }
-let activeRecognition=null,answerFeedback='';
-function stopRecognition(){activeRecognition?.stop()}
+let answerFeedback='', submittedUtterance=false;
 function recognizedFrench(phrase){
- const clean=speechCanon(phrase);
- if(!clean)return '';
- if(['我叫','我是','我的名字叫','我名字叫'].some(prefix=>clean.startsWith(normalize(prefix))))return 'Je m’appelle…';
+ const original=speechSpelling(phrase);
+ if(!original)return '';
+ const same=text=>speechSpelling(heroText(text))===original;
+ const vocabulary=vocab.find(v=>same(v[0]));
+ if(vocabulary)return vocabulary[2];
  const turns=scenes.flatMap((scene,i)=>sceneTurns(i,scene));
- const turn=turns.find(t=>speechCanon(heroText(t.zh))===clean);
+ const turn=turns.find(t=>same(t.zh));
  if(turn)return heroText(turn.fr);
- const entry=vocab.find(v=>speechCanon(v[0])===clean);
- if(entry)return entry[2];
- const scene=scenes.find(sc=>speechCanon(heroText(sc.zh))===clean);
- return scene?heroText(scene.fr):'';
+ const line=scenes.find(scene=>same(scene.zh));
+ if(line)return heroText(line.fr);
+ if(spokenNameMatch(phrase))return original.startsWith('我是')?'Je suis…':'Je m’appelle…';
+ return '';
+}
+function sceneMicStatus(message, redraw){
+ micStatus=message;
+ if(redraw){render();return}
+ const el=document.getElementById('scene-mic-status');
+ if(el)el.textContent=message;
 }
 function recognize(){
-if(activeRecognition)return;
-if(!window.isSecureContext){micStatus='Ouvre le jeu depuis son adresse HTTPS pour utiliser le micro.';render();return}
-const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-if(!SR){micStatus='Reconnaissance vocale indisponible ici. Essaie Chrome sur Android ou utilise le clavier.';render();return}
-window.speechSynthesis?.cancel();
-const r=new SR();activeRecognition=r;r.lang='zh-CN';r.interimResults=true;r.maxAlternatives=5;r.onspeechend=()=>{try{r.stop()}catch{}};
-micStatus='Autorise le microphone si ton navigateur le demande, puis parle en mandarin.';render();
-r.onstart=()=>{micStatus='Micro actif : parle en mandarin, puis fais une pause.';render()};
-r.onsoundstart=()=>{micStatus='Son détecté. Parle en mandarin, puis fais une pause.';render()};
-r.onnomatch=()=>{micStatus='Du son a été reçu, mais aucune phrase reconnue. Essaie une phrase courte comme nǐ hǎo.';render()};
-r.onresult=e=>{const result=e.results[e.resultIndex??0];if(!result?.[0])return;
-if(!result.isFinal){micStatus='Transcription provisoire : '+result[0].transcript+' — continue ou fais une pause.';render();return}
-selected='';speechAlternatives=Array.from(result).map(x=>x.transcript.trim()).filter(Boolean);speechText=speechAlternatives[0]||'';answerFeedback='';const french=recognizedFrench(speechText);micStatus='Phrase reconnue : '+speechText+(speechAlternatives.length>1?' (autres lectures : '+speechAlternatives.slice(1,4).join(' / ')+')':'')+(french?' · Traduction : '+french:' · Traduction non disponible pour cette transcription.')+'. Appuie sur « Valider ma réponse ».';render()};
-r.onerror=e=>{const errors={
-'not-allowed':'Accès au micro refusé. Dans les réglages du site de ton navigateur, autorise le microphone, puis réessaie.',
-'service-not-allowed':'Le service vocal est bloqué par le navigateur. Vérifie ses autorisations ou utilise le clavier.',
-'audio-capture':'Micro introuvable ou occupé. Ferme les autres applications qui utilisent le micro.',
-'network':'Vérifie ta connexion Internet et réessaie.',
-'no-speech':'Aucune voix détectée. Rapproche-toi du micro et réessaie.',
-'language-not-supported':'La reconnaissance du mandarin est indisponible sur cet appareil.',
-'aborted':'Écoute arrêtée. Tu peux réessayer.'};
-micStatus=errors[e.error]||'Reconnaissance indisponible ('+e.error+'). Utilise le clavier.';render()};
-r.onend=()=>{activeRecognition=null;if(micStatus.startsWith('Micro actif')||micStatus.startsWith('Autorise le microphone')||micStatus.startsWith('Son détecté')||micStatus.startsWith('Transcription provisoire'))micStatus='Écoute terminée sans transcription finale. Vérifie Internet, essaie nǐ hǎo ou ouvre le jeu dans Chrome.';render()};
-try{r.start()}catch{activeRecognition=null;micStatus='Impossible de démarrer le micro. Vérifie son autorisation dans les réglages du site.';render()}
+ if(mandarinListening('aventure')||state.sceneReplay?.result)return;
+ const i=activeSceneIndex();
+ if(speechAlternatives.length)speechText='';
+ selected='';speechAlternatives=[];submittedUtterance=false;answerFeedback='';
+ listenInMandarin('aventure',sceneMicStatus,phrases=>{
+  const match=matchSceneSpeech(phrases,i);
+  const heard=match.ok?match.heard:phrases[0];
+  speechText=heard;
+  speechAlternatives=[heard,...phrases.filter(phrase=>phrase!==heard)];
+  const french=recognizedFrench(heard)||(match.ok&&recognizedFrench(match.target));
+  const note=french?' · '+french:'';
+  sceneMicStatus('Phrase reconnue · '+heard+note+' — Tu peux corriger le texte ou valider ta réponse.',true);
+ });
+}
+function editSceneAnswer(value){
+ const wasListening=mandarinListening('aventure');
+ cancelMandarinMic('aventure');
+ speechText=value;speechAlternatives=[];selected='';submittedUtterance=false;answerFeedback='';
+ sceneMicStatus('',wasListening);
+ document.querySelectorAll('.choices .selected').forEach(button=>button.classList.remove('selected'));
+ const feedback=$('#feedback');if(feedback)feedback.textContent='';
+}
+function sceneVoiceControls(){
+ const listening=mandarinListening('aventure');
+ return `<strong>🎙️ Répondre en mandarin</strong>
+ <div class="controls"><button onclick="${listening?"finishMandarinMic('aventure')":"recognize()"}">${listening?'⏹ Terminer l’écoute':'🎤 Parler'}</button>
+ <button onclick="speakScene(true)">🔊 Écouter un exemple</button></div>
+ <p class="audio-status small muted" role="status" aria-live="polite"></p>
+ <input type="text" id="answer" aria-label="Réponse en mandarin" placeholder="Réponse orale transcrite ou texte chinois" value="${esc(speechText)}" oninput="editSceneAnswer(this.value)" ${listening?'readonly':''}>
+ <p id="scene-mic-status" class="small muted" role="status" aria-live="polite">${esc(micStatus||'Touche Parler, puis prononce ta réponse. Le service vocal du navigateur peut traiter ta voix en ligne. Le jeu ne conserve aucun enregistrement.')}</p>`;
 }
 function localDay(d=new Date()){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function recordLesson(){const day=localDay();state.activity[day]=(state.activity[day]||0)+1}
@@ -302,16 +316,9 @@ function playSceneDialogue(turns){playMandarinTurns(turns)}
 function heroText(value){return String(value).replace(/Esmée|Esmee|Edmee|Edmée/gi,()=>state.name)}
 function heroAnswer(value){return heroText(value)}
 function spokenNameMatch(value){
- const t=normalize(value),name=normalize(state.name);
- // The hero's personal name is not a Mandarin vocabulary item.
- // Accept a correctly spoken self-introduction even if Chinese ASR
- // transliterates the French name into Hanzi or leaves it out.
- return ['我叫','我是','我的名字叫','我名字叫'].some(prefix=>{
-  const p=normalize(prefix);
-  if(!t.startsWith(p))return false;
-  const rest=t.slice(p.length);
-  return rest===''||rest===name||rest.length>0;
- });
+ // The browser can transcribe the player's chosen name into Hanzi or omit it.
+ const text=speechCanon(value);
+ return ['我叫','我是','我的名字叫','我名字叫'].some(prefix=>text.startsWith(prefix));
 }
 function restartEpisodeOne(){replayEpisode(1)}
 let replayMenuOpen=false;
@@ -343,15 +350,21 @@ function chineseText(text){const str=heroText(text),words=[...vocab].sort((a,b)=
 function hasChinese(text){return /[\u3400-\u9fff]/.test(text)}
 let introOverride=false;
 function introPage(){return `<div class="hero location-banner"><h1>Les Chroniques du Dragon de Jade</h1></div><main class="page intro-page"><div class="label">Prologue · De la France à Pékin</div><h2>La lettre venue de Chine</h2><figure class="prologue-comic"><img src="assets/prologue-dragon-de-jade.webp" alt="Planche de bande dessinée : un jade familial retrouvé en France, une lettre de Maître Chen, le voyage à Pékin, puis la rencontre de Mei et du dragon Lóng." loading="eager"><figcaption>Le début de l'aventure, de la France aux hutongs de Pékin. Agrandis l'image pour lire les cases.</figcaption></figure><p>Tout commence chez toi, en France. Dans une boîte de souvenirs familiaux, tu retrouves une petite pièce de jade vert, enveloppée dans un papier couvert de caractères chinois. Tu ignores son origine.</p><p>Le lendemain, une lettre arrive de Pékin. Elle porte le même symbole que ton jade : un dragon enroulé autour d'une écaille. Son auteur, Maître Chen, un antiquaire installé dans un hutong près de la tour du Tambour, affirme connaître l'histoire de cet objet. Il te demande de venir le rencontrer, mais ajoute : « Ne confie le jade à personne. »</p><p>Pourquoi cet inconnu connaît-il un objet conservé dans ta famille ? Comment a-t-il retrouvé ton adresse ? Et que signifie l'inscription au dos ? Tu pars pour Pékin avec la pièce et la lettre.</p><h3>Une enquête commence</h3><p>Sur place, Chen t'apprend que le Dragon de Jade protégeait autrefois les mots et les souvenirs. Ses écailles dispersées renferment des fragments de mémoire. Lóng, un petit dragon, en a oublié une partie.</p><p>Mei, une jeune messagère, cherche quant à elle des membres de sa famille disparus des archives. Le même symbole figure sur leurs documents. Les deux mystères semblent liés.</p><div class="paper"><h3>Ta mission</h3><p>Retrouve l'origine du jade, rassemble les écailles et aide Mei. Pour déchiffrer les indices, tu apprendras à lire, écouter et parler le mandarin. À Pékin, le mandarin est la langue commune. Le parler local possède aussi ses particularités.</p><p>Tu incarnes ${esc(state.name)}.</p><button class="primary" onclick="state.introSeen=true;introOverride=false;save();render()">Entrer dans la rue des Lanternes →</button></div></main>`}
-function openIntro(){resetSceneInput();stopGameMic();delete state.sceneReplay;state.introSeen=false;introOverride=true;tab='aventure';save();render()}
+function openIntro(){resetSceneInput();stopSpeakingPractice();cancelMandarinMic();delete state.sceneReplay;state.introSeen=false;introOverride=true;tab='aventure';save();render()}
 function adventure(){if(state.sceneReplay)return adventureScene(activeSceneIndex(),state.sceneReplay);if(introOverride||(!state.introSeen&&state.scene===0))return introPage();const dd=deductionPage();if(dd)return dd;const eb=episodeBoundaryPage();if(eb)return eb;if(state.scene>=scenes.length)return `${scenePlaceBanner(scenes.length-1)}<main class="page"><div class="label">Livre I · Épisodes 1 à ${Math.floor(scenes.length/6)} terminés</div>${episodeReplayMenu()}<h2>🐉 Le premier sceau du Dragon de Jade</h2><p>Maître Chen t’attend pour un bilan de lecture, d’écoute et d’expression orale.</p><div class="paper"><h3>Épreuve finale · 12 questions</h3><p>4 questions écrites, 4 écoutes et 4 réponses orales à autoévaluer. Aucun XP supplémentaire.</p><button class="primary" onclick="sealStart()">Commencer l’épreuve</button></div><div class="paper"><h3>Mes résultats</h3>${(state.sealAttempts||[]).slice(-5).reverse().map(a=>`<p>${esc(new Date(a.date).toLocaleDateString('fr-FR'))} · ${a.score}/${a.total}</p>`).join('')||'<p>Pas encore d’épreuve réalisée.</p>'}</div><button onclick="restartEpisodeOne()">↻ Rejouer les scènes</button></main>`;return adventureScene(activeSceneIndex());}
 function adventureScene(i,replay=null){
  const s=scenes[i],done=state.completed.includes(i),skipped=state.skipped.includes(i);
  const attempts=replay ? replay.attempts : state.attempts[i]||0;
  const options=(replay ? replay.order : s.options.map((_,j)=>j)).map(j=>[s.options[j][0],j]);
- return `${scenePlaceBanner(i)}<main class="page"><div class="label">Livre I · Épisode ${episodeOfScene(i)} · Scène ${i%6+1}/6</div><h2>${esc(s.title)}</h2>${replay ? replaySceneHeader(replay) : episodeReplayMenu()}<div class="progress"><span style="width:${((state.completed.filter(n=>episodeOfScene(n)===episodeOfScene(i)).length+state.skipped.filter(n=>episodeOfScene(n)===episodeOfScene(i)).length)/6)*100}%"></span></div>${scalesBar()}<p class="narration">${esc(heroText(s.text))}</p>${sceneVariant(i)}${secondaryScenePlaces(i)}<section class="character-dialogue" aria-label="Dialogue entre les personnages">${sceneTurns(i,s).map(renderDialogueTurn).join('')}</section><div class="controls dialogue-controls"><button onclick="speakScene()">🔊 Écouter</button><button onclick="document.querySelectorAll('.han-token').forEach(el=>el.classList.toggle('revealed'))">Afficher / masquer le pinyin</button><button onclick="showTranslation=!showTranslation;render()">${showTranslation?'Masquer':'Afficher'} traduction</button></div><p class="audio-status small muted" role="status" aria-live="polite"></p><div class="paper"><div class="label">Défi de dialogue · ${Math.min(attempts,3)}/3 essais utilisés</div><h3>${esc(heroText(s.question))}</h3><div class="choices">${options.map(([a,j])=>`<button class="${selected===String(j)?'selected':''} ${hasChinese(a)?'han-choice':''}" ${replay?.result?'disabled':''} onclick="selectAnswer('${j}')">${esc(heroAnswer(a))}</button>`).join('')}</div><div class="rule"></div>${s.options.every(([a])=>!hasChinese(a))?'<p class="small muted">Choisis la réponse en français ci-dessus. Pas de microphone pour cet exercice.</p>':`<strong>🎙️ Répondre en mandarin</strong><div class="controls"><button onclick="${activeRecognition?'stopRecognition()':'recognize()'}">${activeRecognition?'⏹ Arrêter':'🎤 Parler'}</button><button onclick="speakScene(true)">🔊 Écouter un exemple</button></div><p class="audio-status small muted" role="status" aria-live="polite"></p><input type="text" id="answer" placeholder="Réponse orale transcrite ou texte chinois" value="${esc(speechText)}" oninput="speechText=this.value;speechAlternatives=[]"><p class="small muted">${esc(micStatus||'Touche Parler et autorise le micro. Ta voix est transcrite en texte ; le jeu ne sauvegarde aucun fichier audio. Le service vocal du navigateur peut traiter ta voix en ligne. Les tons ne sont pas évalués.')}</p>`}${replay ? replaySceneResult(replay) : !done&&!skipped?`<button class="primary" onclick="validate()">Valider ma réponse</button>`:`<div class="toast">${skipped?'Défi passé · 0 XP':'✓ Défi terminé · '+s.reward+' XP obtenus'}</div><button class="primary" onclick="nextScene()">${i===scenes.length-1?'Voir le bilan':i%6===5?'Terminer l’épisode '+episodeOfScene(i)+' →':'Scène suivante →'}</button>`}<div id="feedback" role="status" aria-live="polite">${answerFeedback}</div></div>${replay?'':reactionBlock(i,done||skipped)}<div class="paper"><div class="label">📖 Comprendre la langue</div><p>${esc(s.grammar||"")}</p></div><div class="paper"><div class="label">Découverte · Culture et géographie</div><p>${esc(heroText(s.info))}</p></div></main>`}
-function normalize(s){return String(s).normalize('NFKC').replace(/[\\s.,!?。，！？、:：;；'’"“”]/g,'').toLowerCase()}
-function speechAccepted(answer,scene){const alts=[].concat(answer);return speechMatchAny(alts,speechSceneTargets(scene)).ok||(scene===1&&alts.some(spokenNameMatch))}
+ return `${scenePlaceBanner(i)}<main class="page"><div class="label">Livre I · Épisode ${episodeOfScene(i)} · Scène ${i%6+1}/6</div><h2>${esc(s.title)}</h2>${replay ? replaySceneHeader(replay) : episodeReplayMenu()}<div class="progress"><span style="width:${((state.completed.filter(n=>episodeOfScene(n)===episodeOfScene(i)).length+state.skipped.filter(n=>episodeOfScene(n)===episodeOfScene(i)).length)/6)*100}%"></span></div>${scalesBar()}<p class="narration">${esc(heroText(s.text))}</p>${sceneVariant(i)}${secondaryScenePlaces(i)}<section class="character-dialogue" aria-label="Dialogue entre les personnages">${sceneTurns(i,s).map(renderDialogueTurn).join('')}</section><div class="controls dialogue-controls"><button onclick="speakScene()">🔊 Écouter</button><button onclick="document.querySelectorAll('.han-token').forEach(el=>el.classList.toggle('revealed'))">Afficher / masquer le pinyin</button><button onclick="showTranslation=!showTranslation;render()">${showTranslation?'Masquer':'Afficher'} traduction</button></div><p class="audio-status small muted" role="status" aria-live="polite"></p><div class="paper"><div class="label" id="scene-attempts">Défi de dialogue · ${Math.min(attempts,3)}/3 essais utilisés</div><h3>${esc(heroText(s.question))}</h3><div class="choices">${options.map(([a,j])=>`<button class="${selected===String(j)?'selected':''} ${hasChinese(a)?'han-choice':''}" ${replay?.result?'disabled':''} onclick="selectAnswer('${j}')">${esc(heroAnswer(a))}</button>`).join('')}</div><div class="rule"></div>${s.options.every(([a])=>!hasChinese(a))?'<p class="small muted">Choisis la réponse en français ci-dessus. Pas de microphone pour cet exercice.</p>':sceneVoiceControls()}${replay ? replaySceneResult(replay) : !done&&!skipped?`<button class="primary" onclick="validate()" ${mandarinListening('aventure')?'disabled':''}>Valider ma réponse</button>`:`<div class="toast">${skipped?'Défi passé · 0 XP':'✓ Défi terminé · '+s.reward+' XP obtenus'}</div><button class="primary" onclick="nextScene()">${i===scenes.length-1?'Voir le bilan':i%6===5?'Terminer l’épisode '+episodeOfScene(i)+' →':'Scène suivante →'}</button>`}<div id="feedback" role="status" aria-live="polite">${answerFeedback}</div></div>${replay?'':reactionBlock(i,done||skipped)}<div class="paper"><div class="label">📖 Comprendre la langue</div><p>${esc(s.grammar||"")}</p></div><div class="paper"><div class="label">Découverte · Culture et géographie</div><p>${esc(heroText(s.info))}</p></div></main>`}
+function matchSceneSpeech(phrases,scene){
+ const match=speechMatchAny(phrases,speechSceneTargets(scene));
+ if(!match.ok&&scene===1){
+  const introduction=phrases.find(spokenNameMatch);
+  if(introduction)return {ok:true,level:'introduction',heard:introduction,target:''};
+ }
+ return match;
+}
 function learnSceneWords(s) {
   s.words.forEach(w=>{if(!state.words.includes(w))state.words.push(w);if(!state.wordDates[w])state.wordDates[w]=localDay()});
 }
@@ -359,16 +372,28 @@ function validate(){
  const sceneIndex=activeSceneIndex(),s=scenes[sceneIndex],replay=state.sceneReplay;
  if(replay?.result)return;
  if(!replay&&(state.completed.includes(sceneIndex)||state.skipped.includes(sceneIndex))){nextScene();return}
+ if(mandarinListening('aventure'))return;
  const input=$('#answer'),a=(input?.value??speechText).trim(),idx=Number(selected);
+ if(selected===''&&!a){
+  answerFeedback=s.options.some(([text])=>hasChinese(text))
+   ?'<p class="small">Choisis une réponse, écris-la ou utilise le micro pour la valider.</p>'
+   :'<p class="small">Choisis une réponse avant de la valider.</p>';
+  const feedback=$('#feedback');if(feedback)feedback.innerHTML=answerFeedback;
+  return;
+ }
  // Keep all recognition alternatives until the player explicitly edits the answer.
  const spoken=Boolean(a && speechAlternatives.length && a===speechAlternatives[0]);
+ if(spoken&&submittedUtterance)return;
+ if(spoken)submittedUtterance=true;
  const alts=spoken?speechAlternatives:[a];
- const good=(selected!==''&&s.options[idx]?.[1])||Boolean(a&&speechAccepted(alts,sceneIndex));
+ const good=(selected!==''&&s.options[idx]?.[1])||Boolean(a&&matchSceneSpeech(alts,sceneIndex).ok);
  if(replay){concludeReplayAnswer(good,spoken,alts,sceneIndex);return}
  const f=$('#feedback');
  if(!good){
   state.attempts[sceneIndex]=Math.min(3,(state.attempts[sceneIndex]||0)+1);
   const attempts=state.attempts[sceneIndex],remaining=3-attempts;
+  const counter=$('#scene-attempts');
+  if(counter)counter.textContent='Défi de dialogue · '+attempts+'/3 essais utilisés';
   if(remaining===0){
    state.skipped.push(sceneIndex);eqSceneDone(sceneIndex);recordLesson();
    if(!state.discoveries.includes(s.info))state.discoveries.push(s.info);
@@ -376,7 +401,8 @@ function validate(){
    answerFeedback='<div class="warning">Trois essais effectués. Maître Chen t’encourage à poursuivre ton voyage. Aucun XP pour ce défi, mais tu pourras revoir cette expression dans ton carnet.</div><button class="primary" onclick="nextScene()">Continuer l’aventure →</button>';
   }else{
    save();
-   answerFeedback='<div class="warning">Réponse entendue : <strong>'+esc(a||'(aucune transcription)')+'</strong>'+speechExtra(alts,sceneIndex)+'. Il te reste '+remaining+' essai'+(remaining>1?'s':'')+'. Réécoute le modèle ou choisis une réponse écrite.</div>';
+   const given=a||heroAnswer(s.options[idx]?.[0]||'');
+   answerFeedback='<div class="warning">'+(spoken?'Entendu':'Ta réponse')+' · <strong>'+esc(given)+'</strong>'+speechExtra(alts,sceneIndex)+'. Il te reste '+remaining+' essai'+(remaining>1?'s':'')+'. Réécoute le modèle ou choisis une réponse écrite.</div>';
   }
   if(f)f.innerHTML=answerFeedback;
   return;
@@ -385,7 +411,7 @@ function validate(){
  learnSceneWords(s);
  if(!state.discoveries.includes(s.info))state.discoveries.push(s.info);
  save();
- answerFeedback='<div class="toast">✓ Réponse validée ! +'+s.reward+' XP. '+(spoken?speechSuccessNote(alts,sceneIndex):'')+'</div><button class="primary" onclick="nextScene()">Continuer →</button>';
+ answerFeedback='<div class="toast">✓ Réponse validée ! +'+s.reward+' XP. '+(spoken?esc(speechSuccessNote(alts,sceneIndex)):'')+'</div><button class="primary" onclick="nextScene()">Continuer →</button>';
  if(f)f.innerHTML=answerFeedback;
  micStatus='Réponse validée !';
 }
@@ -397,12 +423,13 @@ function nextScene(){
 }
 function selectAnswer(i){
  if(state.sceneReplay?.result)return;
- selected=i;speechText='';speechAlternatives=[];answerFeedback='';render();
+ cancelMandarinMic('aventure');
+ selected=i;speechText='';speechAlternatives=[];micStatus='';answerFeedback='';render();
  const option=scenes[activeSceneIndex()].options[Number(i)]?.[0];
  if(option&&hasChinese(option))speak(heroText(option));
 }
 let quizTheme='all',quizCount=10,quizItems=[],quizIndex=0,quizScore=0,quizAnswered=false,quizChoice=-1,writingSearch='',writingTest=false,writingTestIndex=0,writingReveal=false;
-let speakingMode='all',speakingCount=10,speakingItems=[],speakingIndex=0,speakingScore=0,speakingAttempts=0,speakingRecognition=null,speakingFinished=false;
+let speakingMode='all',speakingCount=10,speakingItems=[],speakingIndex=0,speakingScore=0,speakingAttempts=0,speakingFinished=false;
 let carnetEpisode='1',writingEpisode='1',atlasEpisode='all',atlasSearch='';
 let carnetPanel='none',writingPanel='none',writingTestMode='all',writingTestCount=10,writingTestItems=[],writingSelected=Array.isArray(state.writingSelected)?state.writingSelected:[];
 let carnetSearch='',carnetLesson='all',carnetTheme='all',carnetSort='lesson',revisionIndex=0,revisionReveal=false;
@@ -439,10 +466,45 @@ function clearReview(){state.reviewSelected=[];save();render()}
 function shuffleWords(items){const a=[...items];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function speakingPool(){return learnedWords().filter(v=>speakingMode==='all'||(speakingMode==='selection'?state.reviewSelected.includes(v[0]):wordThemes[v[0]]===speakingMode))}
 function startSpeakingPractice(){const pool=speakingPool();if(!pool.length){alert('Aucun mot disponible dans ce groupe.');return}speakingItems=[];while(speakingItems.length<speakingCount)speakingItems.push(...shuffleWords(pool));speakingItems=speakingItems.slice(0,speakingCount);speakingIndex=0;speakingScore=0;speakingAttempts=0;speakingFinished=false;showSpeakingPractice()}
-function stopSpeakingPractice(){if(speakingRecognition){const r=speakingRecognition;speakingRecognition=null;r.abort()}document.getElementById('speaking-overlay')?.remove()}
-function nextSpeakingPractice(){if(speakingRecognition){const r=speakingRecognition;speakingRecognition=null;r.abort()}speakingIndex++;speakingAttempts=0;speakingFinished=false;showSpeakingPractice()}
-function showSpeakingPractice(message){let el=document.getElementById('speaking-overlay');if(!el){el=document.createElement('div');el.id='speaking-overlay';el.className='profile-overlay';document.body.appendChild(el)}const v=speakingItems[speakingIndex];if(!v){el.innerHTML='<section class="profile-sheet revision-sheet"><h2>Bilan oral</h2><p>'+speakingScore+' / '+speakingItems.length+' mots reconnus</p><p>La reconnaissance ne vérifie pas précisément les tons.</p><button onclick="stopSpeakingPractice()">Retour au carnet</button></section>';return}el.innerHTML='<section class="profile-sheet revision-sheet" role="dialog" aria-modal="true"><button class="profile-close" onclick="stopSpeakingPractice()">✕</button><h2>Prononciation '+(speakingIndex+1)+' / '+speakingItems.length+'</h2><p class="han revision-word">'+esc(v[0])+'</p><p>'+esc(v[1])+' · '+esc(v[2])+'</p><button onclick="speak(speakingItems[speakingIndex][0])">🔊 Écouter</button><div class="controls"><button class="primary" onclick="listenSpeakingPractice()" '+(speakingRecognition||speakingFinished?'disabled':'')+'>🎙️ Prononcer</button><button onclick="nextSpeakingPractice()">Suivant →</button></div><p role="status">'+esc(message||'Écoute le modèle, puis prononce le mot.')+'</p><p class="small muted">3 essais maximum ; la transcription ne garantit pas la justesse des tons.</p></section>'}
-function listenSpeakingPractice(){if(speakingRecognition||speakingFinished)return;const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!window.isSecureContext||!SR){showSpeakingPractice('Reconnaissance indisponible : utilise Chrome sur HTTPS.');return}window.speechSynthesis?.cancel();const r=new SR();speakingRecognition=r;r.lang='zh-CN';r.interimResults=true;r.maxAlternatives=5;r.onspeechend=()=>{try{r.stop()}catch{}};showSpeakingPractice('Micro actif : prononce le mot, puis attends.');r.onresult=e=>{if(speakingRecognition!==r)return;const res=e.results[e.results.length-1];if(!res)return;if(!res.isFinal){showSpeakingPractice('Je t’entends : '+(res[0]?.transcript||'…'));return}const alternatives=Array.from(res).map(x=>x.transcript.trim()).filter(Boolean);const target=speakingItems[speakingIndex][0];const best=speechMatchAny(alternatives,[target]),good=best.ok;speakingRecognition=null;speakingAttempts++;if(good){speakingScore++;speakingFinished=true}else if(speakingAttempts>=3)speakingFinished=true;showSpeakingPractice('Reconnu : '+alternatives.join(' / ')+(good?' ✓ Correct !'+speechLevelNote(best):best.level==='tone'?' · Presque ! Les syllabes sont bonnes mais un ton diffère. Réessaie ('+speakingAttempts+'/3).':speakingFinished?' · Trois essais terminés. Passe au suivant.':' · Réessaie ('+speakingAttempts+'/3).'))};r.onerror=e=>{if(speakingRecognition!==r)return;speakingRecognition=null;showSpeakingPractice('Micro : '+e.error+'. Vérifie les autorisations et réessaie.')};r.onend=()=>{if(speakingRecognition===r){speakingRecognition=null;showSpeakingPractice('Aucun mot reconnu. Tu peux réessayer.')}};try{r.start()}catch(e){speakingRecognition=null;showSpeakingPractice('Impossible de démarrer le micro : '+e.message)}}
+function stopSpeakingPractice(){cancelMandarinMic('carnet');document.getElementById('speaking-overlay')?.remove()}
+function nextSpeakingPractice(){cancelMandarinMic('carnet');speakingIndex++;speakingAttempts=0;speakingFinished=false;showSpeakingPractice()}
+function showSpeakingPractice(message){
+ let el=document.getElementById('speaking-overlay');
+ if(!el){el=document.createElement('div');el.id='speaking-overlay';el.className='profile-overlay';document.body.appendChild(el)}
+ const v=speakingItems[speakingIndex];
+ if(!v){
+  el.innerHTML='<section class="profile-sheet revision-sheet"><h2>Bilan oral</h2><p>'+speakingScore+' / '+speakingItems.length+' mots reconnus</p><button onclick="stopSpeakingPractice()">Retour au carnet</button></section>';
+  return;
+ }
+ const listening=mandarinListening('carnet');
+ el.innerHTML=`<section class="profile-sheet revision-sheet" role="dialog" aria-modal="true" aria-label="Entraînement oral">
+ <button class="profile-close" aria-label="Fermer" onclick="stopSpeakingPractice()">✕</button><h2>Prononciation ${speakingIndex+1} / ${speakingItems.length}</h2>
+ <p class="han revision-word" lang="zh-CN">${esc(v[0])}</p><p>${esc(v[1])} · ${esc(v[2])}</p>
+ <button onclick="speak(speakingItems[speakingIndex][0])">🔊 Écouter</button>
+ <div class="controls"><button class="primary" onclick="${listening?"finishMandarinMic('carnet')":"listenSpeakingPractice()"}" ${speakingFinished?'disabled':''}>${listening?'⏹ Terminer l’écoute':'🎙️ Prononcer'}</button>
+ <button onclick="nextSpeakingPractice()">Suivant →</button></div>
+ <p id="practice-mic-status" role="status">${esc(message||'Écoute le modèle, puis prononce le mot.')}</p>
+ <p class="small muted">Essais utilisés · ${speakingAttempts}/3</p></section>`;
+}
+function listenSpeakingPractice(){
+ if(mandarinListening('carnet')||speakingFinished)return;
+ const word=speakingItems[speakingIndex];
+ if(!word)return;
+ function status(message,redraw){
+  if(redraw){showSpeakingPractice(message);return}
+  const el=document.getElementById('practice-mic-status');if(el)el.textContent=message;
+ }
+ listenInMandarin('carnet',status,phrases=>{
+  const match=speechMatchAny(phrases,[word[0]]);
+  speakingAttempts++;
+  if(match.ok)speakingScore++;
+  speakingFinished=match.ok||speakingAttempts>=3;
+  const heard=match.ok?match.heard:phrases[0];
+  const result=match.ok?'✓ Correct !'+speechLevelNote(match):speakingFinished?'Trois essais terminés. Passe au mot suivant.':'Tu peux réécouter le modèle et réessayer.';
+  const hint=speechToneHint(match);
+  showSpeakingPractice('Entendu · '+heard+' · '+result+(hint?' '+hint:''));
+ });
+}
 function startRevision(){revisionIndex=0;revisionReveal=false;showRevision()}
 function showRevision(){const words=state.reviewSelected.filter(w=>learnedWords().some(v=>v[0]===w));if(!words.length){alert('Sélectionne des mots dans le carnet.');return}const word=words[revisionIndex%words.length],v=vocab.find(v=>v[0]===word);let el=document.getElementById('revision-overlay');if(!el){el=document.createElement('div');el.id='revision-overlay';el.className='profile-overlay';document.body.appendChild(el)}el.innerHTML=`<section class="profile-sheet revision-sheet" role="dialog" aria-modal="true"><button class="profile-close" onclick="document.getElementById('revision-overlay').remove()" aria-label="Fermer">✕</button><h2>Révision · ${revisionIndex%words.length+1}/${words.length}</h2><p class="han revision-word">${esc(word)}</p><button onclick="speak('${word}')">🔊 Écouter</button>${revisionReveal?`<p class="revision-answer"><strong>${esc(v[1])}</strong> · ${esc(v[2])}</p>`:'<p>Retrouve le sens et la prononciation avant de révéler la réponse.</p>'}<div class="controls"><button onclick="revisionReveal=true;showRevision()">Voir la réponse</button><button class="primary" onclick="revisionIndex++;revisionReveal=false;showRevision()">Mot suivant →</button></div><p class="small muted">Entraînement libre, sans XP. Les mots restent cochés pour une prochaine révision.</p></section>`}
 const charData={'你':['nǐ','tu, toi',7,['丿','丨','丿','㇖','亅','丿','㇏']],'好':['hǎo','bon, bien',6,['𡿨','丿','一','㇇','亅','一']],'我':['wǒ','je, moi',7,['丿','一','亅','㇀','㇂','丿','丶']],'龙':['lóng','dragon',5,['一','丿','乚','丿','丶']]};const writingDetails={"你":["nǐ","tu, toi",7,"亻","Écrire 亻 à gauche, puis 尔."],"好":["hǎo","bon, bien",6,"女","Écrire 女 à gauche, puis 子."],"我":["wǒ","je, moi",7,"戈","Observer les traits croisés et le crochet."],"叫":["jiào","s’appeler, appeler",5,"口","Écrire 口 à gauche, puis 丩."],"名":["míng","nom",6,"口","Écrire 夕 en haut, puis 口."],"字":["zì","caractère écrit",6,"子","Écrire 宀 en haut, puis 子."],"谢":["xiè","remercier",12,"讠","Écrire 讠 à gauche, puis 射."],"龙":["lóng","dragon",5,"龙","Forme traditionnelle : 龍."],"喝":["hē","boire",12,"口","Écrire 口 à gauche, puis 曷."],"茶":["chá","thé",9,"艹","Écrire 艹 en haut, puis les éléments inférieurs."],"吗":["ma","particule interrogative",6,"口","Écrire 口 à gauche, puis 马."]};
@@ -511,7 +573,9 @@ function campagne(){
 function render(){const body={aventure:adventure,enquete,carnet,calligraphie:calligraphy,atlas,campagne}[tab]();$('#app').innerHTML=header()+body+nav();if(tab==='calligraphie')initWriting()}
 function switchTab(t){
  if(tab!==t){
-  stopAdventureMic();stopGameMic();stopJadeAudio();
+  if(mandarinListening('aventure'))micStatus='';
+  if(tab==='carnet')stopSpeakingPractice();
+  cancelMandarinMic();stopJadeAudio();
   if(jadeGame?.kind==='envoy')jadeGame.message='';
  }
  tab=t;selected='';render();window.scrollTo(0,0);

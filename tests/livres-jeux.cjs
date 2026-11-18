@@ -1,6 +1,6 @@
 const assert = require('node:assert/strict');
 
-module.exports = function checkBooksAndGames(boot) {
+module.exports = function checkBooksAndGames(boot,mockMicrophone) {
   const fixture = {name:'Camille',introSeen:true,scene:4,xp:38,completed:[0,1,3],skipped:[2],attempts:{2:3},words:['你好','你','好','您','谢谢','妈妈']};
   const play = boot(fixture);
   const json = (game,code) => JSON.parse(game.run('JSON.stringify('+code+')'));
@@ -100,18 +100,21 @@ module.exports = function checkBooksAndGames(boot) {
   const oral=boot({...fixture,xp:120});
   oral.run("startJadeGame('envoy');revealEnvoy();finishGameAnswer(true,true)");
   assert(oral.run('jadeGame.feedback.selfRated'));
-  oral.run("nextGameRound();window.isSecureContext=true;window.SpeechRecognition=class{start(){}stop(){}abort(){}};startEnvoyMic()");
-  oral.run("gameMic.onresult({resultIndex:0,results:[Object.assign([{transcript:'外星'},{transcript:jadeGame.rounds[jadeGame.index].word[0]}],{isFinal:true})]})");
+  mockMicrophone(oral);
+  oral.run("nextGameRound();startEnvoyMic()");
+  oral.run("window.lastMic.onresult({resultIndex:0,results:[voicePart(true,'外星',jadeGame.rounds[jadeGame.index].word[0])]});window.lastMic.onend();window.lastMic.onend()");
   assert(oral.run('jadeGame.feedback.ok && !jadeGame.feedback.selfRated'));
-  oral.run("nextGameRound();startEnvoyMic();gameMic.onerror({error:'not-allowed'})");
+  oral.run("nextGameRound();startEnvoyMic();window.lastMic.onerror({error:'not-allowed'});window.lastMic.onend()");
   assert(html(oral).includes('Microphone refusé'));
-  oral.run("startEnvoyMic();const late=gameMic.onresult;switchTab('carnet');late({resultIndex:0,results:[[{transcript:'好'}]]})");
-  assert.equal(oral.run('gameMic'),null);
+  oral.run("startEnvoyMic();const late=window.lastMic.onresult;switchTab('carnet');late({resultIndex:0,results:[[{transcript:'好'}]]})");
+  assert.equal(oral.run('mandarinSession'),null);
   assert.equal(oral.run('jadeGame.answers.length'),2);
   oral.run("startEnvoyMic()");
-  assert.equal(oral.run('gameMic'),null);
+  assert.equal(oral.run('mandarinSession'),null);
   oral.run("switchTab('campagne')");
-  for(let n=0;n<3;n++)oral.run("startEnvoyMic();gameMic.onresult({results:[[{transcript:'外星'}]]})");
+  oral.run("startEnvoyMic();window.lastMic.onresult({results:[voicePart(false,'外星')]});window.lastMic.onend()");
+  assert.equal(oral.run('jadeGame.tries'),0);
+  for(let n=0;n<3;n++)oral.run("startEnvoyMic();window.lastMic.onresult({results:[voicePart(true,'外')]});window.lastMic.onresult({resultIndex:1,results:[voicePart(true,'外'),voicePart(true,'星')]});window.lastMic.onend();window.lastMic.onend()");
   assert.equal(oral.run('jadeGame.feedback.ok'),false);
   oral.run("switchTab('campagne');while(jadeGame.index<jadeGame.rounds.length){if(!jadeGame.feedback){revealEnvoy();finishGameAnswer(true,true)}nextGameRound()}");
   assert(html(oral).includes('en autoévaluation'));

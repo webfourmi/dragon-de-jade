@@ -45,16 +45,8 @@ function activeSceneIndex() {
   return session ? session.queue[session.position] : Math.min(state.scene, scenes.length - 1);
 }
 
-function stopAdventureMic() {
-  const mic = activeRecognition;
-  if (!mic) return;
-  activeRecognition = null;
-  mic.onstart = mic.onsoundstart = mic.onresult = mic.onnomatch = mic.onerror = mic.onspeechend = mic.onend = null;
-  try { mic.abort(); } catch {}
-}
-
 function resetSceneInput() {
-  stopAdventureMic();
+  cancelMandarinMic('aventure');
   stopJadeAudio();
   selected = '';
   speechText = '';
@@ -81,7 +73,7 @@ function startSceneReplay(queue) {
   const visited=visitedBookScenes();
   if (!queue.length || queue.some(i=>!visited.has(i))) return;
   resetSceneInput();
-  stopGameMic();
+  cancelMandarinMic('messager');
   state.sceneReplay = {queue, position:0, attempts:0, result:'', order:replayOptionOrder(queue[0])};
   openBookEpisode = episodeOfScene(queue[0]);
   introOverride = false;
@@ -133,9 +125,12 @@ function concludeReplayAnswer(good, spoken, alternatives, index) {
   } else {
     session.attempts++;
     if (session.attempts >= 3) session.result = 'passed';
-    else answerFeedback = '<div class="warning">Essaie encore. Il te reste ' + (3-session.attempts) + ' essai' + (session.attempts === 1 ? 's' : '') + '.</div>';
+    else {
+      const hint=spoken?speechToneHint(matchSceneSpeech(alternatives,index)):'';
+      answerFeedback='<div class="warning">Il te reste '+(3-session.attempts)+' essai'+(session.attempts===1?'s':'')+'. '+esc(hint)+'</div>';
+    }
   }
-  if (session.result) stopAdventureMic();
+  if (session.result) cancelMandarinMic('aventure');
   save();
   render();
 }
@@ -146,7 +141,7 @@ function replaySceneHeader(session) {
 }
 
 function replaySceneResult(session) {
-  if (!session.result) return '<button class="primary" onclick="validate()">Valider ma réponse</button>';
+  if (!session.result) return `<button class="primary" onclick="validate()" ${mandarinListening('aventure')?'disabled':''}>Valider ma réponse</button>`;
   const next = session.position + 1 < session.queue.length ? 'Rejouer la scène suivante →' : 'Retour aux Livres';
   const note = session.result === 'won' ? `✓ Rejeu réussi · +${REPLAY_XP} XP` : 'Trois essais effectués · 0 XP';
   return `<div class="toast" role="status">${note}</div><button class="primary" onclick="advanceSceneReplay()">${next}</button>`;
@@ -161,7 +156,7 @@ function episodeReplayMenu() {
 }
 
 function selectBookSection(section) {
-  stopGameMic();
+  cancelMandarinMic('messager');
   stopJadeAudio();
   bookSection = section;
   render();

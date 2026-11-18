@@ -11,9 +11,128 @@
 
 let speechAlternatives=[];
 
+// A result event contains the whole current utterance. A later event can replace
+// or remove provisional segments, so take a fresh snapshot each time.
+function mandarinSegments(results) {
+  return Array.from(results || [], result => ({
+    final: result.isFinal === true,
+    choices: [...new Set(Array.from(result).slice(0, 5)
+      .map(item => (item.transcript || '').trim()).filter(Boolean))]
+  }));
+}
+
+function joinMandarinText(left, right) {
+  const space = /[A-Za-zÀ-ž]$/.test(left) && /^[A-Za-zÀ-ž]/.test(right);
+  return left + (space ? ' ' : '') + right;
+}
+
+function mandarinPhrases(segments) {
+  if (!segments.length || segments.some(part => !part.final || !part.choices.length)) return [];
+  let phrases = [{text:'', rank:0}];
+  for (const {choices} of segments) {
+    const next = new Map();
+    for (const phrase of phrases) choices.forEach((choice, i) => {
+      const text = joinMandarinText(phrase.text, choice);
+      const rank = phrase.rank + i;
+      if (!next.has(text) || rank < next.get(text)) next.set(text, rank);
+    });
+    // All five alternatives fit for up to three segments. Keep longer phrases
+    // bounded on mobile, favouring the browser's higher-ranked alternatives.
+    phrases = Array.from(next, ([text, rank]) => ({text, rank}))
+      .sort((a, b) => a.rank - b.rank).slice(0, 125);
+  }
+  return phrases.map(phrase => phrase.text);
+}
+
+const MANDARIN_MIC_ERRORS = {
+  'not-allowed':'Microphone refusé. Autorise le micro dans les réglages du site pour réessayer.',
+  'service-not-allowed':'Le navigateur bloque le service vocal. Vérifie ses autorisations.',
+  'audio-capture':'Microphone indisponible. Vérifie qu’il est connecté et libre.',
+  'network':'Le service vocal est injoignable. Vérifie ta connexion et réessaie.',
+  'no-speech':'Aucune voix détectée. Tu peux réessayer.',
+  'language-not-supported':'La reconnaissance du mandarin est indisponible sur cet appareil.',
+  'aborted':'Écoute interrompue. Tu peux réessayer.'
+};
+let mandarinSession = null;
+
+function mandarinListening(owner) {
+  return mandarinSession?.owner === owner;
+}
+
+function cancelMandarinMic(owner, message) {
+  const session = mandarinSession;
+  if (!session || (owner && owner !== session.owner)) return;
+  mandarinSession = null;
+  try { session.mic.abort(); } catch {}
+  if (message) session.status(message, true);
+}
+
+function finishMandarinMic(owner) {
+  if (!mandarinListening(owner)) return;
+  try { mandarinSession.mic.stop(); }
+  catch { cancelMandarinMic(owner, 'Écoute arrêtée. Tu peux réessayer.'); }
+}
+
+function listenInMandarin(owner, status, receive) {
+  if (mandarinSession) return;
+  const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!window.isSecureContext || !Recognition) {
+    status(window.isSecureContext ? 'La reconnaissance vocale est indisponible dans ce navigateur.' : 'Ouvre le jeu en HTTPS pour utiliser le micro.', true);
+    return;
+  }
+  stopJadeAudio();
+  let mic;
+  try { mic = new Recognition(); }
+  catch { status('Le service vocal ne démarre pas. Tu peux réessayer.', true); return; }
+  const session = {owner, mic, status};
+  let segments = [];
+  mandarinSession = session;
+  function problem(message) {
+    if (mandarinSession !== session) return;
+    cancelMandarinMic(owner, message);
+  }
+  mic.lang = 'zh-CN';
+  mic.continuous = false;
+  mic.interimResults = true;
+  mic.maxAlternatives = 5;
+  mic.onstart = () => {
+    if (mandarinSession === session) status('Le micro écoute. Parle en mandarin, puis fais une pause.');
+  };
+  mic.onresult = event => {
+    if (mandarinSession !== session) return;
+    segments = mandarinSegments(event.results);
+    const heard = segments.reduce((text, part) => joinMandarinText(text, part.choices[0] || ''), '');
+    status(heard ? 'Transcription en cours · ' + heard : 'Le micro écoute…');
+  };
+  mic.onnomatch = () => problem('Le navigateur n’a pas reconnu la phrase. Tu peux réessayer.');
+  mic.onerror = event => problem(MANDARIN_MIC_ERRORS[event.error] || 'Le service vocal est indisponible. Tu peux réessayer.');
+  mic.onend = () => {
+    if (mandarinSession !== session) return;
+    mandarinSession = null;
+    const phrases = mandarinPhrases(segments);
+    if (phrases.length) receive(phrases);
+    else status(segments.length ? 'Transcription incomplète. Tu peux répéter sans perdre d’essai.' : 'Aucune phrase reconnue. Tu peux réessayer.', true);
+  };
+  status('Ouverture du micro… Autorise-le si ton navigateur te le demande.', true);
+  try { mic.start(); }
+  catch { problem('Le micro ne démarre pas. Vérifie son autorisation et réessaie.'); }
+}
+
 const SPEECH_PUNCT=/[\s.,!?。，！？、:：;；'’"“”«»()（）\[\]【】《》「」…~·\-—–_]/g;
 /* Caractères que le moteur confond sans que cela change la prononciation ni le sens pour un débutant. */
 const SPEECH_HOMOPHONES={'她':'他','它':'他','嘛':'吗','得':'的','地':'的','再':'在','作':'做','两':'二'};
+// Variantes traditionnelles des mots et dialogues du jeu, vérifiées avec ICU 76 (Hant-Hans).
+const SPEECH_SIMPLIFIED=Object.fromEntries(`來来 係系 個个 們们 兒儿 兩两 問问 嗎吗 國国 塊块 媽妈 學学
+寫写 對对 師师 幾几 後后 愛爱 時时 書书 會会 東东 條条 樣样
+機机 歡欢 歲岁 氣气 沒没 漢汉 熱热 現现 給给 習习 聽听 腦脑
+興兴 蘋苹 號号 裡里 見见 視视 覺觉 話话 認认 語语 說说 誰谁
+課课 請请 謝谢 識识 讀读 貓猫 貴贵 買买 賣卖 車车 這这 還还
+邊边 醫医 錢钱 鐘钟 開开 間间 關关 陳陈 雞鸡 電电 題题 飛飞
+飯饭 餃饺 餵喂 麵面 麼么 點点 龍龙`.split(/\s+/).map(pair=>[pair[0],pair[1]]));
+function speechSpelling(text){
+  const clean=String(text).normalize('NFKC').toLowerCase().replace(SPEECH_PUNCT,'');
+  return Array.from(clean,c=>SPEECH_SIMPLIFIED[c]||c).join('');
+}
 const SPEECH_ERHUA=[['一点儿','一点'],['哪儿','哪里'],['那儿','那里'],['这儿','这里'],['面条儿','面条']];
 const SPEECH_FILL='嗯呃哦啊呀吧呢吗嘛';
 const SPEECH_CARRIERS=['我说','我读','我念','说','读','念'];
@@ -35,7 +154,7 @@ function speechNumToChinese(n){
 }
 /* Forme canonique : ce qui ne change ni les mots ni la prononciation est gommé. */
 function speechCanon(text){
-  let t=String(text).normalize('NFKC').toLowerCase().replace(SPEECH_PUNCT,'');
+  let t=speechSpelling(text);
   t=t.replace(/\d+/g,m=>speechNumToChinese(Number(m)));
   for(const [a,b] of SPEECH_ERHUA)t=t.split(a).join(b);
   t=t.replace(/^一十/,'十');
@@ -72,11 +191,13 @@ function pySplit(py,erhua){
 let speechPyCache=null,speechPyKey='';
 /* Associe à chaque caractère connu ses lectures possibles ('ni3', 'hao3'…). Reconstruit si le vocabulaire change. */
 function speechPinyinMap(){
+  const vocabSize=typeof vocab==='undefined'?0:vocab.length;
+  const referenceSize=typeof HSK1_REFERENCE==='undefined'?0:HSK1_REFERENCE.length;
+  const key=vocabSize+':'+referenceSize;
+  if(speechPyCache&&speechPyKey===key)return speechPyCache;
   const entries=[];
   if(typeof vocab!=='undefined')vocab.forEach(v=>entries.push([v[0],v[1]]));
   if(typeof HSK1_REFERENCE!=='undefined')HSK1_REFERENCE.forEach(r=>entries.push([r[0],r[1]]));
-  const key=entries.length+':'+(typeof vocab!=='undefined'?vocab.length:0);
-  if(speechPyCache&&speechPyKey===key)return speechPyCache;
   const map={},add=(c,r)=>{(map[c]=map[c]||new Set()).add(r)};
   for(const [word,py] of entries){
     const chars=Array.from(word.replace(/\d+$/,'')).filter(c=>/[\u3400-\u9fff]/.test(c));
@@ -133,6 +254,7 @@ function speechMatchAny(alternatives,targets){
   let best={ok:false,level:'none',heard:'',target:''};
   for(const h of alternatives)if(h)for(const t of targets){
     const m=speechMatch(h,t);m.heard=h;m.target=t;
+    if(m.level==='exact')return m;
     if(SPEECH_RANK[m.level]>SPEECH_RANK[best.level])best=m;
   }
   if(!best.heard&&alternatives[0])best.heard=alternatives[0];
@@ -143,16 +265,30 @@ function speechMatchAny(alternatives,targets){
 function speechLevelNote(m){
   return ({variant:' (particule finale ignorée)',contains:' (ta phrase contenait la bonne réponse)',homophone:' (même prononciation que « '+m.target+' »)'})[m.level]||'';
 }
-function speechSceneTargets(i){return scenes[i].options.filter(o=>o[1]).map(o=>heroAnswer(o[0]))}
+function speechSceneTargets(i){
+  const targets=scenes[i].options.filter(o=>o[1]).map(o=>heroAnswer(o[0]));
+  // Le héros répond « 您好 » à Maître Chen dans le dialogue d'ouverture.
+  if(i===0)targets.push('您好');
+  return targets;
+}
+function speechToneHint(match) {
+  if (match.level !== 'tone') return '';
+  function reading(text) {
+    const word = speechCanon(text);
+    const entry = vocab.find(v => speechCanon(v[0]) === word) || HSK1_REFERENCE.find(v => speechCanon(v[0]) === word);
+    return '« ' + text + ' »' + (entry ? ' (' + entry[1] + ')' : '');
+  }
+  return 'Compare ' + reading(match.heard) + ' et ' + reading(match.target) + ' dans le modèle. Leurs tons diffèrent.';
+}
 function speechExtra(alts,i){
   if(!alts||!alts[0])return '';
   const m=speechMatchAny(alts,speechSceneTargets(i)),others=alts.slice(1,4).filter(x=>x&&x!==alts[0]);
   let out='';
   if(others.length)out+=' · autres lectures : '+others.map(esc).join(' / ');
-  if(m.level==='tone')out+=' · Presque ! Les syllabes sont bonnes, mais un ton diffère de « '+esc(m.target)+' ». Écoute le modèle et réessaie';
+  if(m.level==='tone')out+=' · '+esc(speechToneHint(m));
   return out;
 }
 function speechSuccessNote(alts,i){
   const m=speechMatchAny(alts,speechSceneTargets(i));
-  return 'Texte reconnu accepté'+speechLevelNote(m)+' ; le navigateur n’évalue pas les tons.';
+  return 'Texte reconnu accepté'+speechLevelNote(m)+'.';
 }
