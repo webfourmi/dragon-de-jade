@@ -226,3 +226,4 @@ fs.writeFileSync('../release-test-data/episode5.json',JSON.stringify({format:'dr
 console.log('PASS: full app initialization, V0.11/V0.13 save upgrades, new deductions, 60 scene renders, 10 episodes, 251 words, boundaries, replay XP and final deduction');
 
 require('./livres-jeux.cjs')(boot,mockMicrophone);
+require('./radicaux.cjs')(boot);

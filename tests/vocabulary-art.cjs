@@ -6,6 +6,7 @@ const start=source.indexOf('const VOCAB_PICTOGRAMS=');
 const end=source.indexOf('function renderWordList()',start);
 assert(start>0&&end>start);
 const ctx=vm.createContext({state:{reviewSelected:['你']},esc:s=>String(s).replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;'),wordLesson:()=>1,wordThemes:{},wordDate:()=>''});
+for(const file of ['radicaux-data.js','radicaux.js'])vm.runInContext(fs.readFileSync(file,'utf8'),ctx);
 vm.runInContext(source.slice(start,end),ctx);
 const first=JSON.parse(source.match(/const vocab=(\[.*?\]);/)[1]);
 const second=JSON.parse(fs.readFileSync('episode2.js','utf8').match(/const EPISODE2_VOCAB=(\[.*?\]);/)[1]);

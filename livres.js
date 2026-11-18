@@ -46,6 +46,7 @@ function activeSceneIndex() {
 }
 
 function resetSceneInput() {
+  sceneRadicalDiscovery=null;
   cancelMandarinMic('aventure');
   stopJadeAudio();
   selected = '';
@@ -118,7 +119,7 @@ function concludeReplayAnswer(good, spoken, alternatives, index) {
   if (good) {
     session.result = 'won';
     state.xp += REPLAY_XP;
-    learnSceneWords(scenes[index]);
+    learnSceneWords(scenes[index],REPLAY_XP);
     recordLesson();
     if (spoken) state.speechSuccess++;
     answerFeedback = spoken ? esc(speechSuccessNote(alternatives,index)) : '';
@@ -144,7 +145,7 @@ function replaySceneResult(session) {
   if (!session.result) return `<button class="primary" onclick="validate()" ${mandarinListening('aventure')?'disabled':''}>Valider ma réponse</button>`;
   const next = session.position + 1 < session.queue.length ? 'Rejouer la scène suivante →' : 'Retour aux Livres';
   const note = session.result === 'won' ? `✓ Rejeu réussi · +${REPLAY_XP} XP` : 'Trois essais effectués · 0 XP';
-  return `<div class="toast" role="status">${note}</div><button class="primary" onclick="advanceSceneReplay()">${next}</button>`;
+  return `<div class="toast" role="status">${note}</div>${session.result==='won'?'<div id="scene-key-puzzle">'+sceneRadicalCard(activeSceneIndex())+'</div>':''}<button class="primary" onclick="advanceSceneReplay()">${next}</button>`;
 }
 
 function episodeReplayMenu() {

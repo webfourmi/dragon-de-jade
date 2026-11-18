@@ -1,0 +1,83 @@
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const {createHash}=require('node:crypto');
+
+module.exports=function checkRadicals(boot){
+  const game=boot({introSeen:true});
+  const json=(g,code)=>JSON.parse(g.run('JSON.stringify('+code+')'));
+  const html=g=>g.nodes.get('#app').innerHTML;
+  const official=json(game,"[...RADICAL_BY_CHAR].sort(([a],[b])=>a.codePointAt(0)-b.codePointAt(0)).map(([c,e])=>c+':'+e.key.id+'\\n').join('')");
+  // Independent digest of the primary kRSUnicode number for this corpus in Unihan 17.0.
+  assert.equal(createHash('sha256').update(official).digest('hex'),'1f56c873cff6a6c8371fb0e4ab344aa7608187239c47a3864fc9ebb27609c778');
+  assert(game.run('vocab.every(v=>[...v[0]].every(c=>RADICAL_BY_CHAR.has(c)))'));
+  assert.equal(game.run('RADICAL_BY_CHAR.size'),218);
+  assert.equal(game.run('RADICAL_DATA.length'),87);
+  assert.deepEqual(json(game,"[...'你找没问国那院脑朋'].map(c=>[RADICAL_BY_CHAR.get(c).key.id,radicalForm(RADICAL_BY_CHAR.get(c))])"),
+    [[9,'亻'],[64,'扌'],[85,'氵'],[169,'门'],[31,'囗'],[163,'阝 à droite'],[170,'阝 à gauche'],[130,'月'],[74,'月']]);
+  const svg=fs.readFileSync('assets/radicaux/empreintes.svg','utf8');
+  const ink=json(game,'[...RADICAL_INK]');
+  assert.deepEqual([...svg.matchAll(/<symbol id="u([0-9a-f]+)"/g)].map(m=>String.fromCodePoint(parseInt(m[1],16))),ink);
+  assert(ink.includes('你') && ink.includes('好') && ink.includes('谢'));
+  assert(!html(game).includes('id="scene-key-puzzle"'));
+  assert.equal(game.run('radicalEntries().length'),0);
+  game.run("selected='0';validate()");
+  const first=game.nodes.get('scene-resolution').innerHTML;
+  assert(first.includes('L’empreinte de Mei') && first.includes('3 nouvelles') && !first.includes('Jouer avec Mei'));
+  assert.deepEqual(json(game,'sceneRadicalPuzzle(0).choices.map(e=>e.ch).sort()'),['你','好'].sort());
+  const save=game.saved.get('dragonjade-v02');
+  game.run("answerSceneRadical(0,'好')");
+  assert(game.nodes.get('scene-key-puzzle').innerHTML.includes('Tu peux réessayer'));
+  game.run("answerSceneRadical(0,'你');answerSceneRadical(0,'好')");
+  assert(game.nodes.get('scene-key-puzzle').innerHTML.includes('Bien vu'));
+  assert.equal(game.saved.get('dragonjade-v02'),save,'an optional stamp does not spend an attempt or change an XP reward');
+  game.run("nextScene();selected='0';validate()");
+  assert(game.nodes.get('scene-resolution').innerHTML.includes('Jouer avec Mei'));
+  assert.equal(game.run('state.xp'),25);
+  assert.equal(game.nodes.get('player-xp').textContent,'25 XP');
+  game.run('openRadicalNotebook()');
+  assert(html(game).includes('Ma collection de clés') && !html(game).includes('>métal<'));
+  const restored=boot(JSON.parse(game.saved.get('dragonjade-v02')));
+  assert.deepEqual(json(restored,'radicalEntries().map(e=>e.ch)'),json(game,'radicalEntries().map(e=>e.ch)'));
+  const legacy=boot({words:['妈妈','喝茶'],scene:12,xp:25,introSeen:true});
+  assert.deepEqual(json(legacy,'radicalEntries().map(e=>e.ch).sort()'),['妈','喝','茶'].sort());
+  const before=boot({words:['你','好'],xp:24,introSeen:true});
+  before.run("startJadeGame('keys')");assert.equal(before.run('jadeGame'),null);
+  const sparse=boot({words:['人','你','他'],xp:220,introSeen:true});
+  sparse.run("startJadeGame('keys')");assert.equal(sparse.run('jadeGame'),null);
+  assert(sparse.run('gameMenu()').includes('2 clés à découvrir'));
+  const skipped=boot({introSeen:true});
+  skipped.run("selected='1';validate();validate();validate()");
+  assert.deepEqual(json(skipped,'state.skipped'),[0]);assert.equal(skipped.run('radicalEntries().length'),0);
+  skipped.run("replayScene(0);selected='0';validate()");
+  assert.equal(skipped.run('state.xp'),2);assert(html(skipped).includes('3 nouvelles'));
+  skipped.run("advanceSceneReplay();replayScene(0);selected='0';validate()");
+  assert.equal(skipped.run('sceneRadicalDiscovery.fresh.length'),0);
+  assert.equal(skipped.run('state.xp'),4);
+  // At exactly 25 XP a single known compound with two keys is sufficient.
+  const compound=boot({words:['你好'],xp:25,introSeen:true});
+  compound.run("startJadeGame('keys')");
+  assert.equal(compound.run('jadeGame.rounds.length'),2);
+  assert(compound.run('jadeGame.rounds.every(r=>r.choices.length===2 && r.word[0]==="你好")'));
+  const practiced=json(game,'state.words');
+  game.run("startJadeGame('keys')");
+  assert.equal(game.run('jadeGame.rounds.length'),5);
+  assert.deepEqual(json(game,'jadeGame.rounds.map(r=>r.reverse)'),[false,true,false,true,false]);
+  assert(game.run('jadeGame.rounds.every(r=>r.choices.filter(e=>e.key===r.target.key).length===1 && r.choices.every(e=>e.words.every(w=>state.words.includes(w[0]))))'));
+  const missed=game.run('jadeGame.rounds[0].target.ch');
+  game.run("answerRadicalGame(jadeGame.rounds[0].choices.findIndex(e=>e.ch!==jadeGame.rounds[0].target.ch));answerRadicalGame(0)");
+  assert.equal(game.run('jadeGame.answers.length'),1);assert(!game.run('jadeGame.feedback.ok'));
+  assert(html(game).includes('Tu avais choisi') && html(game).includes('Sceau suivant'));
+  game.run("nextGameRound();while(jadeGame.index<jadeGame.rounds.length){const r=jadeGame.rounds[jadeGame.index];answerRadicalGame(r.choices.indexOf(r.target));nextGameRound()}");
+  assert(html(game).includes('4 / 5 sceaux bien classés') && html(game).includes('Tes sceaux à revoir'));
+  game.run("startJadeGame('keys',true)");
+  assert.deepEqual(json(game,'jadeGame.rounds.map(r=>r.target.ch)'),[missed]);
+  assert.equal(game.run('state.xp'),25);assert.deepEqual(json(game,'state.words'),practiced);assert.deepEqual(json(game,'state.reviewSchedule'),{});
+  const full=boot({introSeen:true,xp:225});
+  full.run('state.words=vocab.map(v=>v[0])');
+  assert(full.run('scenes.every((_,i)=>sceneRadicalCard(i).includes("L’empreinte de Mei"))'));
+  for(let n=0;n<12;n++){
+    full.run("startJadeGame('keys')");
+    assert(full.run('jadeGame.rounds.every(r=>r.choices.length>=2 && r.choices.every(e=>e===r.target||!(r.reverse?RADICAL_ALTERNATIVES[e.ch]?.includes(r.target.key.id):RADICAL_ALTERNATIVES[r.target.ch]?.includes(e.key.id))))'));
+  }
+  console.log('PASS: Unihan classification for all 218 characters, 87 families, scene rewards, observation, old saves, offline diagrams, 25-XP game and targeted retries');
+};

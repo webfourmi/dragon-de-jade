@@ -1,6 +1,7 @@
 /* Jeux du Livre I. Les cartes, les solutions et les distracteurs viennent du carnet du joueur. */
 const JADE_GAMES = {
   pairs:  {title:'Les paires de jade', xp:10, min:2, art:'assets/dragon-icon.svg', description:'Retourne les cartes pour associer chaque mot chinois à sa traduction.'},
+  keys:   {title:'La chasse aux clés', xp:25, min:2, art:'assets/mei.webp', description:'Aide Mei à ranger les sceaux. Associe chaque caractère à sa clé, puis retrouve le caractère à partir de la clé.'},
   echo:   {title:'Les échos de Lóng', xp:40, min:2, art:'assets/long.webp', description:'Écoute un mot en mandarin et retrouve son sens.'},
   brush:  {title:'Le pinceau de Mei', xp:80, min:1, art:'assets/mei.webp', description:'Recompose un mot avec des caractères ou écris-le au clavier.'},
   envoy:  {title:'Le messager de Chen', xp:120, min:1, art:'assets/maitre-chen.webp', description:'Pars d’un indice en français et prononce le mot chinois.'}
@@ -53,14 +54,14 @@ function gameMenu() {
   const pool = gameVocabulary();
   const games = Object.entries(JADE_GAMES);
   const next = games.find(([,game]) => state.xp < game.xp);
-  const nextText = next ? `Encore <strong>${next[1].xp-state.xp} XP</strong> pour ouvrir « ${next[1].title} ».` : 'Les quatre jeux sont débloqués.';
+  const nextText = next ? `Encore <strong>${next[1].xp-state.xp} XP</strong> pour ouvrir « ${next[1].title} ».` : 'Tous les jeux sont débloqués.';
   return `<section class="jade-lobby"><h2>Jeux de révision</h2>
     <p class="game-xp"><strong>${state.xp} XP</strong> · ${nextText}</p>
     <p>Les XP ouvrent les jeux et restent sur ta fiche. Tu y retrouves les mots de ton carnet.</p>
     <div class="jade-game-grid">${games.map(([id,game]) => {
       const locked = state.xp < game.xp;
-      const ready = pool.length >= game.min;
-      const label = locked ? `À ${game.xp} XP` : ready ? 'Jouer' : `${game.min} mot${game.min>1?'s':''} à apprendre`;
+      const ready = id==='keys' ? radicalGroups(radicalEntries()).size >= game.min : pool.length >= game.min;
+      const label = locked ? `À ${game.xp} XP` : ready ? 'Jouer' : id==='keys' ? '2 clés à découvrir' : `${game.min} mot${game.min>1?'s':''} à apprendre`;
       return `<article class="jade-game-card"><img src="${game.art}" alt=""><div><small>${game.xp} XP · ${locked?'Verrouillé':'Débloqué'}</small>
         <h3>${game.title}</h3><p>${game.description}</p><button${locked || !ready ? ' disabled' : ' class="primary"'} onclick="startJadeGame('${id}')" aria-label="${label} · ${game.title}">${label}</button></div></article>`;
     }).join('')}</div><p id="game-notice" role="status"></p></section>`;
@@ -69,12 +70,14 @@ function gameMenu() {
 function startJadeGame(kind, missedOnly = false) {
   const def = JADE_GAMES[kind];
   if (!def || state.xp < def.xp) return;
-  const pool = gameVocabulary();
-  if (pool.length < def.min) return;
-  const missed = missedOnly && jadeGame?.kind === kind ? new Set(jadeGame.answers.filter(a=>!a.ok).map(a=>a.word[0])) : null;
-  const targets = shuffleWords(pool.filter(v => !missed || missed.has(v[0])));
+  const pool = kind==='keys' ? radicalVocabulary() : gameVocabulary();
+  if (kind==='keys' ? radicalGroups(radicalEntries(pool)).size<def.min : pool.length<def.min) return;
+  const missed = missedOnly && jadeGame?.kind === kind ? jadeGame.answers.filter(a=>!a.ok) : null;
+  const targets = kind==='keys' ? [] : shuffleWords(pool.filter(v => !missed || missed.some(a=>a.word[0]===v[0])));
   const game = {kind, rounds:[], index:0, answers:[], feedback:null, message:'', pool, pinyinMode:kind==='echo' && !hasMandarinPlayback()};
-  if (kind === 'pairs') {
+  if (kind === 'keys') {
+    game.rounds=buildRadicalRounds(pool,missed&&new Set(missed.map(answer=>answer.target.ch)));
+  } else if (kind === 'pairs') {
     for (const v of targets) {
       if (game.rounds.every(w => !shareSense(w,v))) game.rounds.push(v);
       if (game.rounds.length === 4) break;
@@ -180,10 +183,11 @@ function finishGameAnswer(ok, selfRated=false, detail='') {
   const g = jadeGame;
   if (!g || g.kind==='pairs' || g.feedback || !g.rounds[g.index]) return;
   cancelMandarinMic('messager');
-  const word = g.rounds[g.index].word;
+  const round=g.rounds[g.index], word=round.word;
   g.feedback = {word,ok,selfRated,detail};
+  if (g.kind==='keys') g.feedback.target=round.target;
+  else rateWord(word[0],ok);
   g.answers.push(g.feedback);
-  rateWord(word[0],ok);
   render();
 }
 function nextGameRound() {
@@ -311,19 +315,22 @@ function gameWordModel(word) {
 function roundFeedback() {
   const g=jadeGame, answer=g.feedback;
   const mark=answer.selfRated ? (answer.ok?'Autoévaluation · réussi':'Autoévaluation · à revoir') : (answer.ok?'✓ Bonne réponse !':'À revoir');
-  return `<div role="status"><strong>${mark}</strong>${answer.detail?'<p>'+esc(answer.detail)+'</p>':''}${gameWordModel(answer.word)}</div>
+  const model=g.kind==='keys'?radicalExample(answer.target,[answer.word]):gameWordModel(answer.word);
+  return `<div role="status"><strong>${mark}</strong>${answer.detail?'<p>'+esc(answer.detail)+'</p>':''}${model}</div>
     <div class="controls">${hasMandarinPlayback()?'<button onclick="listenGameWord()">🔊 Écouter le mot</button>':''}
-    <button class="primary" onclick="nextGameRound()">${g.index+1===g.rounds.length?'Voir le bilan':'Mot suivant →'}</button></div>`;
+    <button class="primary" onclick="nextGameRound()">${g.index+1===g.rounds.length?'Voir le bilan':g.kind==='keys'?'Sceau suivant →':'Mot suivant →'}</button></div>`;
 }
 function gameSummary() {
   const g=jadeGame, memory=g.kind==='pairs';
   const missed=g.answers.filter(a=>!a.ok);
+  const keys=g.kind==='keys';
   const words=memory ? g.rounds : missed.map(a=>a.word);
-  const success=memory ? `${g.matched.length} paires retrouvées en ${g.moves} coups.` : `${g.answers.length-missed.length} / ${g.answers.length} mots réussis.`;
+  const success=memory ? `${g.matched.length} paires retrouvées en ${g.moves} coups.` : `${g.answers.length-missed.length} / ${g.answers.length} ${keys?'sceaux bien classés':'mots réussis'}.`;
   const self=g.answers.filter(a=>a.selfRated).length;
+  const review=keys ? missed.map(a=>radicalExample(a.target,[a.word])).join('') : words.map(gameWordModel).join('');
   return `<h2>Partie terminée</h2><p class="game-score">${success}</p>${self?`<p>${self} réponse${self>1?'s':''} en autoévaluation.</p>`:''}
-    ${words.length?`<h3>${memory?'Les mots des paires':'Tes mots à revoir'}</h3>${words.map(gameWordModel).join('')}`:''}
-    <div class="controls">${missed.length?`<button class="primary" onclick="startJadeGame('${g.kind}',true)">Rejouer les mots à revoir</button>`:''}
+    ${review?`<h3>${memory?'Les mots des paires':keys?'Tes sceaux à revoir':'Tes mots à revoir'}</h3>${review}`:''}
+    <div class="controls">${missed.length?`<button class="primary" onclick="startJadeGame('${g.kind}',true)">${keys?'Rejouer les sceaux à revoir':'Rejouer les mots à revoir'}</button>`:''}
     <button onclick="startJadeGame('${g.kind}')">Nouvelle partie</button><button onclick="leaveJadeGame()">Retour aux jeux</button></div>`;
 }
 function gamePage() {
@@ -334,8 +341,8 @@ function gamePage() {
   else if (g.kind==='pairs') body=memoryBoard();
   else {
     const round=g.rounds[g.index];
-    const question=g.feedback?roundFeedback():g.kind==='echo'?echoQuestion(round):g.kind==='brush'?brushQuestion(round.word):envoyQuestion(round.word);
-    body=`<p class="label">Mot ${g.index+1} sur ${g.rounds.length}</p>${question}`;
+    const question=g.feedback?roundFeedback():g.kind==='keys'?radicalQuestion(round):g.kind==='echo'?echoQuestion(round):g.kind==='brush'?brushQuestion(round.word):envoyQuestion(round.word);
+    body=`<p class="label">${g.kind==='keys'?'Sceau':'Mot'} ${g.index+1} sur ${g.rounds.length}</p>${question}`;
   }
   return `<main class="page jade-play"><button class="game-exit" onclick="leaveJadeGame()">← Jeux de révision</button>
     <h1>${JADE_GAMES[g.kind].title}</h1><section class="paper">${body}<p class="audio-status small muted" role="status"></p></section></main>`;

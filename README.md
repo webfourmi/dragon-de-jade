@@ -1,4 +1,4 @@
-# Les Chroniques du Dragon de Jade · V0.17
+# Les Chroniques du Dragon de Jade · V0.18
 
 PWA statique, sans backend, pour apprendre le chinois en jouant. Le Livre I contient dix épisodes de 6 scènes (salutations, famille, nombres, temps, thé et repas, marché, gare et train, école, vie quotidienne, météo et descriptions), des dialogues en mandarin avec synthèse vocale du navigateur, un carnet de vocabulaire illustré à l'aquarelle, un quiz à quatre exercices, une calligraphie validée trait par trait et une enquête (indices, écailles de Lóng, déductions).
 
@@ -6,7 +6,11 @@ Les 60 scènes du Livre I se partagent 19 aquarelles de Pékin et de Tianjin. To
 
 Dans **Livres**, le sommaire donne accès aux scènes déjà parcourues. Un rejeu réussi rapporte 2 XP et mémorise sa propre position. Le bouton « Reprendre l’aventure » revient à la scène du parcours principal.
 
-Les **jeux de révision** utilisent les mots déjà acquis. Les paires s’ouvrent à 10 XP, l’écoute à 40 XP, l’écriture à 80 XP et le défi oral à 120 XP. Les points restent acquis. Le jeu d’écoute propose le pinyin en l’absence de voix en mandarin. Le défi oral propose une autoévaluation.
+Les **jeux de révision** utilisent les mots déjà acquis. Les paires s’ouvrent à 10 XP, la chasse aux clés à 25 XP, l’écoute à 40 XP, l’écriture à 80 XP et le défi oral à 120 XP. Les points restent acquis. Le jeu d’écoute propose le pinyin en l’absence de voix en mandarin. Le défi oral propose une autoévaluation.
+
+**L’empreinte de Mei** propose une observation facultative après chaque scène réussie. **Carnet → Clés** regroupe les caractères des mots appris, y compris ceux d’une ancienne sauvegarde. **Livres → Jeux de révision → La chasse aux clés** alterne le classement d’un caractère et la recherche d’un caractère sous une clé. Une erreur peut être rejouée au bilan.
+
+Les 218 caractères des dix épisodes se répartissent entre 87 clés. Le carnet retient le premier classement `kRSUnicode` d’Unihan 17.0. Les formes positionnelles sont rattachées à leur famille, par exemple 亻 à 人. Les choix du jeu tiennent compte des autres classements répertoriés. Les tracés colorés proviennent de Hanzi Writer Data 2.0.1 et de Make Me a Hanzi. Le jeu affiche le caractère en texte quand les traits de la clé restent incertains. Données et notices dans `radicaux-data.js` et `assets/radicaux/`.
 
 Dans l’aventure, le carnet et le messager de Chen, le micro rassemble les fragments d’une même phrase. Le jeu compare les transcriptions complètes, y compris les graphies traditionnelles du vocabulaire. Seules les transcriptions complètes comptent dans les essais. Dans l’aventure, la transcription retenue peut être corrigée avant validation.
 

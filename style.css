@@ -277,3 +277,33 @@
 .jade-play button:focus-visible, .book-page button:focus-visible { outline: 3px solid #935523; outline-offset: 2px; }
 @media (max-width: 600px) { .jade-game-grid { grid-template-columns: 1fr; } }
 @media (max-width: 440px) { .memory-board { grid-template-columns: repeat(2,minmax(0,1fr)); } .memory-card { min-height: 63px; } .book-sections button { padding: 7px 5px; } }
+
+/* Les empreintes du carnet de Mei */
+.scene-radical { margin: 14px 0; padding: 14px 16px; border: 1px solid #c9bda1; border-left: 4px solid #2a6a56; border-radius: 3px 12px 10px 3px; background: #fbf7eb; }
+.scene-radical h3 { margin: 0; font-size: 1.15rem; color: #295340; }
+.scene-radical p { margin: .55em 0; }
+.scene-radical details, .word-radicals { margin-top: .7em; }
+.scene-radical summary, .word-radicals summary { color: #315a46; cursor: pointer; padding: .4em 0; }
+.radical-choices { display: flex; align-items: stretch; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+.radical-choices button { min-width: 52px; min-height: 48px; padding: 6px 14px; color: #304a3e; background: #fffaf2; border: 1px solid #a49778; border-radius: 9px 4px; font-size: 1.6rem; }
+.radical-choices button small { display: block; font: .85rem/1.3 system-ui,sans-serif; }
+.radical-choices button:focus-visible, .scene-radical summary:focus-visible, .radical-family summary:focus-visible { outline: 3px solid #8f5426; outline-offset: 2px; }
+.radical-example, .radical-word-key, .radical-prompt, .radical-notebook-head { display: flex; align-items: center; gap: 12px; }
+.radical-example { margin: .65em 0; }
+.radical-example > div, .radical-family summary > span:nth-child(2) { min-width: 0; overflow-wrap: anywhere; }
+.radical-print, .radical-large, .radical-seal, .radical-choices [lang] { font-family: 'Noto Sans CJK SC','Microsoft YaHei',sans-serif; }
+.radical-print { display: inline-block; width: 64px; height: 64px; background: #fffdf7; border: 1px solid #dfd4be; border-radius: 6px; flex-shrink: 0; text-align: center; font-size: 44px; line-height: 64px; }
+.radical-word-list > span { display: block; margin: .2em 0; }
+.radical-word-key { gap: 6px; margin: 4px 0; }
+.radical-word-key .radical-print { width: 44px; height: 44px; font-size: 30px; line-height: 44px; }
+.radical-notebook-head { flex-wrap: wrap; justify-content: space-between; margin: 12px 0; }
+.radical-family { padding: 0 8px; border-top: 1px solid #d9ceb6; }
+.radical-family summary { display: flex; align-items: center; gap: 9px; min-height: 52px; cursor: pointer; }
+.radical-family summary > small { margin-left: auto; white-space: nowrap; }
+.radical-family summary::after { content:'⌄'; color:#416652; }
+.radical-family[open] summary::after { transform:rotate(180deg); }
+.radical-family summary small { display: block; color: #60573f; }
+.radical-seal { font-size: 1.55rem; color: #285a49; min-width: 32px; }
+.radical-large { font-size: clamp(2.2rem,9vw,3.6rem); color: #245641; line-height: 1.2; }
+.radical-prompt { background: #f5eedf; border-radius: 8px; padding: 12px; margin-bottom: 14px; }
+.radical-prompt p { margin: 0 0 .4em; }
